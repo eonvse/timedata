@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+use App\Livewire\MonthTable;
+use App\Livewire\WeekTable;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +15,14 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Livewire::setScriptRoute(function ($handle) {
+    return Route::get('/journal/public/livewire/livewire.js', $handle);
+});
+
+Livewire::setUpdateRoute(function ($handle) {
+    return Route::post('/journal/public/livewire/update', $handle)
+        ->middleware(['auth', 'verified']); 
+});
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,6 +36,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/month-table', MonthTable::class);
+    Route::get('/week-table', WeekTable::class);
+
 });
 
 require __DIR__.'/auth.php';
