@@ -26,7 +26,7 @@ class MonthTable extends Component
         $this->showCreate = false;
     }
 
-    public function updateData()
+    private function updateData()
     {
         $this->events_month = TimeEventData::events_month($this->month,$this->year);
     }

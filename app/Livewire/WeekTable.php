@@ -34,7 +34,7 @@ class WeekTable extends Component
         $this->showCreate = false;
     }
 
-    public function updateData()
+    private function updateData()
     {
         $this->setWeekPeriod($this->week,$this->year);
         $this->events_week = TimeEventData::events_week($this->week,$this->year);

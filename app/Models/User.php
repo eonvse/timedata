@@ -45,4 +45,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function getCreatedForHumansAttribute() {
+            
+            return date('d.m.Y h:i', strtotime($this->created_at));
+
+    }
+
+    public function getBirthdayFormatAttribute() {
+            
+            if(!empty($this->birthday)) return date('d.m.Y', strtotime($this->birthday));
+            else return '';
+
+    }
+
+
 }
