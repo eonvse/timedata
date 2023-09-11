@@ -37,13 +37,16 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
-    public function updateExtra(ProfileUpdateRequest $request): RedirectResponse
+    public function updateExtra(ProfileUpdateRequest $request)
     {
-        $request->user()->fill($request->validated());
+        $upd = $request->user();
+        $upd->surname = $request->surname ?? null;
+        $upd->patronymic = $request->patronymic ?? null;
+        $upd->birthday = $request->birthday ?? null;
 
-        $request->user()->save();
+        $upd->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('profile.edit')->with('status', 'profile-updated-extra');
     }
 
     /**

@@ -9,13 +9,8 @@
         </p>
     </header>
 
-    <form id="send-verification" method="post" action="{{ route('verification.send') }}">
-        @csrf
-    </form>
-
     <form method="post" action="{{ route('profile.update.extra') }}" class="mt-6 space-y-6">
         @csrf
-        @method('patch')
 
         <div>
             <x-input-label for="surname" :value="__('Surname')" />
@@ -31,7 +26,7 @@
 
         <div>
             <x-input-label for="birthday" :value="__('Birthday')" />
-            <x-text-input id="birthday" name="birthday" type="date" class="mt-1 block w-full" :value="old('birthday', $user->birthday)" autocomplete="username" />
+            <x-text-input id="birthday" name="birthday" type="date" class="mt-1 block w-full" :value="old('birthday', $user->birthday)" autocomplete="birthday" />
             <x-input-error class="mt-2" :messages="$errors->get('birthday')" />
 
         </div>
@@ -39,7 +34,7 @@
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
-            @if (session('status') === 'profile-updated')
+            @if (session('status') === 'profile-updated-extra')
                 <p
                     x-data="{ show: true }"
                     x-show="show"
