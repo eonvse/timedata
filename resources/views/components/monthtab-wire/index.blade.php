@@ -7,11 +7,14 @@
     <div class="flex flex-grow w-screen h-screen overflow-auto"> 
             
             <div class="flex flex-col flex-grow">
-                <div class="flex items-center mt-4">
+                <div class="grid grid-cols-12 items-center">
                     @isset($buttons)
-                       {{$buttons}}
+                       {{ $buttons }}
                     @endisset   
-                    <h2 class="ml-2 text-xl font-bold leading-none">{{ $month }}, {{ $year }}</h2>
+                    <h2 class="col-span-4 ml-2 text-xl font-bold leading-none">{{ $month }}, {{ $year }}</h2>
+                    @isset($navigation)
+                       {{ $navigation }}
+                    @endisset   
                 </div>
                 <div class="grid grid-cols-7 mt-4 text-sm font-bold">
                     <div class="pl-1">{{ __('Mon') }}</div>

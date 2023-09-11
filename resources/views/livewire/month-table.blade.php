@@ -10,8 +10,10 @@
 <div class="text-gray-700">
     <x-monthtab-wire :month="$monthTxt" :year="$year" >
         <x-slot name='buttons'>
-            @include('layouts.navigation-wire')
             <x-monthtab-wire.switch-month />
+        </x-slot>
+        <x-slot name="navigation">
+            @include('layouts.navigation-wire')
         </x-slot>
 
         <x-monthtab-wire.grid :rows="$rows">

@@ -9,13 +9,16 @@
     <div class="flex flex-grow w-full h-full overflow-auto"> 
             
             <div class="flex flex-col flex-grow">
-                <div class="flex items-center mt-4">
+                <div class="grid grid-cols-12 items-center">
                     @isset($buttons)
                        {{$buttons}}
-                    @endisset   
-                    <h2 class="ml-2 text-xl font-bold leading-none">
+                    @endisset
+                    <h2 class="col-span-4 ml-2 text-xl font-bold leading-none">
                         {{ __('Week') }} {{ $week }}. {{ $start }} - {{ $end }} {{ $year }}
                     </h2>
+                    @isset($navigation)
+                        {{ $navigation }}
+                    @endisset      
                 </div>
 
                 {{ $slot }}

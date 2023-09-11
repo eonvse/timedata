@@ -8,8 +8,10 @@
 <div class="text-gray-700 w-screen h-screen p-2">
 <x-weektab-wire :week="$week" :year="$year" :start="$startWeek->format('d.m')" :end="$endWeek->format('d.m')">
         <x-slot name='buttons'>
-            @include('layouts.navigation-wire')
             <x-weektab-wire.switch-week />
+        </x-slot>
+        <x-slot name="navigation">
+            @include('layouts.navigation-wire')
         </x-slot>
         <x-weektab-wire.grid>
             @for ($i=0; $i<7; $i++)
