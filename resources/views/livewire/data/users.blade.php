@@ -1,5 +1,7 @@
 <div class="mx-auto max-w-4xl min-h-[50%] sm:px-6 lg:px-8 py-4 flex space-x-4">
+
     <div class="overflow-hidden bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg grow">
+        @include('layouts.navigation-wire')
         <div class="p-3">
             <x-button.create wire:click="create">{{ __('Add Users') }}</x-button.create>
         </div>
