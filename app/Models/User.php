@@ -59,5 +59,16 @@ class User extends Authenticatable
 
     }
 
+    public function getFIOAttribute($patronymic=false) 
+    {
+
+            $fio = '';
+            if (!empty($this->surname)) $fio .= $this->surname.' ';
+            if (!empty($this->name)) $fio .= $this->name;
+            if ($patronymic) if (!empty($this->patronymic)) $fio .= ' '.$this->patronymic.' ';
+
+            return $fio;
+    }
+
 
 }

@@ -5,6 +5,8 @@ namespace App\Livewire;
 use Livewire\Component;
 use Carbon\Carbon;
 
+use Illuminate\Support\Facades\Auth;
+
 use App\Repositories\TimeEventData;
 
 class MonthTable extends Component
@@ -14,13 +16,16 @@ class MonthTable extends Component
 
     public $showCreate;
 
-    public $newName, $newStartTime, $newEndTime;
+    public $newStart, $newEnd, $newTeam;
 
     public function mount()
     {
         $this->month = date('n');
         $this->year = date('Y');
         $this->events_month = TimeEventData::events_month($this->month,$this->year);
+
+        $this->newStart = $this->newEnd ='';
+        $this->newTeam = 0;
 
         $this->addDate = null;
         $this->showCreate = false;
@@ -75,15 +80,25 @@ class MonthTable extends Component
     public function cancelCreate()
     {
         $this->showCreate = false;
-        $this->reset('newName', 'newStartTime','newEndTime');
+        $this->newStart = $this->newEnd ='';
+        $this->newTeam = 0;
     }
+
 
     public function store()
     {
-        if (!empty($this->newName)) {
+        if (!empty($this->newTeam)) {
 
-            TimeEventData::create($this->newName,$this->newStartTime,$this->newEndTime, $this->addDate);
+            $data=array(
+                'day'=>date('Y-m-d',$this->addDate),
+                'start'=>$this->newStart,
+                'end'=>$this->newEnd, 
+                'team_id'=>$this->newTeam,
+                'user_id'=>Auth::id()
+            );
 
+            TimeEventData::create($data);
+            
             $this->updateData();
 
             $this->cancelCreate();
@@ -95,18 +110,18 @@ class MonthTable extends Component
     {
         // $property: The name of the current property that was updated
  
-       if ($property === 'newStartTime') {
+       if ($property === 'newStart') {
 
-            $st = strtotime($this->newStartTime);
+            $st = strtotime($this->newStart);
             $dateEnd = Carbon::createFromTime(date('H',$st),date('i',$st));
             $dateEnd->addHour();
 
-            $this->newEndTime = $dateEnd->format('H:i');
+            $this->newEnd = $dateEnd->format('H:i');
         }
     }
 
     public function render()
     {
-        return view('livewire.month-table');
+        return view('livewire.month-table',['teams'=>TimeEventData::getTeamList()]/*,['debug'=>var_export($this->events_month)]*/);
     }
 }

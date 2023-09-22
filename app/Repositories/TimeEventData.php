@@ -2,19 +2,35 @@
 
 namespace App\Repositories;
 
-use App\Models\TimeEvent;
-
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Builder;
 
 use Carbon\Carbon;
+
+use App\Models\TimeEvent;
+
+use App\Repositories\TeamData;
 
 class TimeEventData
 {
 	const PER_PAGE = 8;
 
+
     public static function events_month($month,$year) {
+        function getEventsMonthDay($day)
+        {
+            
+            return $users = DB::table('time_events')
+            ->leftJoin('teams', 'time_events.team_id', '=', 'teams.id')
+            ->leftJoin('colors', 'colors.id', '=', 'teams.color_id')
+            ->whereDate('day','=',$day)
+            ->select('time_events.id','time_events.day','time_events.start','time_events.end', 'teams.name', 'colors.color')
+            ->orderBy('start')
+            ->get()->toArray();
+
+        }
+
         $events_month = array();
 
         //Сетка в проекте из 35 (5*7) ячеек
@@ -39,14 +55,16 @@ class TimeEventData
 
         for ($i = 1; $i <= $countDay; $i++) {
             $date = $firstDay->format('d.m.Y');
-            $timeEvents = TimeEvent::whereDate('day','=',$firstDay->format('Y-m-d'))->orderBy('start')->get(['id', 'team_id','start','end'])->toArray();
+
+            $timeEvents = getEventsMonthDay($firstDay->format('Y-m-d'));
+
             $events_month[$i] = ['date'=>$date, 'events'=>$timeEvents];
             $firstDay->addDay();
         }
         if ($firstDay<$lastDay) {
             for ($i=1; $i <=7 ; $i++) { 
                 $date = $firstDay->format('d.m.Y');
-                $timeEvents = TimeEvent::whereDate('day','=',$firstDay->format('Y-m-d'))->orderBy('start')->get(['id', 'team_id','start','end'])->toArray();
+                $timeEvents = getEventsMonthDay($firstDay->format('Y-m-d'));
                 $events_month[$i+35] = ['date'=>$date, 'events'=>$timeEvents];
                 $firstDay->addDay();
             }
@@ -74,26 +92,25 @@ class TimeEventData
         return $events_week;
     }
 
+    public static function indexWire($data)
+    {
+        $timeEvents = TimeEvent::orderBy('day','desc')->orderBy('start','asc');
+        
+        return $timeEvents;
+    }
 
-   	public static function create($newName,$newStartTime,$newEndTime,$newDate): void
+
+   	public static function create($data): void
 	{
-            $dd = $newDate;
-            $st = strtotime($newStartTime);
-            $et = strtotime($newEndTime);
-
-            $dateStart = Carbon::create(date('Y',$dd),date('n',$dd),date('j',$dd),date('G',$st),date('i',$st));
-            $dateEnd = Carbon::create(date('Y',$dd),date('n',$dd),date('j',$dd),date('G',$et),date('i',$et));
-            TimeEvent::create([
-              'name' => $newName,
-              'start' => $dateStart,
-              'end' => $dateEnd,
-              'idAutor' => Auth::user()->id,
-            ]);
+            TimeEvent::create($data);
 
 
 	}
 
-	
+	public static function getTeamList()
+    {
+        return TeamData::getList()->toArray();
+    }
 	/*public static function get($id)
 	{
 		return guideUnit::find($id);

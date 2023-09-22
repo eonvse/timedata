@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Livewire\Data;
+namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\WithPagination;
+use Carbon\Carbon;
 
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
-use App\Repositories\UserData;
+use App\Repositories\TimeEventData;
 
-class Users extends Component
+class TimeEvents extends Component
 {
     use WithPagination;
 
@@ -20,7 +21,7 @@ class Users extends Component
     public $per_page;
 
     public $showCreate, $showEdit, $showDelete;
-    public $newName, $newSurname, $newPatronymic, $newBirthday;
+    public $newDay, $newStart, $newEnd, $newTeam;
     
     public $search, $sortField, $sortDirection;
 
@@ -28,33 +29,18 @@ class Users extends Component
     #[Locked] 
     public $idItem;
 
-
     //------------------------------------------------    
-    //-------Транслитерация для заглушки email--------
+    //-------ДАТА-ВРЕМЯ ДЛЯ НОВЫХ СОБЫТИЙ-------------
     //------------------------------------------------    
-
-    private function translit($value)
+    private function setDateTime() : void
     {
-        $converter = array(
-            'а' => 'a',    'б' => 'b',    'в' => 'v',    'г' => 'g',    'д' => 'd',
-            'е' => 'e',    'ё' => 'e',    'ж' => 'zh',   'з' => 'z',    'и' => 'i',
-            'й' => 'y',    'к' => 'k',    'л' => 'l',    'м' => 'm',    'н' => 'n',
-            'о' => 'o',    'п' => 'p',    'р' => 'r',    'с' => 's',    'т' => 't',
-            'у' => 'u',    'ф' => 'f',    'х' => 'h',    'ц' => 'c',    'ч' => 'ch',
-            'ш' => 'sh',   'щ' => 'sch',  'ь' => '',     'ы' => 'y',    'ъ' => '',
-            'э' => 'e',    'ю' => 'yu',   'я' => 'ya',
-     
-            'А' => 'A',    'Б' => 'B',    'В' => 'V',    'Г' => 'G',    'Д' => 'D',
-            'Е' => 'E',    'Ё' => 'E',    'Ж' => 'Zh',   'З' => 'Z',    'И' => 'I',
-            'Й' => 'Y',    'К' => 'K',    'Л' => 'L',    'М' => 'M',    'Н' => 'N',
-            'О' => 'O',    'П' => 'P',    'Р' => 'R',    'С' => 'S',    'Т' => 'T',
-            'У' => 'U',    'Ф' => 'F',    'Х' => 'H',    'Ц' => 'C',    'Ч' => 'Ch',
-            'Ш' => 'Sh',   'Щ' => 'Sch',  'Ь' => '',     'Ы' => 'Y',    'Ъ' => '',
-            'Э' => 'E',    'Ю' => 'Yu',   'Я' => 'Ya',
-        );
-     
-        $value = strtr($value, $converter);
-        return $value;
+        $this->newDay = date('Y-m-d');
+        $st = strtotime(date('H:i'));
+        $et = Carbon::createFromTime(date('H',$st),0);
+        $et->addHour();
+        $this->newStart = $et->format('H:i');
+        $et->addHour();
+        $this->newEnd = $et->format('H:i');
     }
 
     //------------------------------------------------    
@@ -63,8 +49,11 @@ class Users extends Component
     public function mount()
     {
         $this->showCreate = $this->showEdit = $this->showDelete = false;
-        $this->newName = $this->newSurname = $this->newPatronymic = $this->newBirthday = '';
-        $this->item = array('name'=>'','surname'=>'','patronymic'=>'','birthday'=>'');
+        
+        $this->newDay = $this->newStart = $this->newEnd ='';
+        $this->newTeam = 0;
+        
+        $this->item = array('day'=>'','start'=>'','end'=>'','team_id'=>'', 'user_id'=>'');
         $this->idItem = '';
         
         $this->per_page = 20;
@@ -92,13 +81,16 @@ class Users extends Component
     //------------------------------------------------    
     public function create()
     {
+        $this->setDateTime();
         $this->showCreate = true;
     }
 
     public function cancelCreate()
     {
         $this->showCreate = false;
-        $this->newName = $this->newSurname = $this->newPatronymic = $this->newBirthday = '';
+        $this->newTeam = 0;
+        $this->newDay = $this->newStart = $this->newEnd ='';
+
     }
 
     //------------------------------------------------    
@@ -107,21 +99,21 @@ class Users extends Component
     public function edit($id)
     {
         $this->showEdit = true;
-        $editingUser = UserData::get($id);
+        $editing = TimeEventData::get($id);
         $this->item = array(
-            'name'=>$editingUser->name ?? '',
-            'surname'=>$editingUser->surname ?? '',
-            'patronymic'=>$editingUser->patronymic ?? '',
-            'birthday'=>$editingUser->birthday ?? '',
+            'name'=>$editing->name ?? '',
+            'surname'=>$editing->surname ?? '',
+            'patronymic'=>$editing->patronymic ?? '',
+            'birthday'=>$editing->birthday ?? '',
             );
-        $this->idItem = $editingUser->id;
+        $this->idItem = $editing->id;
 
     }
 
     public function cancelEdit()
     {
         $this->showEdit = false;
-        $this->item = array('name'=>'','surname'=>'','patronymic'=>'','birthday'=>'');
+        $this->item = array('day'=>'','start'=>'','end'=>'','team_id'=>'', 'user_id'=>'');
         $this->idItem = '';
     }
 
@@ -130,30 +122,29 @@ class Users extends Component
     //------------------------------------------------    
     public function store()
     {
-        if (!empty($this->newName)) {
+        if (!empty($this->newDay)) {
 
             $data=array(
-                'name'=>$this->newName,
-                'surname'=>$this->newSurname ?: NULL,
-                'patronymic'=>$this->newPatronymic ?: NULL, 
-                'birthday'=>$this->newBirthday ?: NULL,
-                'email'=>$this->translit($this->newName).'@'.uniqid(),
-                'password'=>Hash::make('password')
+                'day'=>$this->newDay,
+                'start'=>$this->newStart,
+                'end'=>$this->newEnd, 
+                'team_id'=>$this->newTeam,
+                'user_id'=>Auth::id()
             );
 
-            UserData::create($data);
+            TimeEventData::create($data);
             
             $this->cancelCreate();
         }else{
 
             $data = array(
-                'name'=>$this->item['name'],
-                'surname'=>$this->item['surname'] ?: NULL,
-                'patronymic'=>$this->item['patronymic'] ?: NULL, 
-                'birthday'=>$this->item['birthday'] ?: NULL,
+                'day'=>$this->item['day'],
+                'start'=>$this->item['start'],
+                'end'=>$this->item['end'], 
+                'team_id'=>$this->item['team_id'],
             );
 
-            UserData::update($this->idItem,$data);
+            //TimeEventData::update($this->idItem,$data);
             
             $this->cancelEdit();
 
@@ -168,7 +159,7 @@ class Users extends Component
     public function delete($id)
     {
         $this->showDelete = true;
-        $editingUser = UserData::get($id);
+        $editingUser = TimeEventData::get($id);
         $this->item = array(
             'name'=>$editingUser->name ?? '',
             'surname'=>$editingUser->surname ?? '',
@@ -189,7 +180,7 @@ class Users extends Component
 
     public function destroy()
     {
-        UserData::destroy($this->idItem);
+        TimeEventData::destroy($this->idItem);
         $this->cancelDelete();
     }
 
@@ -205,10 +196,12 @@ class Users extends Component
             'search'=> $this->search
         );
 
-        $users = UserData::indexWire($data);
+        $timeEvents = TimeEventData::indexWire($data);
 
-        $users = $users->paginate($this->per_page);
+        $timeEvents = $timeEvents->paginate($this->per_page);
 
-        return view('livewire.data.users',['users'=>$users]);
+        return view('livewire.time-events',['timeEvents'=>$timeEvents,'teams'=>TimeEventData::getTeamList()]);
     }
+
+
 }

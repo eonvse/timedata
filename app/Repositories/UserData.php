@@ -12,21 +12,25 @@ use Illuminate\Database\Eloquent\Builder;
 class UserData
 {
 
-
-	public static function all($sortField, $sortDirection)
+	public static function get($id)
 	{
-		if (!empty($sortField)) return User::orderBy($sortField,$sortDirection);
-		else return User::orderBy('surname')->orderBy('name')->orderBy('patronymic');
+		return User::find($id);
 	}
 
-	public static function ordering($sortField,$sortDirection)
-	{
-		return User::orderBy($sortField,$sortDirection);
-	}
+	public static function indexWire($data)
+	{	
 
-	public static function indexWire()
-	{
-		return User::orderBy('surname')->orderBy('name')->orderBy('patronymic');
+        if (!empty($data['sortField'])) $users=User::orderBy($data['sortField'],$data['sortDirection']);
+        else $users = User::orderBy('surname')->orderBy('name')->orderBy('patronymic');
+
+        if(!empty($data['search'])){
+           $users->orWhere('name','like',"%".$data['search']."%");
+           $users->orWhere('surname','like',"%".$data['search']."%");
+           $users->orWhere('patronymic','like',"%".$data['search']."%");
+        }
+
+
+		return $users;
 	}
 
 	public static function create($data)
@@ -34,6 +38,17 @@ class UserData
 		User::create($data);
 	}
 
+	public static function update($id,$data)
+	{
+		$user = User::find($id);
+		$user->update($data);
+	}
+
+	public static function destroy($id)
+	{
+		$user = User::find($id);
+		$user->delete();
+	}
 
 }
 
