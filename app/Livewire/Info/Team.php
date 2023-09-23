@@ -19,7 +19,7 @@ class Team extends Component
     public $colors,$users;
     public $modelName, $modelInfo, $modelColorId;
     public $disabledFields;
-    public $showEditName, $showEditInfo, $showEditColor, $showAddUser;
+    public $showEdit, $showAddUser;
 
     public $showAddEvent, $showDelEvent, $delEvent;
     public $upcomingEvents, $addEventDay, $addEventStart, $addEventEnd;
@@ -30,14 +30,7 @@ class Team extends Component
     #[Lock]
     public $modelId, $addUserId;
 
-    private function setShowEdit()
-    {
-        $this->showEditName = !$this->disabledFields['name'];
-        $this->showEditInfo = !$this->disabledFields['info'];
-        $this->showEditColor = !$this->disabledFields['color_id'];
-    }
-
-    public function mount($id)
+    public function mount($id,$edit=true)
     {
         $this->model = TeamData::get($id);
         $this->modelId = $id;
@@ -47,10 +40,9 @@ class Team extends Component
         $this->modelName = $this->model->name;
         $this->modelInfo = $this->model->info;
         $this->modelColorId = $this->model->color_id;
-        
-        $this->disabledFields = array('name'=>true,'info'=>true,'color_id'=>true);
-        $this->setShowEdit();
 
+        $this->showEdit = $edit;
+        
         $this->showAddUser = false;
         $this->addUserId = 0;
 
@@ -84,77 +76,25 @@ class Team extends Component
 
     }
 
-    public function showEdit($field)
+    public function showEditMode()
     {
-        switch ($field) {
-            case 'name':
-                $this->showEditName = true;
-                $this->showEditInfo = false;
-                $this->showEditColor = false;
-                break;
-
-            case 'info':
-                $this->showEditName = false;
-                $this->showEditInfo = true;
-                $this->showEditColor = false;
-                break;
-
-            case 'color_id':
-                $this->showEditName = false;
-                $this->showEditInfo = false;
-                $this->showEditColor = true;
-                break;
-            
-        }
+        $this->showEdit = true;
     }
 
-    public function visibleEdit($field)
-    {
-        switch ($field) {
-            case 'name':
-                $this->disabledFields['name']=false;
-                $this->disabledFields['info']=true;
-                $this->disabledFields['color_id']= true;
-                break;
-
-            case 'info':
-                $this->disabledFields['name']=true;
-                $this->disabledFields['info']=false;
-                $this->disabledFields['color_id']= true;
-                break;
-
-            case 'color_id':
-                $this->disabledFields['name']=true;
-                $this->disabledFields['info']=true;
-                $this->disabledFields['color_id']= false;
-                break;
-        }
-
-    }
 
     public function cancelEdit()
     {
-        $this->disabledFields = array('name'=>true,'info'=>true,'color_id'=>true);
-        $this->setShowEdit();
+        $this->showEdit = false;
         $this->updateData();
 
     }
 
-    public function save($field)
+    public function save()
     {
-        switch ($field) {
-            case 'name':
-                $this->model->update(['name'=>$this->modelName]);
-                break;
-            case 'info':
-                $this->model->update(['info'=>$this->modelInfo]);
-                break;
-            case 'color_id':
-                $this->model->update(['color_id'=>$this->modelColorId]);
-                break;
-       }
+
+       $this->model->update(['name'=>$this->modelName]);
        $this->updateData();
-       $this->cancelEdit($field);
+       $this->cancelEdit();
     }
 
     /*------------------------------------

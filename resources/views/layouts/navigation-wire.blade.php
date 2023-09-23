@@ -19,12 +19,13 @@
                     <x-nav-link-wire :href="route('week-table')" :active="request()->routeIs('week-table')">
                         {{ __('week-table') }}
                     </x-nav-link-wire>
-                    <x-nav-link-wire :href="route('data.users')" :active="request()->routeIs('data.users')">
-                        {{ __('users') }}
-                    </x-nav-link-wire>
                     <x-nav-link-wire :href="route('data.teams')" :active="request()->routeIs('data.teams')">
                         {{ __('teams') }}
                     </x-nav-link-wire>
+                    <x-nav-link-wire :href="route('data.users')" :active="request()->routeIs('data.users')">
+                        {{ __('users') }}
+                    </x-nav-link-wire>
+
                     <x-nav-link-wire :href="route('time-events')" :active="request()->routeIs('time-events')">
                         {{ __('time-events') }}
                     </x-nav-link-wire>

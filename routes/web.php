@@ -54,7 +54,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/users', Users::class)->name('data.users');
     Route::get('/teams', Teams::class)->name('data.teams');
-    Route::get('/teams/{id}', Team::class)->name('info.team');
+    Route::get('/teams/{id}/{edit?}', Team::class)->name('info.team');
 
     Route::get('/time-events', TimeEvents::class)->name('time-events');
 
