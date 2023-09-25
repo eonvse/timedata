@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Files extends Model
+class Notification extends Model
 {
     use HasFactory;
-    protected $fillable = ['name','url','autor_id','type_id','item_id','week', 'year','location'];
+    protected $fillable = ['operation_id','autor_id','model_type_id','model_item_id','message','week', 'year'];
     protected $primaryKey = 'id';
 }

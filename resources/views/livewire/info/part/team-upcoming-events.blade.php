@@ -33,7 +33,7 @@
                     <x-input.label class="text-lg font-medium">Вы действительно хотите удалить запись? 
                         <div class="text-black">{{ $model->name }}: {{ date('d.m.Y',strtotime($delEvent['day'])) }} {{ date('H:i',strtotime($delEvent['start'])) }}-{{ date('H:i',strtotime($delEvent['end'])) }}</div>
                     </x-input.label>
-                    <x-button.secondary @click="show = false" wire:click="cancelDelete">Отменить</x-button.secondary>
+                    <x-button.secondary @click="show = false" wire:click="cancelDelEvent">Отменить</x-button.secondary>
                     <x-button.danger wire:click="deleteTeamEvent({{ $delEvent['id'] }})">{{ __('Delete')}}</x-button.danger>
                 </div>                            
             </x-slot>

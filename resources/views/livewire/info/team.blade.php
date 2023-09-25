@@ -16,7 +16,9 @@
                 <div class="min-h-[100px]">
                     @include('livewire.info.part.team-notes')    
                 </div>
-                <div class="min-h-[100px]">Файлы</div>
+                <div class="min-h-[100px] pl-5">
+                    @include('livewire.info.part.team-files')    
+                </div>
             </div>            
             <div class="relative overflow-x-auto shadow-md sm:rounded">
             </div>

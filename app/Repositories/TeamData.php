@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\TimeEvent;
 use App\Models\Information;
 use App\Models\ModelType;
+use App\Models\Files;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -139,7 +140,7 @@ class TeamData
     }
 
 	 /*------------------------------------
-    ------TEAM UPCOMING EVENTS-------------
+    ------TEAM NOTES----------------------
     ---------------------------------------*/
 
     public static function getNotes($modelType, $modelId)
@@ -157,6 +158,69 @@ class TeamData
     		$data['autor_id'] = Auth::id();
 
     		Information::create($data);
+    }
+
+    public static function deleteTeamNote($noteId)
+    {
+    		$del=Information::find($noteId);
+    		$del->delete();
+    }
+
+    public static function getTeamNoteArray($noteId)
+    {
+    		return Information::where('id','=',$noteId)->get(['id','note'])->first()->toArray();
+    }
+
+	 /*------------------------------------
+    ------TEAM FILES----------------------
+    ---------------------------------------*/
+
+	public static function getFileListForTeam($modelType,$teamId)
+	{
+    	$modelTypeId = modelType::where('model','=',$modelType)->get('id')->first()->id;
+    	return Files::where('type_id','=',$modelTypeId)->where('item_id','=',$teamId)
+    									->orderBy('created_at','desc')->get(['id','name','url']);
+	}
+
+    public static function getFiles($modelType, $modelId)
+    {
+    		$modelTypeId = modelType::where('model','=',$modelType)->get('id')->first()->id;
+
+    		return Files::where('type_id','=',$modelTypeId)->where('item_id','=',$modelId)
+    									->orderBy('created_at','desc');
+    }
+
+    public static function saveTeamFile($modelType,$data,$patch,$file)
+    {
+	    function UploadFile(TemporaryUploadedFile $file, $folder = null, $disk = 'public', $filename = null)
+   	 {
+      	  $FileName = !is_null($filename) ? $filename : Str::random(10);
+        	  return $file->storeAs(
+           		$folder,
+            	$FileName . "." . $file->getClientOriginalExtension(),
+            	$disk
+        		);
+    }
+    		$modelTypeId = modelType::where('model','=',$modelType)->get('id')->first()->id;
+    		$data['type_id'] = $modelTypeId;
+    		$data['autor_id'] = Auth::id();
+
+    		$path = UploadFile($file, $patch);
+    		$data['url'] = $patch;
+    		$data['name'] = $file->name;
+
+    		Files::create($data);
+    }
+
+    public static function deleteTeamFile($fileId)
+    {
+    		$del=Files::find($fileId);
+    		$del->delete();
+    }
+
+    public static function getTeamFileArray($fileId)
+    {
+    		return Files::where('id','=',$fileId)->get(['id','name','url'])->first()->toArray();
     }
 
 }

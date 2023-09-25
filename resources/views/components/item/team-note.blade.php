@@ -3,6 +3,6 @@
 	<div class="border-r p-1">{{ $item->created }}</div>
 	<div class="border-r p-1">{!! nl2br(e($item->note)) !!}</div>
 	<div class="p-1 flex items-center">
-        <x-button.icon-del wire:click="deleteTeamNote({{ $item->id }})" title="Удалить"/>
+        <x-button.icon-del wire:click="showDeleteNote({{ $item->id }})" title="Удалить"/>
 	</div>
 </div>

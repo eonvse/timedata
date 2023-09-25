@@ -5,9 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Files extends Model
+class OperationType extends Model
 {
     use HasFactory;
-    protected $fillable = ['name','url','autor_id','type_id','item_id','week', 'year','location'];
+    protected $fillable = ['name','desc'];
     protected $primaryKey = 'id';
+    public $timestamps = false;
 }

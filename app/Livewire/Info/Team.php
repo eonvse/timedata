@@ -26,6 +26,11 @@ class Team extends Component
 
     public $showAddNote, $showDelNote, $delNote;
     public $addNote;
+    
+    public $showAddFile, $showDelFile;
+    public $addFile;
+    public $delFile;
+    public $files;
 
     #[Lock]
     public $modelId, $addUserId;
@@ -55,6 +60,12 @@ class Team extends Component
         $this->addNote = '';
         $this->delNote = array('id'=>null, 'note'=>null);
 
+        $this->showAddFile = $this->showDelFile = false;
+        $this->addFile = '';
+        $this->delFile = array('id'=>null,'name'=>null, 'url'=>null);
+        $this->files = TeamData::getFileListForTeam(self::MODEL_TYPE,$id);
+
+
         
 
     }
@@ -73,12 +84,17 @@ class Team extends Component
         $this->modelInfo = $this->model->info;
         $this->modelColorId = $this->model->color_id;
         $this->upcomingEvents = TeamData::getUpcomingEvents($this->modelId,self::UPCOMING_COUNT);
+        $this->files = TeamData::getFileListForTeam(self::MODEL_TYPE,$this->modelId);
 
     }
 
     public function showEditMode()
     {
         $this->showEdit = true;
+        $this->cancelAddNote();
+        $this->cancelAddUser();
+        $this->cancelAddEvent();
+        $this->cancelAddFile();
     }
 
 
@@ -92,7 +108,7 @@ class Team extends Component
     public function save()
     {
 
-       $this->model->update(['name'=>$this->modelName]);
+       $this->model->update(['name'=>$this->modelName,'info'=>$this->modelInfo, 'color_id'=>$this->modelColorId]);
        $this->updateData();
        $this->cancelEdit();
     }
@@ -103,6 +119,9 @@ class Team extends Component
     public function addUserTeam()
     {
         $this->showAddUser = true;
+        $this->cancelAddNote();
+        $this->cancelAddFile();
+        $this->cancelAddEvent();
     }
 
     public function cancelAddUser()
@@ -130,6 +149,9 @@ class Team extends Component
     public function addTeamEvent()
     {
         $this->showAddEvent = true;
+        $this->cancelAddNote();
+        $this->cancelAddUser();
+        $this->cancelAddFile();
     }
 
     public function cancelAddEvent()
@@ -179,6 +201,9 @@ class Team extends Component
     public function addTeamNote()
     {
         $this->showAddNote = true;
+        $this->cancelAddFile();
+        $this->cancelAddUser();
+        $this->cancelAddEvent();
     }
 
     public function cancelAddNote()
@@ -204,23 +229,83 @@ class Team extends Component
         $this->updateData();
     }
 
-    public function showDeleteNote($eventId)
+    public function showDeleteNote($noteId)
     {
-        $this->delEvent = TeamData::getTeamEventArray($eventId);
-        $this->showDelEvent = true;
+        $this->delNote = TeamData::getTeamNoteArray($noteId);
+        $this->showDelNote = true;
     }
 
-    public function deleteTeamNote($eventId)
+    public function deleteTeamNote($noteId)
     {
-        if (!empty($eventId)) TeamData::deleteTeamEvent($eventId);
+        if (!empty($noteId)) TeamData::deleteTeamNote($noteId);
         $this->updateData();
-        $this->cancelDelEvent();
+        $this->cancelDelNote();
     }
 
     public function cancelDelNote() {
 
-        $this->delEvent = array('id'=>null, 'day'=>null, 'start' =>null, 'end'=>null);
-        $this->showDelEvent = false;
+        $this->delNote = array('id'=>null, 'note'=>null);
+        $this->showDelNote = false;
+    }
+
+
+    /*------------------------------------
+    -----------FILES----------------------
+    ---------------------------------------*/
+    public function addTeamFile()
+    {
+        $this->showAddFile = true;
+        $this->cancelAddNote();
+        $this->cancelAddUser();
+        $this->cancelAddEvent();
+
+    }
+
+    public function cancelAddFile()
+    {
+        $this->showAddFile = false;
+        $this->addFile = '';
+    }
+
+    public function saveTeamFile()
+    {
+        if (!empty($this->addFile)) {
+            $patch = 'public/'.self::MODEL_TYPE.'/'.$this->modelId;
+
+            $this->addFile->store($patch);
+            
+            $data = array(
+                'name'=>null,
+                'url'=>null,
+                'autor_id'=>null,
+                'type_id'=>null,
+                'item_id'=>$this->modelId,
+                'week'=>null, 
+                'year'=>null,
+                'location'=>'LOCAL');
+            //TeamData::saveTeamFile(self::MODEL_TYPE,$data,$patch,$this->addFile);
+        }
+        //$this->cancelAddFile();
+        $this->updateData();
+    }
+
+    public function showDeleteFile($fileId)
+    {
+        $this->delFile = TeamData::getTeamFileArray($fileId);
+        $this->showDelFile = true;
+    }
+
+    public function deleteTeamFile($fileId)
+    {
+        if (!empty($noteId)) TeamData::deleteTeamFile($fileId);
+        $this->updateData();
+        $this->cancelDelFile();
+    }
+
+    public function cancelDelFile() {
+
+        $this->delFile = array('id'=>null,'name'=>null, 'url'=>null);
+        $this->showDelFile = false;
     }
 
 
