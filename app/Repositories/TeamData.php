@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Database\Eloquent\Builder;
 
+use Illuminate\Support\Facades\Storage;
 
 class TeamData
 {
@@ -131,7 +132,7 @@ class TeamData
 
     public static function getTeamEventArray($eventId)
     {
-    		return TimeEvent::where('id','=',$eventId)->get(['id','day','start','end'])->first()->toArray();
+    		return TimeEvent::where('id','=',$eventId)->get(['id','day','start','end','title'])->first()->toArray();
     }
 
     public static function deleteTeamEvent($eventId)
@@ -179,7 +180,7 @@ class TeamData
 	{
     	$modelTypeId = modelType::where('model','=',$modelType)->get('id')->first()->id;
     	return Files::where('type_id','=',$modelTypeId)->where('item_id','=',$teamId)
-    									->orderBy('created_at','desc')->get(['id','name','url']);
+    									->orderBy('created_at','desc')->get(['id','name','url','location']);
 	}
 
     public static function getFiles($modelType, $modelId)
@@ -190,24 +191,12 @@ class TeamData
     									->orderBy('created_at','desc');
     }
 
-    public static function saveTeamFile($modelType,$data,$patch,$file)
+    public static function saveTeamFile($modelType,$data)
     {
-	    function UploadFile(TemporaryUploadedFile $file, $folder = null, $disk = 'public', $filename = null)
-   	 {
-      	  $FileName = !is_null($filename) ? $filename : Str::random(10);
-        	  return $file->storeAs(
-           		$folder,
-            	$FileName . "." . $file->getClientOriginalExtension(),
-            	$disk
-        		);
-    }
+
     		$modelTypeId = modelType::where('model','=',$modelType)->get('id')->first()->id;
     		$data['type_id'] = $modelTypeId;
     		$data['autor_id'] = Auth::id();
-
-    		$path = UploadFile($file, $patch);
-    		$data['url'] = $patch;
-    		$data['name'] = $file->name;
 
     		Files::create($data);
     }
@@ -215,6 +204,7 @@ class TeamData
     public static function deleteTeamFile($fileId)
     {
     		$del=Files::find($fileId);
+    		Storage::disk('public')->delete($del->url);
     		$del->delete();
     }
 

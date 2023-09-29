@@ -25,7 +25,7 @@ class TimeEventData
             ->leftJoin('teams', 'time_events.team_id', '=', 'teams.id')
             ->leftJoin('colors', 'colors.id', '=', 'teams.color_id')
             ->whereDate('day','=',$day)
-            ->select('time_events.id','time_events.day','time_events.start','time_events.end', 'teams.name', 'colors.color')
+            ->select('time_events.id','time_events.title','time_events.day','time_events.start','time_events.end', 'teams.name', 'colors.color')
             ->orderBy('start')
             ->get()->toArray();
 

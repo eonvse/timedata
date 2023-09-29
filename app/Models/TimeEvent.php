@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class TimeEvent extends Model
 {
     use HasFactory;
-    protected $fillable = ['day','start','end','team_id','user_id'];
+    protected $fillable = ['day','start','end','team_id','user_id','title'];
     protected $primaryKey = 'id';
 
     public function getDayFormatAttribute() 

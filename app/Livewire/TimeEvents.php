@@ -21,7 +21,7 @@ class TimeEvents extends Component
     public $per_page;
 
     public $showCreate, $showEdit, $showDelete;
-    public $newDay, $newStart, $newEnd, $newTeam;
+    public $newDay, $newStart, $newEnd, $newTeam, $newTitle;
     
     public $search, $sortField, $sortDirection;
 
@@ -50,7 +50,7 @@ class TimeEvents extends Component
     {
         $this->showCreate = $this->showEdit = $this->showDelete = false;
         
-        $this->newDay = $this->newStart = $this->newEnd ='';
+        $this->newDay = $this->newStart = $this->newEnd = $this->newTitle = '';
         $this->newTeam = 0;
         
         $this->item = array('day'=>'','start'=>'','end'=>'','team_id'=>'', 'user_id'=>'');
@@ -89,7 +89,7 @@ class TimeEvents extends Component
     {
         $this->showCreate = false;
         $this->newTeam = 0;
-        $this->newDay = $this->newStart = $this->newEnd ='';
+        $this->newDay = $this->newStart = $this->newEnd = $this->newTitle = '';
 
     }
 
@@ -129,7 +129,8 @@ class TimeEvents extends Component
                 'start'=>$this->newStart,
                 'end'=>$this->newEnd, 
                 'team_id'=>$this->newTeam,
-                'user_id'=>Auth::id()
+                'user_id'=>Auth::id(),
+                'title'=>$this->newTitle ?? null
             );
 
             TimeEventData::create($data);

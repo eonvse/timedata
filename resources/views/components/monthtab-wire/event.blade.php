@@ -1,11 +1,8 @@
-@props(['id','name','start','end'=>'', 'color'=>''])
+@props(['id','name','start','end'=>'','title'=>'Без темы', 'color'=>''])
 <input type="hidden" name="event-id" value="{{ $id }}">
-<button class="flex items-center flex-shrink-0 h-5 px-1 text-xs hover:bg-gray-200 {{ $color }}" title="{{ $start }} {{ !empty($end) ? '- '.$end : $end }}: {{ $name }}">
+<button class="flex items-center flex-shrink-0 h-5 px-1 text-xs hover:bg-gray-200 {{ $color }}" title="{{ $start }} {{ !empty($end) ? '- '.$end : $end }}: {{ $title }}">
     <span class="flex-shrink-0 w-2 h-2 border border-gray-500 rounded-full"></span>
     <span class="ml-2 font-light leading-none">{{ $start }}</span>
-    @if (!empty($end))
-    <span class="ml-2 font-light leading-none">{{ $end }}</span>
-    @endif
     <span class="ml-2 font-medium leading-none truncate">{{ $name }}</span>
 </button>
 <!-- <button class="flex items-center flex-shrink-0 h-5 px-1 text-xs hover:bg-gray-200">

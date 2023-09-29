@@ -17,6 +17,10 @@
                         <x-input.label>Завершение</x-input.label>
                         <x-input.text type="time" wire:model.blur="addEventEnd" required />
                     </div>
+                    <div class="sm:grid sm:grid-cols-[100px_minmax(0,_1fr)] items-center">
+                        <x-input.label>{{ __('Time Event Title') }}</x-input.label>
+                        <x-input.text wire:model.blur="addEventTitle" />
+                    </div>
             		<x-button.create class="text-sm" type="submit">{{ __('Add') }}</x-button.create>
                     <x-button.secondary class="text-sm" wire:click="cancelAddEvent()">{{ __('Cancel') }}</x-button.secondary>
             	</form>
@@ -31,7 +35,11 @@
             <x-slot name="content">
                 <div class="flex-col space-y-2">
                     <x-input.label class="text-lg font-medium">Вы действительно хотите удалить запись? 
-                        <div class="text-black">{{ $model->name }}: {{ date('d.m.Y',strtotime($delEvent['day'])) }} {{ date('H:i',strtotime($delEvent['start'])) }}-{{ date('H:i',strtotime($delEvent['end'])) }}</div>
+                        <div class="text-black">{{ $model->name }}: 
+                        {{ date('d.m.Y',strtotime($delEvent['day'])) }}
+                        {{ date('H:i',strtotime($delEvent['start'])) }}-{{ date('H:i',strtotime($delEvent['end'])) }}
+                        {{ $delEvent['title'] ?? '' }}
+                    </div>
                     </x-input.label>
                     <x-button.secondary @click="show = false" wire:click="cancelDelEvent">Отменить</x-button.secondary>
                     <x-button.danger wire:click="deleteTeamEvent({{ $delEvent['id'] }})">{{ __('Delete')}}</x-button.danger>

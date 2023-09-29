@@ -16,7 +16,7 @@ class MonthTable extends Component
 
     public $showCreate;
 
-    public $newStart, $newEnd, $newTeam;
+    public $newStart, $newEnd, $newTeam, $newTitle;
 
     public function mount()
     {
@@ -24,7 +24,7 @@ class MonthTable extends Component
         $this->year = date('Y');
         $this->events_month = TimeEventData::events_month($this->month,$this->year);
 
-        $this->newStart = $this->newEnd ='';
+        $this->newStart = $this->newEnd = $this->newTitle = '';
         $this->newTeam = 0;
 
         $this->addDate = null;
@@ -80,7 +80,7 @@ class MonthTable extends Component
     public function cancelCreate()
     {
         $this->showCreate = false;
-        $this->newStart = $this->newEnd ='';
+        $this->newStart = $this->newEnd = $this->newTitle = '';
         $this->newTeam = 0;
     }
 
@@ -94,7 +94,8 @@ class MonthTable extends Component
                 'start'=>$this->newStart,
                 'end'=>$this->newEnd, 
                 'team_id'=>$this->newTeam,
-                'user_id'=>Auth::id()
+                'user_id'=>Auth::id(),
+                'title'=>$this->newTitle ?? null
             );
 
             TimeEventData::create($data);

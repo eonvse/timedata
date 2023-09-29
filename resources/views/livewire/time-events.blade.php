@@ -18,6 +18,7 @@
                                         :direction="$sortField === 'day' ? $sortDirection : null">Дата</x-table.head>
                         <x-table.head scope="col" >Время</x-table.head>
                         <x-table.head scope="col">Группа</x-table.head>
+                        <x-table.head scope="col">{{ __('Time Event Title') }}</x-table.head>
                         <x-table.head >...</x-table.head>
 
                     </x-slot>
@@ -35,6 +36,9 @@
                             <x-table.cell>
                                 <span class="{{ $timeEvent->team->color->color }}">&nbsp;&nbsp;</span>
                                 {{ $timeEvent->team->name }}
+                            </x-table.cell>
+                            <x-table.cell>
+                                {{ $timeEvent->title ?? '' }}
                             </x-table.cell>
                             <x-table.cell>
                                 <div class="flex items-center">
@@ -77,33 +81,11 @@
                         <x-input.label>Группа</x-input.label>
                         <x-input.select wire:model.blur="newTeam" :items="$teams" noneTxt="Выберите группу" required />
                     </div>
+                    <div class="sm:grid sm:grid-cols-[100px_minmax(0,_1fr)] items-center">
+                        <x-input.label>{{ __('Time Event Title') }}</x-input.label>
+                        <x-input.text wire:model.blur="newTitle" />
+                    </div>
                     <x-button.create type="submit">{{ __('Add Time Event') }}</x-button.create>
-                    <x-button.secondary @click="show = false" wire:click="cancelCreate">{{ __('Cancel') }}</x-button.secondary>
-                </form>
-            </x-slot>
-    </x-modal-wire.dialog>
-
-    <x-modal-wire.dialog wire:model.defer="showEdit" maxWidth="md">
-            <x-slot name="title"><span class="grow">{{ __('Edit User') }}</span><x-button.icon-cancel @click="show = false" wire:click="cancelEdit" class="text-gray-700 hover:text-white" /></x-slot>
-            <x-slot name="content">
-                <form wire:submit.prevent="store" class="flex-col space-y-2">
-                    <div class="sm:grid sm:grid-cols-[100px_minmax(0,_1fr)] items-center">
-                        <x-input.label>Фамилия</x-input.label>
-                        <x-input.text wire:model="item.surname" />
-                    </div>
-                    <div class="sm:grid sm:grid-cols-[100px_minmax(0,_1fr)] items-center">
-                        <x-input.label>Имя</x-input.label>
-                        <x-input.text wire:model="item.name" required />
-                    </div>
-                    <div class="sm:grid sm:grid-cols-[100px_minmax(0,_1fr)] items-center">
-                        <x-input.label>Отчество</x-input.label>
-                        <x-input.text wire:model="item.patronymic" />
-                    </div>
-                    <div class="sm:grid sm:grid-cols-[100px_minmax(0,_1fr)] items-center">
-                        <x-input.label>День рождения</x-input.label>
-                        <x-input.text type="date" wire:model="item.birthday" />
-                    </div>
-                    <x-button.create type="submit">{{ __('Save') }}</x-button.create>
                     <x-button.secondary @click="show = false" wire:click="cancelCreate">{{ __('Cancel') }}</x-button.secondary>
                 </form>
             </x-slot>

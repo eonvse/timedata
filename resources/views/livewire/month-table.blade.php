@@ -38,6 +38,8 @@
                     <x-monthtab-wire.event :id="$event->id"
                                     :name="$event->name"
                                     :start="date('H:i',strtotime($event->start))"
+                                    :end="date('H:i',strtotime($event->end))"
+                                    :title="$event->title"
                                     :color="$event->color"
                                      />
                     @endforeach
@@ -69,6 +71,10 @@
                     <div class="sm:grid sm:grid-cols-[100px_minmax(0,_1fr)] items-center">
                         <x-input.label>Группа</x-input.label>
                         <x-input.select wire:model.blur="newTeam" :items="$teams" noneTxt="Выберите группу" required />
+                    </div>
+                    <div class="sm:grid sm:grid-cols-[100px_minmax(0,_1fr)] items-center">
+                        <x-input.label>{{ __('Time Event Title') }}</x-input.label>
+                        <x-input.text wire:model.blur="newTitle" />
                     </div>
                     <x-button.create type="submit">{{ __('Add Time Event') }}</x-button.create>
                     <x-button.secondary @click="show = false" wire:click="cancelCreate">{{ __('Cancel') }}</x-button.secondary>

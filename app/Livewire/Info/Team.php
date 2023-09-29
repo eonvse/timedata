@@ -4,12 +4,14 @@ namespace App\Livewire\Info;
 
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\WithFileUploads;
+use Illuminate\Support\Str;
 
 use App\Repositories\TeamData;
 
 class Team extends Component
 {
-    use WithPagination;
+    use WithPagination, WithFileUploads;
 
     const MODEL_TYPE = 'teams';
     const NOTES_PER_PAGE = 3;
@@ -18,11 +20,10 @@ class Team extends Component
     public $model, $usersTeam;
     public $colors,$users;
     public $modelName, $modelInfo, $modelColorId;
-    public $disabledFields;
     public $showEdit, $showAddUser;
 
     public $showAddEvent, $showDelEvent, $delEvent;
-    public $upcomingEvents, $addEventDay, $addEventStart, $addEventEnd;
+    public $upcomingEvents, $addEventDay, $addEventStart, $addEventEnd, $addEventTitle;
 
     public $showAddNote, $showDelNote, $delNote;
     public $addNote;
@@ -52,7 +53,7 @@ class Team extends Component
         $this->addUserId = 0;
 
         $this->showAddEvent = $this->showDelEvent = false;
-        $this->addEventDay = $this->addEventStart = $this->addEventEnd = '';
+        $this->addEventDay = $this->addEventStart = $this->addEventEnd = $this->addEventTitle = '';
         $this->upcomingEvents = TeamData::getUpcomingEvents($id,self::UPCOMING_COUNT);
         $this->delEvent = array('id'=>null, 'day'=>null, 'start' =>null, 'end'=>null);
 
@@ -157,7 +158,7 @@ class Team extends Component
     public function cancelAddEvent()
     {
         $this->showAddEvent = false;
-        $this->addEventDay = $this->addEventStart = $this->addEventEnd = '';
+        $this->addEventDay = $this->addEventStart = $this->addEventEnd = $this->addEventTitle = '';
     }
 
     public function saveTeamEvent()
@@ -169,6 +170,7 @@ class Team extends Component
                 'start'=>$this->addEventStart,
                 'end'=>$this->addEventEnd,
                 'user_id'=>0,
+                'title'=> $this->addEventTitle ?? null
             );
             TeamData::saveTeamEvent($data);
         }
@@ -264,28 +266,28 @@ class Team extends Component
     public function cancelAddFile()
     {
         $this->showAddFile = false;
-        $this->addFile = '';
+        $this->reset('addFile'); //?????????????????????
     }
 
     public function saveTeamFile()
     {
         if (!empty($this->addFile)) {
-            $patch = 'public/'.self::MODEL_TYPE.'/'.$this->modelId;
-
-            $this->addFile->store($patch);
+            $patch = ''.self::MODEL_TYPE.'/'.$this->modelId;
+            $filename = Str::random(3).'_'.$this->addFile->getClientOriginalName();
+            $this->addFile->storeAs($patch,$filename,'public');
             
             $data = array(
-                'name'=>null,
-                'url'=>null,
+                'name'=>$filename,
+                'url'=>$patch.'/'.$filename,
                 'autor_id'=>null,
                 'type_id'=>null,
                 'item_id'=>$this->modelId,
                 'week'=>null, 
                 'year'=>null,
                 'location'=>'LOCAL');
-            //TeamData::saveTeamFile(self::MODEL_TYPE,$data,$patch,$this->addFile);
+            TeamData::saveTeamFile(self::MODEL_TYPE,$data);
         }
-        //$this->cancelAddFile();
+        $this->cancelAddFile();
         $this->updateData();
     }
 
@@ -297,7 +299,7 @@ class Team extends Component
 
     public function deleteTeamFile($fileId)
     {
-        if (!empty($noteId)) TeamData::deleteTeamFile($fileId);
+        if (!empty($fileId)) TeamData::deleteTeamFile($fileId);
         $this->updateData();
         $this->cancelDelFile();
     }
