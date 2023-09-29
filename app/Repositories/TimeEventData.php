@@ -16,6 +16,10 @@ class TimeEventData
 {
 	const PER_PAGE = 8;
 
+    public static function get($id)
+    {
+        return TimeEvent::find($id);
+    }
 
     public static function events_month($month,$year) {
         function getEventsMonthDay($day)

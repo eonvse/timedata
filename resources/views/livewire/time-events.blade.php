@@ -42,7 +42,7 @@
                             </x-table.cell>
                             <x-table.cell>
                                 <div class="flex items-center">
-                                    <x-button.icon-edit wire:click="edit({{ $timeEvent->id }})" title="Редактировать"/>
+                                    <x-button.icon-edit :href="route('info.time-event',['id'=>$timeEvent->id])" title="Редактировать"/>
                                     <x-button.icon-del wire:click="delete({{ $timeEvent->id }})" title="Удалить"/>
                                 </div>
                             </x-table.cell>

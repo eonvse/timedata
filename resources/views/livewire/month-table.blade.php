@@ -25,8 +25,8 @@
                 $monthTxt = '';
                 if ($loop->iteration == 1 && $mDay != $month ) { $monthTxt = $months[$mDay]; }
                 if ($Day == 1 ) { $monthTxt = $months[$mDay]; }
-                if ($mDay!=$month) { $bgCell = 'bg-gray-300'; }
-                elseif ($events_day['date']==date('d.m.Y')) { $bgCell='bg-orange-200'; }
+                if ($mDay!=$month) { $bgCell = 'bg-neutral-200'; }
+                elseif ($events_day['date']==date('d.m.Y')) { $bgCell='bg-amber-200'; }
                 else { $bgCell='bg-white'; }
             @endphp
             
