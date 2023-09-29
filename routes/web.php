@@ -11,8 +11,9 @@ use App\Livewire\Data\Users;
 use App\Livewire\Data\Teams;
 
 use App\Livewire\Info\Team;
+use App\Livewire\Info\TimeEvent;
 
-use App\Http\Controllers\FilesController;
+use App\Http\Controllers\FileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,8 +60,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/teams/{id}/{edit?}', Team::class)->name('info.team');
 
     Route::get('/time-events', TimeEvents::class)->name('time-events');
+    Route::get('/time-events/{id}/{edit?}', TimeEvent::class)->name('info.time-event');
 
-    Route::get('/upload-files', [FilesController::class,'store'])->name('upload.files');//->middleware('optimizeImages'); 
+
 
 });
 
