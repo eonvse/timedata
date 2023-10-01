@@ -6,7 +6,7 @@
 <div class="grid grid-cols-3 items-center border-b text-sm hover:bg-gray-200">
 	<div class="border-r">
 		<a href="{{ route('info.time-event',['id'=>$item->id, 'edit'=>0])}}">
-			{{ $item->dayFormat }}. {{ $weekDays[date('N',strtotime($item->day))] }} 
+			{{ $item->dayFormat }} 
 			<span class="text-xs mx-1">{{ $item->title ?? '' }}</span>
 		</a>
 	</div>

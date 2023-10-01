@@ -17,7 +17,7 @@
 	@endforeach
     {{ $notes->links() }}
     <x-modal-wire.dialog wire:model.defer="showDelNote" type="warn" maxWidth="md">
-        <x-slot name="title"><span class="grow">{{ __('Delete Note') }}</span><x-button.icon-cancel @click="show = false" wire:click="cancelDelEvent" class="text-gray-700 hover:text-white dark:hover:text-white" /></x-slot>
+        <x-slot name="title"><span class="grow">{{ __('Delete Note') }}</span><x-button.icon-cancel @click="show = false" wire:click="cancelDelNote" class="text-gray-700 hover:text-white dark:hover:text-white" /></x-slot>
         <x-slot name="content">
             <div class="flex-col space-y-2">
                 <x-input.label class="text-lg font-medium">Вы действительно хотите удалить запись? 

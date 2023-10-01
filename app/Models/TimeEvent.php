@@ -13,7 +13,9 @@ class TimeEvent extends Model
 
     public function getDayFormatAttribute() 
     {
-        if(!empty($this->day)) return date('d.m.Y', strtotime($this->day));
+        $weekDays = array( 1 => 'Пн' , 'Вт' , 'Ср' , 'Чт' , 'Пт' , 'Сб' , 'Вс' );
+
+        if(!empty($this->day)) return $weekDays[date('N',strtotime($this->day))].' '.date('d.m.Y', strtotime($this->day)) ;
         else return '';
     }
     public function getStartFormatAttribute() 

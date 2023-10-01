@@ -6,9 +6,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Builder;
 
+use Illuminate\Support\Str;
+
 use Carbon\Carbon;
 
 use App\Models\TimeEvent;
+use App\Models\User;
+use App\Models\TeamUser;
+use App\Models\Visits;
 
 use App\Repositories\TeamData;
 
@@ -115,6 +120,114 @@ class TimeEventData
     {
         return TeamData::getList()->toArray();
     }
+
+    public static function getTimeEventUsers($teamId,$eventId)
+    {
+        
+        $usersTeam = TeamUser::where('team_id',$teamId)->get('user_id')->toArray();
+        $userTeamId = '';
+        foreach ($usersTeam as $user)
+        {
+            $userTeamId .= $user['user_id'].',';
+        }
+        $userTeamId = substr($userTeamId,0,-1);
+        
+        $users     = DB::select('select id, surname, name, max(timeEvent_id) as timeEvent_id from UsersInfoEvent 
+                                        where (timeEvent_id='.$eventId.' or timeEvent_id = 0) 
+                                        and id in ('.$userTeamId.')
+                                        GROUP BY id, surname,name
+                                        order by surname,name');
+        return $users;
+    }
+
+    public static function addVisit($data)
+    {
+        $data['autor_id'] = Auth::id();
+        Visits::create($data);
+    }
+
+    public static function delVisit($eventId,$userId)
+    {
+        
+        Visits::where('timeEvent_id','=',$eventId)->where('user_id','=',$userId)->get()->first()->delete();
+
+    }
+
+    public static function getUpcomingEvents($eventId,$teamId, $count)
+    {
+        $event_day = TimeEvent::where('id','=',$eventId)->get()->first()->day;
+
+        return TimeEvent::where('team_id','=',$teamId)->where('id','<>',$eventId)->whereDate('day','>=',$event_day)
+                            ->orderBy('day')->orderBy('start')
+                            ->limit($count)
+                            ->get();
+    }
+
+    public static function getPreviousEvents($eventId,$teamId, $count)
+    {
+        $event_day = TimeEvent::where('id','=',$eventId)->get()->first()->day;
+
+        return TimeEvent::where('team_id','=',$teamId)->where('id','<>',$eventId)->whereDate('day','<',$event_day)
+                            ->orderBy('day', 'desc')->orderBy('start')
+                            ->limit($count)
+                            ->get();
+    }
+
+     /*------------------------------------
+    ------EVENT NOTES----------------------
+    ---------------------------------------*/
+
+    public static function getNotes($modelType, $modelId)
+    {
+        return TeamData::getNotes($modelType, $modelId);
+    }
+
+    public static function saveEventNote($modelType,$data)
+    {
+        TeamData::saveTeamNote($modelType,$data);
+    }
+
+    public static function deleteEventNote($noteId)
+    {
+        TeamData::deleteTeamNote($noteId);
+    }
+
+    public static function getEventNoteArray($noteId)
+    {
+            return TeamData::getTeamNoteArray($noteId);
+    }
+
+     /*------------------------------------
+    ------EVENT FILES----------------------
+    ---------------------------------------*/
+
+    public static function getFileListForEvent($modelType,$teamId)
+    {
+        return TeamData::getFileListForTeam($modelType,$teamId);
+    }
+
+    public static function getFiles($modelType, $modelId)
+    {
+        return TeamData::getFiles($modelType, $modelId);
+    }
+
+    public static function saveEventFile($modelType,$data)
+    {
+        TeamData::saveTeamFile($modelType,$data);
+    }
+
+    public static function deleteEventFile($fileId)
+    {
+        TeamData::deleteTeamFile($fileId);
+    }
+
+    public static function getEventFileArray($fileId)
+    {
+        return TeamData::getTeamFileArray($fileId);
+    }
+
+
+
 	/*public static function get($id)
 	{
 		return guideUnit::find($id);

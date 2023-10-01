@@ -15,16 +15,20 @@ class TimeEvent extends Component
 
     const MODEL_TYPE = 'time_events';
     const NOTES_PER_PAGE = 3;
+    const UPCOMING_COUNT = 5;
+    const PREV_COUNT = 2;
 
     public $model, $usersTeam;
     public $modelTitle, $modelDay, $modelStart, $modelEnd;
     public $showEdit;
 
+    public $upcomingEvents, $previousEvents;
+    
     public $showAddNote, $showDelNote, $delNote;
     public $addNote;
     
     public $showAddFile, $showDelFile;
-    public $addFile;
+    public $addFileEvent;
     public $delFile;
     public $files;
 
@@ -36,30 +40,215 @@ class TimeEvent extends Component
         $this->model = TimeEventData::get($id);
         $this->modelId = $id;
         $this->modelTeamId = $this->model->team_id;
-        $this->usersTeam = 'TeamData::getUsersTeam($id)';
+        $this->usersTeam = TimeEventData::getTimeEventUsers($this->modelTeamId,$this->modelId);
         $this->modelTitle = $this->model->title;
         $this->modelDay = $this->model->day;
         $this->modelStart = $this->model->start;
         $this->modelEnd = $this->model->end;
 
         $this->showEdit = $edit;
+
+        $this->upcomingEvents = TimeEventData::getUpcomingEvents($this->modelId,$this->modelTeamId,self::UPCOMING_COUNT);
+        $this->previousEvents = TimeEventData::getPreviousEvents($this->modelId,$this->modelTeamId,self::PREV_COUNT);
         
         $this->showAddNote = $this->showDelNote = false;
         $this->addNote = '';
         $this->delNote = array('id'=>null, 'note'=>null);
 
         $this->showAddFile = $this->showDelFile = false;
-        $this->addFile = '';
+        $this->addFileEvent = '';
         $this->delFile = array('id'=>null,'name'=>null, 'url'=>null);
-        $this->files = 'TimeEventData::getFileListForEvent(self::MODEL_TYPE,$id)';
-
-
-        
+        $this->files = TimeEventData::getFileListForEvent(self::MODEL_TYPE,$id);
 
     }
 
+    /*------------------------------------
+    -----------EVENT-----------------------
+    ---------------------------------------*/
+
+    private function updateData()
+    {
+        $this->model = TimeEventData::get($this->modelId);
+        $this->usersTeam = TimeEventData::getTimeEventUsers($this->modelTeamId,$this->modelId);
+        $this->modelTitle = $this->model->title;
+        $this->modelDay = $this->model->day;
+        $this->modelStart = $this->model->start;
+        $this->modelEnd = $this->model->end;
+
+        $this->upcomingEvents = TimeEventData::getUpcomingEvents($this->modelId,$this->modelTeamId,self::UPCOMING_COUNT);
+        $this->previousEvents = TimeEventData::getPreviousEvents($this->modelId,$this->modelTeamId,self::PREV_COUNT);
+
+        $this->files = TimeEventData::getFileListForEvent(self::MODEL_TYPE,$this->modelId);
+    }
+
+    public function showEditMode()
+    {
+        $this->showEdit = true;
+        $this->cancelAddNote();
+        //$this->cancelAddUser();
+        //$this->cancelAddEvent();
+        $this->cancelAddFile();
+    }
+
+
+    public function cancelEdit()
+    {
+        $this->showEdit = false;
+        $this->updateData();
+
+    }
+
+    public function save()
+    {
+
+       $this->model->update(['title'=>$this->modelTitle,'day'=>$this->modelDay, 'start'=>$this->modelStart, 'end'=>$this->modelEnd]);
+       $this->updateData();
+       $this->cancelEdit();
+    }
+
+    /*------------------------------------
+    -----------VISIT-----------------------
+    ---------------------------------------*/
+
+    public function addVisit($userId)
+    {
+        $data = array(
+            'timeEvent_id'=>$this->modelId,
+            'user_id'=>$userId,
+            'autor_id'=>''
+        );
+
+        TimeEventData::addVisit($data);
+        $this->updateData();
+    }   
+
+    public function delVisit($userId)
+    {
+
+        TimeEventData::delVisit($this->modelId,$userId);
+        $this->updateData();
+    }   
+
+    /*------------------------------------
+    -----------NOTES-----------------------
+    ---------------------------------------*/
+    public function addEventNote()
+    {
+        $this->showAddNote = true;
+        $this->cancelEdit();
+        $this->cancelAddFile();
+        //$this->cancelAddUser();
+        //$this->cancelAddEvent();
+    }
+
+    public function cancelAddNote()
+    {
+        $this->showAddNote = false;
+        $this->addNote = '';
+    }
+
+    public function saveEventNote()
+    {
+        if (!empty($this->addNote)) {
+            $data = array(
+                'autor_id'=>null,
+                'type_id'=>null,
+                'item_id'=>$this->modelId,
+                'week'=>null, 
+                'year'=>null, 
+                'note'=>$this->addNote,
+            );
+            TimeEventData::saveEventNote(self::MODEL_TYPE,$data);
+        }
+        $this->cancelAddNote();
+        $this->updateData();
+    }
+
+    public function showDeleteNote($noteId)
+    {
+        $this->delNote = TimeEventData::getEventNoteArray($noteId);
+        $this->showDelNote = true;
+    }
+
+    public function deleteEventNote($noteId)
+    {
+        if (!empty($noteId)) TimeEventData::deleteEventNote($noteId);
+        $this->updateData();
+        $this->cancelDelNote();
+    }
+
+    public function cancelDelNote() {
+
+        $this->delNote = array('id'=>null, 'note'=>null);
+        $this->showDelNote = false;
+    }
+ 
+    /*------------------------------------
+    -----------FILES----------------------
+    ---------------------------------------*/
+    public function addEventFile()
+    {
+        $this->showAddFile = true;
+        $this->cancelAddNote();
+        $this->cancelEdit();
+
+    }
+
+    public function cancelAddFile()
+    {
+        $this->showAddFile = false;
+        $this->reset('addFileEvent'); //?????????????????????
+    }
+
+    public function saveEventFile()
+    {
+        if (!empty($this->addFileEvent)) {
+            $patch = ''.self::MODEL_TYPE.'/'.$this->modelId;
+            $filename = Str::random(3).'_'.$this->addFileEvent->getClientOriginalName();
+            $this->addFileEvent->storeAs($patch,$filename,'public');
+            var_export($patch);
+            var_export($filename);
+            $data = array(
+                'name'=>$filename,
+                'url'=>$patch.'/'.$filename,
+                'autor_id'=>null,
+                'type_id'=>null,
+                'item_id'=>$this->modelId,
+                'week'=>null, 
+                'year'=>null,
+                'location'=>'LOCAL');
+            TimeEventData::saveEventFile(self::MODEL_TYPE,$data);
+        }
+        $this->cancelAddFile();
+        $this->updateData();
+    }
+
+    public function showDeleteFile($fileId)
+    {
+        $this->delFile = TimeEventData::getEventFileArray($fileId);
+        $this->showDelFile = true;
+    }
+
+    public function deleteEventFile($fileId)
+    {
+        if (!empty($fileId)) TimeEventData::deleteEventFile($fileId);
+        $this->updateData();
+        $this->cancelDelFile();
+    }
+
+    public function cancelDelFile() {
+
+        $this->delFile = array('id'=>null,'name'=>null, 'url'=>null);
+        $this->showDelFile = false;
+    }
+
+    /*------------------------------------
+    -----------RENDER-----------------------
+    ---------------------------------------*/
+
     public function render()
     {
-        return view('livewire.info.time-event');
+        $notes = TimeEventData::getNotes(self::MODEL_TYPE, $this->modelId);
+        return view('livewire.info.time-event',['notes'=>$notes->simplePaginate(self::NOTES_PER_PAGE)]);
     }
 }
