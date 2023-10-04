@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Files extends Model
 {
     use HasFactory;
-    protected $fillable = ['name','url','autor_id','type_id','item_id','week', 'year','location'];
+    protected $fillable = ['name','url','autor_id','type_id','item_id','week', 'year','isLocal'];
     protected $primaryKey = 'id';
 }

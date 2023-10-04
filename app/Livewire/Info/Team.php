@@ -28,8 +28,8 @@ class Team extends Component
     public $showAddNote, $showDelNote, $delNote;
     public $addNote;
     
-    public $showAddFile, $showDelFile;
-    public $addFile;
+    public $showAddFile, $showDelFile, $isLocalFile;
+    public $addFile, $webName, $webUrl;
     public $delFile;
     public $files;
 
@@ -65,6 +65,8 @@ class Team extends Component
         $this->addFile = '';
         $this->delFile = array('id'=>null,'name'=>null, 'url'=>null);
         $this->files = TeamData::getFileListForTeam(self::MODEL_TYPE,$id);
+        $this->isLocalFile = true;
+        $this->webName = $this->webUrl = '';
 
 
         
@@ -86,7 +88,6 @@ class Team extends Component
         $this->modelColorId = $this->model->color_id;
         $this->upcomingEvents = TeamData::getUpcomingEvents($this->modelId,self::UPCOMING_COUNT);
         $this->files = TeamData::getFileListForTeam(self::MODEL_TYPE,$this->modelId);
-
     }
 
     public function showEditMode()
@@ -267,26 +268,41 @@ class Team extends Component
     {
         $this->showAddFile = false;
         $this->reset('addFile'); //?????????????????????
+        $this->isLocalFile = true;
+        $this->webName = $this->webUrl = '';
     }
 
     public function saveTeamFile()
     {
-        if (!empty($this->addFile)) {
+        $noError = true;
+        if (!empty($this->addFile) && $this->isLocalFile) {
             $patch = ''.self::MODEL_TYPE.'/'.$this->modelId;
             $filename = Str::random(3).'_'.$this->addFile->getClientOriginalName();
+            $url = $patch.'/'.$filename;
             $this->addFile->storeAs($patch,$filename,'public');
-            
+
+        }elseif (!$this->isLocalFile) {
+
+            if (!empty($this->webName)&& !empty($this->webUrl)) {
+                $filename = $this->webName;
+                $url = $this->webUrl;
+            }else $noError = false;
+
+        }else $noError = false;
+
+        if ($noError) {
             $data = array(
                 'name'=>$filename,
-                'url'=>$patch.'/'.$filename,
+                'url'=>$url,
                 'autor_id'=>null,
                 'type_id'=>null,
                 'item_id'=>$this->modelId,
                 'week'=>null, 
                 'year'=>null,
-                'location'=>'LOCAL');
-            TeamData::saveTeamFile(self::MODEL_TYPE,$data);
+                'isLocal'=>$this->isLocalFile ?? 0 );
+            TeamData::saveTeamFile(self::MODEL_TYPE,$data);        
         }
+
         $this->cancelAddFile();
         $this->updateData();
     }

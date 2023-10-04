@@ -27,10 +27,12 @@ class TimeEvent extends Component
     public $showAddNote, $showDelNote, $delNote;
     public $addNote;
     
-    public $showAddFile, $showDelFile;
-    public $addFileEvent;
-    public $delFile;
+    public $showAddFile, $showDelFile, $isLocalFile;
+    public $addFileEvent, $webName, $webUrl;
+    public $delFileEvent;
     public $files;
+
+    public $mini_month;
 
     #[Lock]
     public $modelId, $modelTeamId;
@@ -57,8 +59,12 @@ class TimeEvent extends Component
 
         $this->showAddFile = $this->showDelFile = false;
         $this->addFileEvent = '';
-        $this->delFile = array('id'=>null,'name'=>null, 'url'=>null);
+        $this->delFileEvent = array('id'=>null,'name'=>null, 'url'=>null);
         $this->files = TimeEventData::getFileListForEvent(self::MODEL_TYPE,$id);
+        $this->isLocalFile = true;
+        $this->webName = $this->webUrl = '';
+
+        $this->mini_month = TimeEventData::mini_month($this->modelDay);
 
     }
 
@@ -198,34 +204,48 @@ class TimeEvent extends Component
     {
         $this->showAddFile = false;
         $this->reset('addFileEvent'); //?????????????????????
+        $this->isLocalFile = true;
+        $this->webName = $this->webUrl = '';
     }
 
     public function saveEventFile()
     {
-        if (!empty($this->addFileEvent)) {
+        $noError = true;
+        if (!empty($this->addFileEvent) && $this->isLocalFile) {
             $patch = ''.self::MODEL_TYPE.'/'.$this->modelId;
             $filename = Str::random(3).'_'.$this->addFileEvent->getClientOriginalName();
+            $url = $patch.'/'.$filename;
             $this->addFileEvent->storeAs($patch,$filename,'public');
-            var_export($patch);
-            var_export($filename);
+
+        }elseif (!$this->isLocalFile) {
+
+            if (!empty($this->webName)&& !empty($this->webUrl)) {
+                $filename = $this->webName;
+                $url = $this->webUrl;
+            }else $noError = false;
+
+        }else $noError = false;
+
+        if ($noError) {
             $data = array(
                 'name'=>$filename,
-                'url'=>$patch.'/'.$filename,
+                'url'=>$url,
                 'autor_id'=>null,
                 'type_id'=>null,
                 'item_id'=>$this->modelId,
                 'week'=>null, 
                 'year'=>null,
-                'location'=>'LOCAL');
-            TimeEventData::saveEventFile(self::MODEL_TYPE,$data);
+                'isLocal'=>$this->isLocalFile ?? 0 );
+            TimeEventData::saveEventFile(self::MODEL_TYPE,$data);        
         }
+
         $this->cancelAddFile();
         $this->updateData();
     }
 
     public function showDeleteFile($fileId)
     {
-        $this->delFile = TimeEventData::getEventFileArray($fileId);
+        $this->delFileEvent = TimeEventData::getEventFileArray($fileId);
         $this->showDelFile = true;
     }
 
@@ -238,7 +258,7 @@ class TimeEvent extends Component
 
     public function cancelDelFile() {
 
-        $this->delFile = array('id'=>null,'name'=>null, 'url'=>null);
+        $this->delFileEvent = array('id'=>null,'name'=>null, 'url'=>null);
         $this->showDelFile = false;
     }
 

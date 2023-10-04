@@ -82,6 +82,48 @@ class TimeEventData
         return $events_month;
     }
 
+    public static function mini_month($day) {
+
+
+        $month = date('n',strtotime($day));
+        $year = date('Y',strtotime($day));
+        //Сетка в проекте из 35 (5*7) ячеек
+        $countDay = 35;
+        $mini_month = array();
+
+        $firstDay = Carbon::create($year, $month, 1);
+        $lastDay = Carbon::create($year, $month, date('t', mktime(23, 59, 59, $month, 1, $year)),23,59,59);
+
+        //Номера дней недели первого и последнего дня месяца
+        $firstNum = date('N',strtotime($firstDay)); 
+        $lastNum = date('N',strtotime($lastDay));
+
+        //Сколько дней необходимо добавить перед первым днём и после последнего, чтобы вписать в сетку 5*7
+        //иногда нужна сетка 6*7
+        $firstDelta = $firstNum == 1 ? 0 : $firstNum - 1;
+        $lastDelta = $lastNum == 7 ? 0 : 7-$lastNum;
+
+        $firstDay->subDay($firstDelta);
+        $lastDay->addDay($lastDelta);
+
+        for ($i = 1; $i <= $countDay; $i++) {
+            $date = $firstDay->format('d.m.Y');
+
+
+            $mini_month[$i] = ['date'=>$date];
+            $firstDay->addDay();
+        }
+        if ($firstDay<$lastDay) {
+            for ($i=1; $i <=7 ; $i++) { 
+                $date = $firstDay->format('d.m.Y');
+                $mini_month[$i+35] = ['date'=>$date];
+                $firstDay->addDay();
+            }
+        }
+
+        return $mini_month;
+    }
+
     public static function events_week($week, $year) {
         $events_week = array();
         $timeEvents = null;

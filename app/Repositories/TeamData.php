@@ -180,7 +180,7 @@ class TeamData
 	{
     	$modelTypeId = modelType::where('model','=',$modelType)->get('id')->first()->id;
     	return Files::where('type_id','=',$modelTypeId)->where('item_id','=',$teamId)
-    									->orderBy('created_at','desc')->get(['id','name','url','location']);
+    									->orderBy('created_at','desc')->get(['id','name','url','isLocal']);
 	}
 
     public static function getFiles($modelType, $modelId)
@@ -204,7 +204,7 @@ class TeamData
     public static function deleteTeamFile($fileId)
     {
     		$del=Files::find($fileId);
-    		Storage::disk('public')->delete($del->url);
+    		if ($del->isLocal) Storage::disk('public')->delete($del->url);
     		$del->delete();
     }
 

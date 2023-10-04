@@ -1,4 +1,5 @@
-        <div class="p-3 grid grid-cols-6 gap-2 items-center bg-neutral-200">
+        <div class="p-3 grid grid-cols-7 gap-2 items-center bg-neutral-200">
+            <div class="row-span-2"><x-monthtab-mini :days="$mini_month" :eventDay="$modelDay"></x-monthtab-mini></div>
             <div class="text-gray-500 text-sm">{{ __('Event Day') }}</div>
             <div class="text-gray-500 text-sm">{{ __('Event Start') }}</div>
             <div class="text-gray-500 text-sm">{{ __('Event End') }}</div>
