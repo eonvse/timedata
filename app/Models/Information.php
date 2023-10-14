@@ -15,4 +15,9 @@ class Information extends Model
     {
         return date('d.m.Y H:i', strtotime($this->created_at));
     }
+
+    public function getCreated2Attribute() 
+    {
+        return date('d.m.y H:i', strtotime($this->created_at));
+    }
 }

@@ -14,6 +14,8 @@ use App\Models\TimeEvent;
 use App\Models\User;
 use App\Models\TeamUser;
 use App\Models\Visits;
+use App\Models\Information;
+use App\Models\ModelType;
 
 use App\Repositories\TeamData;
 
@@ -30,7 +32,7 @@ class TimeEventData
         function getEventsMonthDay($day)
         {
             
-            return $users = DB::table('time_events')
+            return $events = DB::table('time_events')
             ->leftJoin('teams', 'time_events.team_id', '=', 'teams.id')
             ->leftJoin('colors', 'colors.id', '=', 'teams.color_id')
             ->whereDate('day','=',$day)
@@ -125,6 +127,19 @@ class TimeEventData
     }
 
     public static function events_week($week, $year) {
+        function getWeekEventsDay($day)
+        {
+            
+            return $events = DB::table('time_events')
+            ->leftJoin('teams', 'time_events.team_id', '=', 'teams.id')
+            ->leftJoin('colors', 'colors.id', '=', 'teams.color_id')
+            ->whereDate('day','=',$day)
+            ->select('time_events.id','time_events.title','time_events.day','time_events.start','time_events.end', 'teams.name', 'colors.color')
+            ->orderBy('start')
+            ->get()->toArray();
+
+        }        
+
         $events_week = array();
         $timeEvents = null;
         $week_start = (new Carbon())->setISODate($year,$week)->format("Y-m-d H:i:s");
@@ -135,7 +150,7 @@ class TimeEventData
 
         for ($i = 1; $i <= 7; $i++) {
             $date = $start->format('d.m.Y');
-            $timeEvents = TimeEvent::whereDate('start','=',$start->format('Y-m-d'))->orderBy('start')->get(['id', 'team_id','start','end'])->toArray();
+            $timeEvents = getWeekEventsDay($start->format('Y-m-d'));
             $events_week[$i] = ['date'=>$date, 'events'=>$timeEvents];
             $start->addDay();
         }
@@ -173,8 +188,10 @@ class TimeEventData
             $userTeamId .= $user['user_id'].',';
         }
         $userTeamId = substr($userTeamId,0,-1);
-        
-        $users     = DB::select('select id, surname, name, max(timeEvent_id) as timeEvent_id from UsersInfoEvent 
+
+        if (empty($userTeamId)) $users = array();
+        else $users     = DB::select('select id, surname, name, max(timeEvent_id) as timeEvent_id
+                                        from UsersInfoEvent 
                                         where (timeEvent_id='.$eventId.' or timeEvent_id = 0) 
                                         and id in ('.$userTeamId.')
                                         GROUP BY id, surname,name
@@ -239,7 +256,27 @@ class TimeEventData
             return TeamData::getTeamNoteArray($noteId);
     }
 
-     /*------------------------------------
+    public static function getWeekNotes($year, $week)
+    {
+            $modelTypeId = modelType::where('model','=','week')->get('id')->first()->id;
+
+            return Information::where('type_id','=',$modelTypeId)
+                                    ->where('week','=',$week)
+                                    ->where('year','=',$year)
+                                    ->orderBy('created_at','desc');
+    }
+
+    public static function saveWeekNote($data)
+    {
+            $modelTypeId = modelType::where('model','=','week')->get('id')->first()->id;
+            $data['type_id'] = $modelTypeId;
+            $data['autor_id'] = Auth::id();
+
+            Information::create($data);
+    }
+
+
+    /*------------------------------------
     ------EVENT FILES----------------------
     ---------------------------------------*/
 

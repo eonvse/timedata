@@ -1,5 +1,4 @@
-        <div class="p-3 grid grid-cols-7 gap-2 items-center bg-neutral-200">
-            <div class="row-span-2"><x-monthtab-mini :days="$mini_month" :eventDay="$modelDay"></x-monthtab-mini></div>
+        <div class="p-3 grid grid-cols-6 gap-2 items-center bg-neutral-200">
             <div class="text-gray-500 text-sm">{{ __('Event Day') }}</div>
             <div class="text-gray-500 text-sm">{{ __('Event Start') }}</div>
             <div class="text-gray-500 text-sm">{{ __('Event End') }}</div>
@@ -7,10 +6,10 @@
             <div class="text-center text-gray-500 text-sm">...</div>
 
             @if ($showEdit)
-              <x-input.text type="date" wire:model.lazy="modelDay" required />
-              <x-input.text type="time" wire:model.lazy="modelStart" required /> 
-              <x-input.text type="time" wire:model.lazy="modelEnd" required /> 
-              <x-input.text wire:model.lazy="modelTitle" class="col-span-2" />
+              <x-input.text type="date" wire:model.blur="modelDay" required />
+              <x-input.text type="time" wire:model.blur="modelStart" required /> 
+              <x-input.text type="time" wire:model.blur="modelEnd" required /> 
+              <x-input.text wire:model.blur="modelTitle" class="col-span-2" />
               <div class="flex justify-center space-x-2 items-center">
                   <x-button.icon-ok wire:click="save" title="Сохранить" />
                   <x-button.icon-cancel @click="show = false" wire:click="cancelEdit" title="Отменить" />

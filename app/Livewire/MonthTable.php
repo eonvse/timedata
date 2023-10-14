@@ -95,7 +95,7 @@ class MonthTable extends Component
                 'end'=>$this->newEnd, 
                 'team_id'=>$this->newTeam,
                 'user_id'=>Auth::id(),
-                'title'=>$this->newTitle ?? null
+                'title'=>empty($this->newTitle) ? null : $this->newTitle
             );
 
             TimeEventData::create($data);

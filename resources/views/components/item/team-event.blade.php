@@ -3,16 +3,14 @@
     $weekDays = array( 1 => 'Пн' , 'Вт' , 'Ср' , 'Чт' , 'Пт' , 'Сб' , 'Вс' );
 @endphp
 
-<div class="grid grid-cols-3 items-center border-b text-sm hover:bg-gray-200">
-	<div class="border-r">
-		<a href="{{ route('info.time-event',['id'=>$item->id, 'edit'=>0])}}">
-			{{ $item->dayFormat }} 
-			<span class="text-xs mx-1">{{ $item->title ?? '' }}</span>
+<div class="flex text-sm hover:bg-gray-200 border-b space-y-1">
+		<a href="{{ route('info.time-event',['id'=>$item->id, 'edit'=>0])}}" 
+			class="w-full flex space-x-2 border-r px-1 items-center grow after:content-['_↗']">
+			<span class="tabular-nums">{{ $item->dayFormat }}</span>
+			<span class="tabular-nums">{{ $item->startFormat }} - {{ $item->endFormat }}</span>
+			<span class="grow">{{ $item->title ?? '' }}</span>
 		</a>
-	</div>
-	<div class="border-r">{{ $item->startFormat }} - {{ $item->endFormat }}</div>
-	<div class="flex items-center">
-        <x-button.icon-del wire:click="showDeleteEvent({{ $item->id }})" title="Удалить"/>
-
-	</div>
+		<div class="">
+	        <x-button.icon-del wire:click="showDeleteEvent({{ $item->id }})" title="Удалить"/>
+		</div>
 </div>

@@ -85,6 +85,7 @@ class TimeEvent extends Component
         $this->previousEvents = TimeEventData::getPreviousEvents($this->modelId,$this->modelTeamId,self::PREV_COUNT);
 
         $this->files = TimeEventData::getFileListForEvent(self::MODEL_TYPE,$this->modelId);
+        $this->mini_month = TimeEventData::mini_month($this->modelDay);
     }
 
     public function showEditMode()
@@ -168,6 +169,7 @@ class TimeEvent extends Component
         }
         $this->cancelAddNote();
         $this->updateData();
+        $this->resetPage();
     }
 
     public function showDeleteNote($noteId)
@@ -181,6 +183,7 @@ class TimeEvent extends Component
         if (!empty($noteId)) TimeEventData::deleteEventNote($noteId);
         $this->updateData();
         $this->cancelDelNote();
+        $this->resetPage();
     }
 
     public function cancelDelNote() {

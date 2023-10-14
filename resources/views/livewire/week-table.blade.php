@@ -18,18 +18,21 @@
             @php
                 $bgCell='bg-white';
                 $events_day = $events_week[$order[$i]];
-                if ($events_day['date']==date('d.m.Y')) { $bgCell='bg-orange-100'; }
+                if ($events_day['date']==date('d.m.Y')) { $bgCell='bg-amber-200'; }
             @endphp
-            <x-weektab-wire.cell class="{{ $bgCell }}">
+            <x-weektab-wire.cell class="{{ $bgCell }}" :dateCell="$events_day['date']" >
                 {{ $weekDays[date('N',strtotime($events_day['date']))] }} 
                 {{ date('d.m',strtotime($events_day['date'])) }}
                 @if (!empty(count($events_day['events'])))
                 <x-slot name='events'>
                     @foreach ($events_day['events'] as $event)
-                    <x-weektab-wire.event :id="$event['id']"
-                                    :name="$event['name']"
-                                    :start="date('H:i',strtotime($event['start']))"
-                                    :end="date('H:i',strtotime($event['end']))" />
+                    <x-weektab-wire.event :id="$event->id"
+                                    :name="$event->name"
+                                    :start="date('H:i',strtotime($event->start))"
+                                    :end="date('H:i',strtotime($event->end))"
+                                    :title="$event->title"
+                                    :color="$event->color"
+                                     />
                     @endforeach
                 </x-slot>
                 @endif
@@ -37,15 +40,76 @@
             
             @endfor
 
-            <x-weektab-wire.cell class="bg-white">
-                Сообщения, статистика
-                <x-slot name='events'>
-                 Блок заметок по неделе и статистика по приходу и посещениям    
-                </x-slot>
+            <x-weektab-wire.cell class="bg-white" dateCell="weekNote">
+                <div class="grid grid-cols-2 items-top">
+                    <div><x-head.h2>Статистика</x-head.h2></div>
+                    <div>
+                        <x-head.h2>{{ __('Event Notes') }}</x-head.h2>
+                        @foreach($notes as $note)
+                        <div><x-item.week-note :item="$note" /></div>
+                        @endforeach
+                        {{ $notes->links() }}
+                    </div>
+                </div>
             </x-weektab-wire.cell>
         </x-weektab-wire.grid>
 
 </x-weektab-wire>
 </div>
+    <x-modal-wire.dialog wire:model.defer="showCreate" maxWidth="md">
+            <x-slot name="title"><span class="grow">{{ __('Add Time Events') }}</span><x-button.icon-cancel @click="show = false" wire:click="cancelCreate" class="text-gray-700 hover:text-white" /></x-slot>
+            <x-slot name="content">
+                <form wire:submit.prevent="store" class="flex-col space-y-2">
+                    <div class="sm:grid sm:grid-cols-[100px_minmax(0,_1fr)] items-center">
+                        <x-input.label>Дата</x-input.label>
+                        <x-input.label class="font-bold text-xl">{{ date('d.m.Y',$addDate) }}</x-input.label>
+                    </div>
+                    <div class="sm:grid sm:grid-cols-[100px_minmax(0,_1fr)] items-center">
+                        <x-input.label>Начало</x-input.label>
+                        <x-input.text type="time" wire:model.blur="newStart" required />
+                    </div>
+                    <div class="sm:grid sm:grid-cols-[100px_minmax(0,_1fr)] items-center">
+                        <x-input.label>Завершение</x-input.label>
+                        <x-input.text type="time" wire:model.blur="newEnd" required />
+                    </div>
+                    <div class="sm:grid sm:grid-cols-[100px_minmax(0,_1fr)] items-center">
+                        <x-input.label>Группа</x-input.label>
+                        <x-input.select wire:model.blur="newTeam" :items="$teams" noneTxt="Выберите группу" required />
+                    </div>
+                    <div class="sm:grid sm:grid-cols-[100px_minmax(0,_1fr)] items-center">
+                        <x-input.label>{{ __('Time Event Title') }}</x-input.label>
+                        <x-input.text wire:model.blur="newTitle" />
+                    </div>
+                    <x-button.create type="submit">{{ __('Add Time Event') }}</x-button.create>
+                    <x-button.secondary @click="show = false" wire:click="cancelCreate">{{ __('Cancel') }}</x-button.secondary>
+                </form>
+            </x-slot>
+    </x-modal-wire.dialog>
+
+    <x-modal-wire.dialog wire:model.defer="showAddNote" maxWidth="sm">
+            <x-slot name="title"><span class="grow">{{ __('Add Week Note') }}</span><x-button.icon-cancel @click="show = false" wire:click="cancelAddNote" class="text-gray-700 hover:text-white" /></x-slot>
+            <x-slot name="content">
+                <form wire:submit.prevent="saveNote" class="flex-col space-y-2">
+                    <div><x-input.textarea wire:model.blur="addNote" required /></div>
+                    <x-button.create class="text-sm" type="submit">{{ __('Add') }}</x-button.create>
+                    <x-button.secondary class="text-sm" wire:click="cancelAddNote()">{{ __('Cancel') }}</x-button.secondary>
+                </form>
+            </x-slot>
+    </x-modal-wire.dialog>
+
+    <x-modal-wire.dialog wire:model.defer="showDelNote" type="warn" maxWidth="md">
+        <x-slot name="title"><span class="grow">{{ __('Delete Note') }}</span><x-button.icon-cancel @click="show = false" wire:click="cancelDelNote" class="text-gray-700 hover:text-white dark:hover:text-white" /></x-slot>
+        <x-slot name="content">
+            <div class="flex-col space-y-2">
+                <x-input.label class="text-lg font-medium">Вы действительно хотите удалить запись? 
+                    <div class="text-black">{{ $delNote['note'] }}</div>
+                </x-input.label>
+                <x-button.secondary @click="show = false" wire:click="cancelDelNote">Отменить</x-button.secondary>
+                <x-button.danger wire:click="deleteNote({{ $delNote['id'] }})">{{ __('Delete')}}</x-button.danger>
+            </div>                            
+        </x-slot>
+    </x-modal-wire.dialog>
+
+
 
 </div>

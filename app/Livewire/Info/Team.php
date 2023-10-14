@@ -171,7 +171,7 @@ class Team extends Component
                 'start'=>$this->addEventStart,
                 'end'=>$this->addEventEnd,
                 'user_id'=>0,
-                'title'=> $this->addEventTitle ?? null
+                'title'=> empty($this->addEventTitle) ? null : $this->addEventTitle
             );
             TeamData::saveTeamEvent($data);
         }
@@ -230,6 +230,8 @@ class Team extends Component
         }
         $this->cancelAddNote();
         $this->updateData();
+        $this->resetPage();
+
     }
 
     public function showDeleteNote($noteId)
@@ -243,6 +245,7 @@ class Team extends Component
         if (!empty($noteId)) TeamData::deleteTeamNote($noteId);
         $this->updateData();
         $this->cancelDelNote();
+        $this->resetPage();
     }
 
     public function cancelDelNote() {
