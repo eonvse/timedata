@@ -9,7 +9,7 @@
         
     <span class="font-extrabold text-center px-1 tabular-nums">{{ $start }}</span>
     <span class="ml-2 font-medium leading-none truncate shrink">{{ $name }}</span>
-    <div x-cloak x-show="tooltip" class="absolute z-50 left-0 bottom-0 p-1 {{ $color }} text-black overflow-hidden shadow-xl transform transition-all sm:w-full sm:mx-auto ">{{ $start }} {{ !empty($end) ? '- '.$end : $end }}: {{ $title }}</div>
+    <div x-cloak x-show="tooltip" class="absolute z-50 left-0 bottom-0 p-1 {{ $color }} text-black overflow-hidden shadow-xl transform transition-all sm:w-full sm:mx-auto tabular-nums">{{ $start }} {{ !empty($end) ? '- '.$end : $end }}: {{ $title }}</div>
 </a>
 <!-- <button class="flex items-center flex-shrink-0 h-5 px-1 text-xs hover:bg-gray-200">
     <span class="flex-shrink-0 w-2 h-2 bg-gray-500 rounded-full"></span>

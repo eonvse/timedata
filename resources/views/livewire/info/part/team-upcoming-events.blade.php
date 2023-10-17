@@ -35,11 +35,12 @@
             <x-slot name="content">
                 <div class="flex-col space-y-2">
                     <x-input.label class="text-lg font-medium">Вы действительно хотите удалить запись? 
-                        <div class="text-black">{{ $model->name }}: 
+                    <div class="text-black">{{ $model->name }}: 
                         {{ date('d.m.Y',strtotime($delEvent['day'])) }}
                         {{ date('H:i',strtotime($delEvent['start'])) }}-{{ date('H:i',strtotime($delEvent['end'])) }}
                         {{ $delEvent['title'] ?? '' }}
                     </div>
+                    <div class="text-red-600 shadow p-1">{{ __('Delete Event Message') }}</div>
                     </x-input.label>
                     <x-button.secondary @click="show = false" wire:click="cancelDelEvent">Отменить</x-button.secondary>
                     <x-button.danger wire:click="deleteTeamEvent({{ $delEvent['id'] }})">{{ __('Delete')}}</x-button.danger>

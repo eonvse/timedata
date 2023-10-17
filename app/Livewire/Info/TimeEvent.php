@@ -34,6 +34,8 @@ class TimeEvent extends Component
 
     public $mini_month;
 
+    public $showDelEvent, $delEvent;
+    
     #[Lock]
     public $modelId, $modelTeamId;
 
@@ -65,6 +67,9 @@ class TimeEvent extends Component
         $this->webName = $this->webUrl = '';
 
         $this->mini_month = TimeEventData::mini_month($this->modelDay);
+        
+        $this->showDelEvent = false;
+        $this->delEvent = array('id'=>null, 'day'=>null, 'start' =>null, 'end'=>null);
 
     }
 
@@ -111,6 +116,25 @@ class TimeEvent extends Component
        $this->model->update(['title'=>$this->modelTitle,'day'=>$this->modelDay, 'start'=>$this->modelStart, 'end'=>$this->modelEnd]);
        $this->updateData();
        $this->cancelEdit();
+    }
+
+    public function showDeleteEvent($eventId)
+    {
+        $this->delEvent = TimeEventData::getTeamEventArray($eventId);
+        $this->showDelEvent = true;
+    }
+
+    public function cancelDelEvent() {
+
+        $this->delEvent = array('id'=>null, 'day'=>null, 'start' =>null, 'end'=>null);
+        $this->showDelEvent = false;
+    }
+
+    public function destroy($eventId)
+    {
+        TimeEventData::deleteTeamEvent($eventId);
+        $this->redirect('/journal/public/teams/'.$this->modelTeamId.'/0');
+
     }
 
     /*------------------------------------

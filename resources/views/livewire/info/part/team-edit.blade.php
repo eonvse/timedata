@@ -2,14 +2,14 @@
             <div>
                 <a href="{{ url()->previous() }}" class="text-xs text-gray-500">Назад</a>
             </div>
-            <div class="text-gray-500 text-sm col-span-2">{{ __('Team Name') }}</div>
+            <div class="text-gray-500 text-sm col-span-2 px-2">{{ __('Team Name') }}</div>
             <div class="text-gray-500 text-sm col-span-2">{{ __('Team Info') }}</div>
             <div class="text-gray-500 text-sm">
                 {{ __('Team Color') }}
                 <span class="{{ $model->color->color }} border border-indigo-800">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
             </div>
             <div class="text-center text-gray-500 text-sm">...</div>
-            <div>
+            <div >
                 <x-head.page-wire>
                     {{ __('Team') }}
                 </x-head.page-wire>
@@ -24,8 +24,10 @@
                     <x-button.icon-cancel @click="show = false" wire:click="cancelEdit" title="Отменить" />
                 </div>
             @else
-            <div class="relative col-span-2 text-lg text-indigo-900 font-bold {{ $model->color->color }}">
+            <div class="relative col-span-2 {{ $model->color->color }} px-2">
+                <x-head.page-wire>
                 {{ $modelName }}
+                </x-head.page-wire>
             </div>        
             <div class="relative col-span-2 text-lg text-indigo-900 font-bold">
                 {{ $modelInfo }}

@@ -173,7 +173,18 @@ class TimeEventData
 
 	}
 
-	public static function getTeamList()
+    public static function deleteTeamEvent($eventId)
+    {
+
+            TeamData::deleteTeamEvent($eventId);
+    }
+
+	public static function getTeamEventArray($eventId)
+    {
+        return TeamData::getTeamEventArray($eventId);
+    }
+
+    public static function getTeamList()
     {
         return TeamData::getList()->toArray();
     }

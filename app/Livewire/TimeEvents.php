@@ -26,6 +26,9 @@ class TimeEvents extends Component
     public $search, $sortField, $sortDirection;
 
     public $item;
+
+    public $showDelEvent, $delEvent;
+
     #[Locked] 
     public $idItem;
 
@@ -60,6 +63,8 @@ class TimeEvents extends Component
 
         $this->search = $this->sortField = $this->sortDirection = '';
 
+        $this->showDelEvent = false;
+        $this->delEvent = array('id'=>null, 'day'=>null, 'start' =>null, 'end'=>null);
     }
 
     //------------------------------------------------    
@@ -157,34 +162,24 @@ class TimeEvents extends Component
     //------------------------------------------------    
     //-------Удаление элемента------------------------
     //------------------------------------------------    
-    public function delete($id)
+    public function showDeleteEvent($eventId)
     {
-        $this->showDelete = true;
-        $editingUser = TimeEventData::get($id);
-        $this->item = array(
-            'name'=>$editingUser->name ?? '',
-            'surname'=>$editingUser->surname ?? '',
-            'patronymic'=>$editingUser->patronymic ?? '',
-            'birthday'=>$editingUser->birthday ?? '',
-            );
-        $this->idItem = $editingUser->id;
-
+        $this->delEvent = TimeEventData::getTeamEventArray($eventId);
+        $this->showDelEvent = true;
     }
 
-    public function cancelDelete()
-    {
-        $this->showDelete = false;
-        $this->item = array('name'=>'','surname'=>'','patronymic'=>'','birthday'=>'');
-        $this->idItem = '';
+    public function cancelDelEvent() {
+
+        $this->delEvent = array('id'=>null, 'day'=>null, 'start' =>null, 'end'=>null);
+        $this->showDelEvent = false;
     }
 
-
-    public function destroy()
+    public function destroy($eventId)
     {
-        TimeEventData::destroy($this->idItem);
-        $this->cancelDelete();
-    }
+        TimeEventData::deleteTeamEvent($eventId);
+        $this->cancelDelEvent();
 
+    }
 
     //------------------------------------------------    
     //-------RENDER-----------------------------------

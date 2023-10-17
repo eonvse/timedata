@@ -43,7 +43,7 @@
                             <x-table.cell>
                                 <div class="flex items-center">
                                     <x-button.icon-edit :href="route('info.time-event',['id'=>$timeEvent->id])" title="Редактировать"/>
-                                    <x-button.icon-del wire:click="delete({{ $timeEvent->id }})" title="Удалить"/>
+                                    <x-button.icon-del wire:click="showDeleteEvent({{ $timeEvent->id }})" title="Удалить"/>
                                 </div>
                             </x-table.cell>
                         </x-table.row>
@@ -91,17 +91,22 @@
             </x-slot>
     </x-modal-wire.dialog>
 
-   <x-modal-wire.dialog wire:model.defer="showDelete" type="warn" maxWidth="md">
-            <x-slot name="title"><span class="grow">{{ __('Delete Users') }}</span><x-button.icon-cancel @click="show = false" wire:click="cancelDelete" class="text-gray-700 hover:text-white dark:hover:text-white" /></x-slot>
-            <x-slot name="content">
-                <div class="flex-col space-y-2">
-                    <x-input.label class="text-lg font-medium">Вы действительно хотите удалить запись? 
-                        <div class="text-black">{{ $item['surname'] ?? '' }} {{ $item['name'] ?? '' }} {{ $item['patronymic'] ?? '' }}</div>
-                    </x-input.label>
-                    <x-button.secondary @click="show = false" wire:click="cancelDelete">Отменить</x-button.secondary>
-                    <x-button.danger wire:click="destroy">{{ __('Delete')}}</x-button.danger>
-                </div>                            
-            </x-slot>
+    <x-modal-wire.dialog wire:model.defer="showDelEvent" type="warn" maxWidth="md">
+        <x-slot name="title"><span class="grow">{{ __('Delete Event') }}</span><x-button.icon-cancel @click="show = false" wire:click="cancelDelEvent" class="text-gray-700 hover:text-white dark:hover:text-white" /></x-slot>
+        <x-slot name="content">
+            <div class="flex-col space-y-2">
+                <x-input.label class="text-lg font-medium">Вы действительно хотите удалить запись? 
+                    <div class="text-black">
+                        {{ date('d.m.Y',strtotime($delEvent['day'])) }}
+                        {{ date('H:i',strtotime($delEvent['start'])) }}-{{ date('H:i',strtotime($delEvent['end'])) }}
+                        {{ $delEvent['title'] ?? '' }}
+                    </div>
+                    <div class="text-red-600 shadow p-1">{{ __('Delete Event Message') }}</div>
+                </x-input.label>
+                <x-button.secondary @click="show = false" wire:click="cancelDelEvent">{{ __('Cancel') }}</x-button.secondary>
+                <x-button.danger wire:click="destroy({{ $delEvent['id'] }})">{{ __('Delete')}}</x-button.danger>
+            </div>                            
+        </x-slot>
     </x-modal-wire.dialog>
 
 </div>

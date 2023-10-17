@@ -137,7 +137,10 @@ class TeamData
 
     public static function deleteTeamEvent($eventId)
     {
-    		TimeEvent::find($eventId)->delete();
+
+			$event = TimeEvent::find($eventId);
+			Storage::disk('public')->deleteDirectory('/time_events/'.$eventId);
+    		$event->delete();
     }
 
 	 /*------------------------------------
@@ -182,6 +185,7 @@ class TeamData
     	return Files::where('type_id','=',$modelTypeId)->where('item_id','=',$teamId)
     									->orderBy('created_at','desc')->get(['id','name','url','isLocal']);
 	}
+
 
     public static function getFiles($modelType, $modelId)
     {
