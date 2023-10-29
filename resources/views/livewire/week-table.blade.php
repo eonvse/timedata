@@ -26,13 +26,7 @@
                 @if (!empty(count($events_day['events'])))
                 <x-slot name='events'>
                     @foreach ($events_day['events'] as $event)
-                    <x-weektab-wire.event :id="$event->id"
-                                    :name="$event->name"
-                                    :start="date('H:i',strtotime($event->start))"
-                                    :end="date('H:i',strtotime($event->end))"
-                                    :title="$event->title"
-                                    :color="$event->color"
-                                     />
+                    <x-weektab-wire.event :time_event="$event" />
                     @endforeach
                 </x-slot>
                 @endif

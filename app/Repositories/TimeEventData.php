@@ -130,11 +130,9 @@ class TimeEventData
         function getWeekEventsDay($day)
         {
             
-            return $events = DB::table('time_events')
-            ->leftJoin('teams', 'time_events.team_id', '=', 'teams.id')
-            ->leftJoin('colors', 'colors.id', '=', 'teams.color_id')
+            return $events = DB::table('EventInfoWeek')
             ->whereDate('day','=',$day)
-            ->select('time_events.id','time_events.title','time_events.day','time_events.start','time_events.end', 'teams.name', 'colors.color')
+            ->select('id', 'title', 'day', 'start', 'end', 'name', 'all_u', 'b_u', 'n_u', 'last_note', 'color','notes','files')
             ->orderBy('start')
             ->get()->toArray();
 

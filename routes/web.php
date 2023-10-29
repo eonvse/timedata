@@ -5,13 +5,15 @@ use Illuminate\Support\Facades\Route;
 
 use App\Livewire\MonthTable;
 use App\Livewire\WeekTable;
+
 use App\Livewire\TimeEvents;
+use App\Livewire\Info\TimeEvent;
 
 use App\Livewire\Data\Users;
-use App\Livewire\Data\Teams;
+use App\Livewire\Info\User;
 
+use App\Livewire\Data\Teams;
 use App\Livewire\Info\Team;
-use App\Livewire\Info\TimeEvent;
 
 use App\Http\Controllers\FileController;
 
@@ -56,6 +58,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/week-table', WeekTable::class)->name('week-table');
 
     Route::get('/users', Users::class)->name('data.users');
+    Route::get('/users/{id}/{edit?}', User::class)->name('info.user');
+
     Route::get('/teams', Teams::class)->name('data.teams');
     Route::get('/teams/{id}/{edit?}', Team::class)->name('info.team');
 

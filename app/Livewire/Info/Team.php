@@ -6,6 +6,8 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
+
 
 use App\Repositories\TeamData;
 
@@ -148,9 +150,25 @@ class Team extends Component
     /*------------------------------------
     -----------UPCOMING EVENTS--------------
     ---------------------------------------*/
+        //------------------------------------------------    
+        //-------ДАТА-ВРЕМЯ ДЛЯ НОВЫХ СОБЫТИЙ-------------
+        //------------------------------------------------    
+    private function setDateTime() : void
+    {
+        $this->addEventDay = date('Y-m-d');
+        $st = strtotime(date('H:i'));
+        $et = Carbon::createFromTime(date('H',$st),0);
+        $et->addHour();
+        $this->addEventStart = $et->format('H:i');
+        $et->addHour();
+        $this->addEventEnd = $et->format('H:i');
+    }
+
+
     public function addTeamEvent()
     {
         $this->showAddEvent = true;
+        $this->setDateTime();
         $this->cancelAddNote();
         $this->cancelAddUser();
         $this->cancelAddFile();
@@ -338,4 +356,31 @@ class Team extends Component
         $notes = TeamData::getNotes(self::MODEL_TYPE, $this->modelId);
         return view('livewire.info.team',['notes'=>$notes->simplePaginate(self::NOTES_PER_PAGE)]);
     }
+
+
+    public function updated($property)
+    {
+        // $property: The name of the current property that was updated
+ 
+       if ($property === 'addEventStart') {
+            
+            $st = strtotime($this->addEventStart);
+            $dateEnd = Carbon::createFromTime(date('H',$st),date('i',$st));
+            $dateEnd->addHour();
+
+            $this->addEventEnd = $dateEnd->format('H:i');
+        }
+        if ($property === 'addEventEnd') {
+
+            $st = strtotime($this->addEventStart);
+            $end = strtotime($this->addEventEnd);
+            if ($end <= $st) {
+                $dateEnd = Carbon::createFromTime(date('H',$st),date('i',$st));
+                $dateEnd->addHour();
+    
+                $this->addEventEnd = $dateEnd->format('H:i');
+            }
+        }
+    }
+
 }

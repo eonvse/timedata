@@ -199,5 +199,30 @@ class TimeEvents extends Component
         return view('livewire.time-events',['timeEvents'=>$timeEvents,'teams'=>TimeEventData::getTeamList()]);
     }
 
+    public function updated($property)
+    {
+        // $property: The name of the current property that was updated
+ 
+       if ($property === 'newStart') {
+            
+            $st = strtotime($this->newStart);
+            $dateEnd = Carbon::createFromTime(date('H',$st),date('i',$st));
+            $dateEnd->addHour();
+
+            $this->newEnd = $dateEnd->format('H:i');
+        }
+        if ($property === 'newEnd') {
+
+            $st = strtotime($this->newStart);
+            $end = strtotime($this->newEnd);
+            if ($end <= $st) {
+                $dateEnd = Carbon::createFromTime(date('H',$st),date('i',$st));
+                $dateEnd->addHour();
+    
+                $this->newEnd = $dateEnd->format('H:i');
+            }
+        }
+    }
+
 
 }
