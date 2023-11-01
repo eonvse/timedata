@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Database\Eloquent\Builder;
 
+use App\Repositories\TeamData;
+
 
 class UserData
 {
@@ -49,6 +51,25 @@ class UserData
 		$user = User::find($id);
 		$user->delete();
 	}
+
+   public static function saveUserFile($modelType,$data)
+   {
+       TeamData::saveTeamFile($modelType,$data);
+   }
+   public static function getFileListForUser($modelType,$modelId)
+   {
+       return TeamData::getFileListForTeam($modelType,$modelId);
+   }
+
+   public static function deleteUserFile($fileId)
+    {
+        TeamData::deleteTeamFile($fileId);
+    }
+
+   public static function getUserFileArray($fileId)
+    {
+        return TeamData::getTeamFileArray($fileId);
+    }
 
 }
 

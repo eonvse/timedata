@@ -3,7 +3,7 @@
                 <a href="{{ url()->previous() }}" class="text-xs text-gray-500">Назад</a>
             </div>
             <div class="text-gray-500 text-sm  px-2">{{ $showEdit ? __('User Surname') : 'ФИО' }}</div>
-            <div class="text-gray-500 text-sm  px-2">{{ $showEdit ? __('User Name') : '' }}</div>
+            <div class="text-gray-500 text-sm  px-2">{{ $showEdit ? __('User Name') : '' }}@error('modelName') <span class="text-red-600">{{ $message }}</span>@enderror</div>
             <div class="text-gray-500 text-sm ">{{ $showEdit ? __('User Patronymic') : '' }}</div>
             <div class="text-gray-500 text-sm">{{ __('User Birthday') }}</div>
             <div class="text-center text-gray-500 text-sm">...</div>
@@ -16,10 +16,10 @@
             
             @if ($showEdit)
 
-                <x-input.text wire:model="modelSurname" required class="" /> 
-                <x-input.text wire:model="modelName" required class="" />
-                <x-input.text wire:model="modelPatronymic" required class="" /> 
-                <x-input.text type="date" wire:model="modelBirthday" required class="" /> 
+                <x-input.text wire:model="modelSurname" class="" /> 
+                <x-input.text wire:model.live="modelName" class="" />
+                <x-input.text wire:model="modelPatronymic" class="" /> 
+                <x-input.text type="date" wire:model="modelBirthday" class="" /> 
                 <div class="flex justify-center space-x-2 items-center">
                     <x-button.icon-ok wire:click="save" title="Сохранить" />
                     <x-button.icon-cancel @click="show = false" wire:click="cancelEdit" title="Отменить" />

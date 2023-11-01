@@ -5,6 +5,8 @@ namespace App\Livewire\Info;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
+use Livewire\Attributes\Locked;
+
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
@@ -35,7 +37,7 @@ class Team extends Component
     public $delFile;
     public $files;
 
-    #[Lock]
+    #[Locked]
     public $modelId, $addUserId;
 
     public function mount($id,$edit=true)

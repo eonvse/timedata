@@ -5,6 +5,9 @@ namespace App\Livewire\Info;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
+
+use Livewire\Attributes\Locked;
+
 use Illuminate\Support\Str;
 
 use App\Repositories\TimeEventData;
@@ -36,7 +39,7 @@ class TimeEvent extends Component
 
     public $showDelEvent, $delEvent;
     
-    #[Lock]
+    #[Locked]
     public $modelId, $modelTeamId;
 
     public function mount($id,$edit=true)
