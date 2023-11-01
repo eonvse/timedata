@@ -1,5 +1,5 @@
 <div>
-	<div class="grid grid-cols-2 items-center">
+	<div class="grid grid-cols-2 items-center mb-2">
 		<div><x-head.h2>{{ __('Event Files') }}</x-head.h2></div>
 		<div>
 			<x-button.create class="w-full" wire:click="addEventFile">{{ __('Add Event File') }}</x-button.create>

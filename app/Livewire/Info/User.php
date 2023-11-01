@@ -102,7 +102,7 @@ class User extends Component
     public function save()
     {
 
-        $this->validate();
+        $this->validate(['modelName'=>'required']);
         $this->model->update(['name'=>$this->modelName,'surname'=>$this->modelSurname, 'patronymic'=>$this->modelPatronymic, 'birthday'=>$this->modelBirthday ]);  
        
         $this->updateData();

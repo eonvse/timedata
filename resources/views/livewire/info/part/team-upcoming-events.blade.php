@@ -1,5 +1,5 @@
 <div>
-	<div class="grid grid-cols-2 items-center">
+	<div class="grid grid-cols-2 items-center mb-2">
 		<div><x-head.h2>{{ __('Team Upcoming Events') }}</x-head.h2></div>
 		<div>
 			<x-button.create class="w-full" wire:click="addTeamEvent()">{{ __('Add Team Event') }}</x-button.create>

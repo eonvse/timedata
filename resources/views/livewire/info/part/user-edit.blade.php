@@ -2,10 +2,10 @@
             <div>
                 <a href="{{ url()->previous() }}" class="text-xs text-gray-500">Назад</a>
             </div>
-            <div class="text-gray-500 text-sm  px-2">{{ $showEdit ? __('User Surname') : 'ФИО' }}</div>
-            <div class="text-gray-500 text-sm  px-2">{{ $showEdit ? __('User Name') : '' }}@error('modelName') <span class="text-red-600">{{ $message }}</span>@enderror</div>
-            <div class="text-gray-500 text-sm ">{{ $showEdit ? __('User Patronymic') : '' }}</div>
-            <div class="text-gray-500 text-sm">{{ __('User Birthday') }}</div>
+            <div class="text-gray-500 text-sm  px-2">{{ $showEdit ? __('Surname') : 'ФИО' }}</div>
+            <div class="text-gray-500 text-sm  px-2">{{ $showEdit ? __('Name') : '' }}@error('modelName') <span class="text-red-600">{{ $message }}</span>@enderror</div>
+            <div class="text-gray-500 text-sm ">{{ $showEdit ? __('Patronymic') : '' }}</div>
+            <div class="text-gray-500 text-sm">{{ __('Birthday') }}</div>
             <div class="text-center text-gray-500 text-sm">...</div>
             
             <div >

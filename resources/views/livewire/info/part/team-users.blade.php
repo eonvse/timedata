@@ -1,5 +1,5 @@
 <div>
-	<div class="grid grid-cols-2 items-center">
+	<div class="grid grid-cols-2 items-center mb-2">
 		<div><x-head.h2>Участники</x-head.h2></div>
 		<div>
 			<x-button.create class="w-full" wire:click="addUserTeam()">{{ __('Add User Team') }}</x-button.create>
