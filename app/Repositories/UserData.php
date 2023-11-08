@@ -71,5 +71,30 @@ class UserData
         return TeamData::getTeamFileArray($fileId);
     }
 
+    /*------------------------------------------------------
+    -------------------NOTES--------------------------------
+    --------------------------------------------------------*/
+
+    public static function getNotes($modelType, $modelId)
+    {
+    	return TeamData::getNotes($modelType, $modelId);
+    }
+
+   	public static function saveUserNote($modelType,$data)
+   	{
+   		TeamData::saveTeamNote($modelType,$data);
+   	}
+
+	public static function getUserNoteArray($noteId)
+	{
+		return TeamData::getTeamNoteArray($noteId);
+	}
+
+	public static function deleteUserNote($noteId)
+	{
+		TeamData::deleteTeamNote($noteId);
+	}
+
+
 }
 

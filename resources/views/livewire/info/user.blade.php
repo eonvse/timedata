@@ -4,12 +4,12 @@
         @include('layouts.navigation-wire')
         @include('livewire.info.part.user-edit')
         <div class="p-3 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700" wire:click="cancelEdit()">
-            <div class="grid grid-cols-3 items-start">
-                <div class="min-h-[100px] shadow-md p-2">
+            <div class="grid grid-cols-3 items-start shadow-md">
+                <div class="min-h-[100px] p-2">
                     @include('livewire.info.part.user-files')    
                 </div>
                 <div class="min-h-[100px] p-2 pl-5">
-                    include('livewire.info.part.user-notes') 
+                    @include('livewire.info.part.user-notes') 
                 </div>
                 <div class="min-h-[100px] p-2 pl-5">
                     Фин. учет  

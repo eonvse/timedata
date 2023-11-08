@@ -45,6 +45,10 @@ class User extends Component
     public $delFileUser;
     public $files;
 
+    public $showAddNote, $showDelNote, $delNote;
+    public $addNote;
+
+
     public function mount($id,$edit=true)
     {
         $this->model = UserData::get($id);
@@ -63,6 +67,9 @@ class User extends Component
         $this->isLocalFile = true;
         $this->webName = $this->webUrl = '';
         
+        $this->showAddNote = $this->showDelNote = false;
+        $this->addNote = '';
+        $this->delNote = array('id'=>null, 'note'=>null);
     }
 
     /*------------------------------------
@@ -115,7 +122,7 @@ class User extends Component
     public function addUserFile()
     {
         $this->showAddFile = true;
-        /*$this->cancelAddNote();*/
+        $this->cancelAddNote();
         $this->cancelEdit();
 
     }
@@ -185,12 +192,70 @@ class User extends Component
         $this->showDelFile = false;
     }
 
+    /*------------------------------------
+    -----------NOTES-----------------------
+    ---------------------------------------*/
+    public function addUserNote()
+    {
+        $this->showAddNote = true;
+        $this->cancelEdit();
+        $this->cancelAddFile();
+        //$this->cancelAddUser();
+        //$this->cancelAddEvent();
+    }
+
+    public function cancelAddNote()
+    {
+        $this->showAddNote = false;
+        $this->addNote = '';
+    }
+
+    public function saveUserNote()
+    {
+        if (!empty($this->addNote)) {
+            $data = array(
+                'autor_id'=>null,
+                'type_id'=>null,
+                'item_id'=>$this->modelId,
+                'week'=>null, 
+                'year'=>null, 
+                'note'=>$this->addNote,
+            );
+            UserData::saveUserNote(self::MODEL_TYPE,$data);
+        }
+        $this->cancelAddNote();
+        $this->updateData();
+        $this->resetPage();
+    }
+
+    public function showDeleteNote($noteId)
+    {
+        $this->delNote = UserData::getUserNoteArray($noteId);
+        $this->showDelNote = true;
+    }
+
+    public function deleteUserNote($noteId)
+    {
+        if (!empty($noteId)) UserData::deleteUserNote($noteId);
+        $this->updateData();
+        $this->cancelDelNote();
+        $this->resetPage();
+    }
+
+    public function cancelDelNote() {
+
+        $this->delNote = array('id'=>null, 'note'=>null);
+        $this->showDelNote = false;
+    }
+
+
     /*-------------------------------------
     -----------RENDER----------------------
     ---------------------------------------*/
 
     public function render()
     {
-        return view('livewire.info.user');
+        $notes = UserData::getNotes(self::MODEL_TYPE, $this->modelId);
+        return view('livewire.info.user',['notes'=>$notes->simplePaginate(self::NOTES_PER_PAGE)]);
     }
 }
