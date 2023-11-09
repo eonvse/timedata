@@ -17,5 +17,7 @@
 		</div>
 		@endif
 	</div>
-	<div>{{ $item->surname }} {{ $item->name }}</div> 
+	<a href="{{ route('info.user',['id'=>$item->id, 'edit'=>0])}}">
+		<div class="hover:bg-neutral-200 after:content-['_↗']">{{ $item->surname }} {{ $item->name }}</div> 
+	</a>
 </div>

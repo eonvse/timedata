@@ -17,10 +17,32 @@
             </div>            
             <div class="grid grid-cols-2 items-start mt-10">
                 <div class="min-h-[100px]">
-                    include('livewire.info.part.user-teams')     
+                    <div><x-head.h2>{{ __('Teams') }}</x-head.h2></div>
+                    @forelse($teams as $team)
+                    <a href="{{ route('info.team',['id'=>$team->tid, 'edit'=>0])}}">
+                        <div class="hover:bg-neutral-200 border-b p-1 after:content-['_↗']">
+                            <span class="{{ $team->color ?? '' }} p-1">{{ $team->tname }}</span>
+                            <span class="text-sm text-gray-500 italic">{{ $team->tinfo }}</span>
+                        </div>
+                    </a>
+                    @empty
+                        Никуда не записан
+                    @endforelse
+
                 </div>
                 <div class="min-h-[100px] pl-5">
-                    include('livewire.info.part.user-upcoming-events')    
+                    <div><x-head.h2>{{ __('Team Upcoming Events') }}</x-head.h2></div>
+                    @forelse($upcomingEvents as $item)
+                    <a href="{{ route('info.time-event',['id'=>$item->id, 'edit'=>0])}}">
+                        <div class="hover:bg-neutral-200 text-xs border-b p-1 after:content-['_↗']">
+                            <span class="tabular-nums">{{ $item->day }} {{ $item->start }}-{{ $item->end }} </span>
+                            <span class="{{ $item->color }} p-1">{{ $item->tname }}</span>
+                            {{ $item->title ?? '' }} 
+                        </div>
+                    </a>
+                    @empty
+                        Нет предстоящих занятий
+                    @endforelse
                 </div>
             </div>            
             <div class="relative overflow-x-auto shadow-md sm:rounded text-right">

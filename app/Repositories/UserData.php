@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\User;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Database\Eloquent\Builder;
 
@@ -95,6 +96,26 @@ class UserData
 		TeamData::deleteTeamNote($noteId);
 	}
 
+    /*------------------------------------------------------
+    -------------------TEAMS--------------------------------
+    --------------------------------------------------------*/
 
+    public static function getTeams($userId)
+    {
+            return $teams = DB::table('UserTeams')
+            ->where('id','=',$userId)
+            ->whereNotNull('tid')
+            ->select('tid', 'tname', 'tinfo','color')
+            ->orderBy('tname')
+            ->get()->toArray();
+    }
+
+    /*------------------------------------------------------
+    ---------------UPCOMING EVENTS--------------------------
+    --------------------------------------------------------*/
+    public static function getUpcomingEvents($userId,$countEvents)
+    {
+        return DB::select('CALL UserUpcomingEvents(?,?,?)',array($userId,date('Y-m-d'),$countEvents));
+    }
 }
 

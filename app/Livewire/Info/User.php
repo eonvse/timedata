@@ -19,6 +19,7 @@ class User extends Component
 
     const MODEL_TYPE = 'users';
     const NOTES_PER_PAGE = 3;
+    const UPCOMING_COUNT = 5;
 
     #[Locked]
     public $modelId;
@@ -48,6 +49,8 @@ class User extends Component
     public $showAddNote, $showDelNote, $delNote;
     public $addNote;
 
+    public $teams, $upcomingEvents;
+
 
     public function mount($id,$edit=true)
     {
@@ -70,6 +73,10 @@ class User extends Component
         $this->showAddNote = $this->showDelNote = false;
         $this->addNote = '';
         $this->delNote = array('id'=>null, 'note'=>null);
+
+        $this->teams = UserData::getTeams($this->modelId);
+        $this->upcomingEvents = UserData::getUpcomingEvents($this->modelId,self::UPCOMING_COUNT);
+
     }
 
     /*------------------------------------
@@ -85,6 +92,9 @@ class User extends Component
         $this->modelBirthday = $this->model->birthday;
         
         $this->files = UserData::getFileListForUser(self::MODEL_TYPE,$this->modelId);
+
+        $this->teams = UserData::getTeams($this->modelId);
+        $this->upcomingEvents = UserData::getUpcomingEvents($this->modelId,self::UPCOMING_COUNT);
     }
 
     public function showEditMode()
