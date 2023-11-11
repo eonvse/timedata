@@ -29,7 +29,7 @@ return new class extends Migration
     private function createProcedure(): string
     {
         return <<<SQL
-            CREATE DEFINER=`journal`@`localhost` PROCEDURE `sendNotification`(IN `operation_name` VARCHAR(255) CHARSET utf8mb4, IN `model_name` VARCHAR(255) CHARSET utf8mb4, IN `autor_id` BIGINT UNSIGNED, IN `model_item_id` BIGINT UNSIGNED, IN `week` SMALLINT UNSIGNED, IN `year` SMALLINT UNSIGNED, IN `message` TEXT)
+            CREATE DEFINER=`timedata`@`localhost` PROCEDURE `sendNotification`(IN `operation_name` VARCHAR(255) CHARSET utf8mb4, IN `model_name` VARCHAR(255) CHARSET utf8mb4, IN `autor_id` BIGINT UNSIGNED, IN `model_item_id` BIGINT UNSIGNED, IN `week` SMALLINT UNSIGNED, IN `year` SMALLINT UNSIGNED, IN `message` TEXT)
             BEGIN
                 DECLARE operation_id BIGINT UNSIGNED;
                 DECLARE model_id BIGINT UNSIGNED;

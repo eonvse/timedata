@@ -29,7 +29,7 @@ return new class extends Migration
     private function createProcedure(): string
     {
         return <<<SQL
-            CREATE DEFINER=`journal`@`localhost` PROCEDURE `UserUpcomingEvents`(IN `userId` BIGINT UNSIGNED, IN `dateUp` DATE, IN `eventsCount` INT(2))
+            CREATE DEFINER=`timedata`@`localhost` PROCEDURE `UserUpcomingEvents`(IN `userId` BIGINT UNSIGNED, IN `dateUp` DATE, IN `eventsCount` INT(2))
                 SELECT te.id, DATE_FORMAT(te.day, '%d.%m.%Y') as day, TIME_FORMAT(te.start,'%k:%i') as start, TIME_FORMAT(te.end,'%k:%i') as `end`, te.title, t.name as tname, cl.color FROM time_events te 
                 LEFT JOIN team_users tu on te.team_id = tu.team_id
                 LEFT JOIN teams t on t.id = tu.team_id

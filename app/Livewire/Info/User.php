@@ -7,7 +7,7 @@ use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 
 use Livewire\Attributes\Rule;
-use Livewire\Attributes\Locked;
+//use Livewire\Attributes\Locked;
 
 use Illuminate\Support\Str;
 

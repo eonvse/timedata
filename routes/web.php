@@ -28,25 +28,21 @@ use App\Http\Controllers\FileController;
 |
 */
 Livewire::setScriptRoute(function ($handle) {
-    return Route::get('/journal/public/livewire/livewire.js', $handle);
+    return Route::get('/timedata/public/livewire/livewire.js', $handle);
 });
 
 Livewire::setUpdateRoute(function ($handle) {
-    return Route::post('/journal/public/livewire/update', $handle)
+    return Route::post('/timedata/public/livewire/update', $handle)
         ->middleware(['auth', 'verified']); 
 });
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', Teams::class)->middleware(['auth', 'verified'])->name('welcome');
 
 Route::get('/colors', function () {
     return view('colors');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', Teams::class)->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

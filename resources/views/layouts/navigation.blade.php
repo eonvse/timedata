@@ -13,8 +13,8 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('data.users')" :active="request()->routeIs('data.users')">
-                        {{ __('Users') }}
+                    <x-nav-link :href="route('data.teams')" :active="request()->routeIs('data.teams')">
+                        {{ __('Teams') }}
                     </x-nav-link>
                 </div>
             </div>

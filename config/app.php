@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Journal'),
+    'name' => env('APP_NAME', 'Timedata'),
 
     /*
     |--------------------------------------------------------------------------
@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost/journal/public'),
+    'url' => env('APP_URL', 'http://localhost/timedata/public'),
 
     'asset_url' => env('ASSET_URL'),
 

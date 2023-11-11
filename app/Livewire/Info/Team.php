@@ -5,7 +5,7 @@ namespace App\Livewire\Info;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
-use Livewire\Attributes\Locked;
+//use Livewire\Attributes\Locked;
 
 use Illuminate\Support\Str;
 use Carbon\Carbon;
