@@ -1,9 +1,18 @@
+<div>
+<x-head.page-nav>
+    @include('layouts.navigation-wire')
+</x-head.page-nav>
 <div class="mx-auto max-w-7xl min-h-[50%] sm:px-6 lg:px-8 py-4 flex space-x-4">
 
     <div class="overflow-hidden bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg grow">
-        @include('layouts.navigation-wire')
-        <div class="p-3 grid grid-cols-2 items-center">
-            <x-head.page-wire>{{ __('time-events') }}</x-head.page-wire>
+        <div class="p-3 grid grid-cols-3 items-center">
+                <div class="flex">
+                    <x-head.page-wire class="grow">
+                        {{ __('time-events') }}
+                    </x-head.page-wire>
+                    <div class="px-2 py-1">Фильтр</div>
+                </div>
+            <div class="items-left">select-Группа select-Дата</div>
             <x-button.create wire:click="create">{{ __('Add Time Events') }}</x-button.create>
         </div>
         <div class="p-3 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
@@ -109,4 +118,5 @@
         </x-slot>
     </x-modal-wire.dialog>
 
+</div>
 </div>

@@ -1,7 +1,10 @@
+<div>
+<x-head.page-nav>
+    @include('layouts.navigation-wire')
+</x-head.page-nav>
 <div class="mx-auto max-w-4xl min-h-[50%] sm:px-6 lg:px-8 py-4 flex space-x-4">
 
     <div class="overflow-hidden bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg grow">
-        @include('layouts.navigation-wire')
         <div class="p-3 grid grid-cols-2 items-center">
             <x-head.page-wire>{{ __('users') }}</x-head.page-wire>
             <x-button.create calss="w-full" wire:click="create">{{ __('Add Users') }}</x-button.create>
@@ -142,4 +145,5 @@
             </x-slot>
     </x-modal-wire.dialog>
 
+</div>
 </div>

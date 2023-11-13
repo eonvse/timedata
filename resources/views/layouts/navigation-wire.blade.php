@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="w-full col-span-7 dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+<nav x-data="{ open: false }" class="w-full col-span-7 dark:bg-gray-800">
     <!-- Primary Navigation Menu -->
     <div class="">
         <div class="flex justify-between">
@@ -12,7 +12,7 @@
                 </div>-->
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex items-center">
+                <div class="hidden space-x-4 sm:flex items-center">
                     <x-nav-link-wire :href="route('month-table')" :active="request()->routeIs('month-table')">
                         {{ __('month-table') }}
                     </x-nav-link-wire>

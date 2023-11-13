@@ -1,7 +1,10 @@
+<div>
+<x-head.page-nav>
+    @include('layouts.navigation-wire')
+</x-head.page-nav>
 <div class="mx-auto max-w-6xl min-h-[50%] sm:px-6 lg:px-8 py-4 flex space-x-4">
 
     <div class="overflow-hidden bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg grow">
-        @include('layouts.navigation-wire')
         @include('livewire.info.part.user-edit')
         <div class="p-3 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700" wire:click="cancelEdit()">
             <div class="grid grid-cols-3 items-start shadow-md">
@@ -51,4 +54,5 @@
         </div>
     </div>
 
+</div>
 </div>

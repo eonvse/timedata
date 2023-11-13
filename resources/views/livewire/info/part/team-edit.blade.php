@@ -1,3 +1,4 @@
+        <div class="{{ $model->color->color }} w-full h-5"></div>
         <div class="p-3 grid grid-cols-7 gap-2 items-center bg-neutral-200">
             <div>
                 <a href="{{ url()->previous() }}" class="text-xs text-gray-500">Назад</a>

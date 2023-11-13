@@ -1,7 +1,10 @@
+<div>
+<x-head.page-nav>
+    @include('layouts.navigation-wire')
+</x-head.page-nav>
 <div class="mx-auto max-w-6xl min-h-[50%] sm:px-6 lg:px-8 py-4 flex space-x-4">
 
     <div class="overflow-hidden bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg grow">
-        @include('layouts.navigation-wire')
         <div class="grid grid-cols-3 items-center">
             <div class="font-bold bg-neutral-600 text-white w-full h-full text-xl text-center p-1">{{ __('Event') }}</div>
             <div class="{{ $model->team->color->color }} p-1">
@@ -30,5 +33,6 @@
             </div>            
         </div>
     </div>
+</div>
 </div>
 

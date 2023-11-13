@@ -1,13 +1,15 @@
+<div>
+<x-head.page-nav>
+    @include('layouts.navigation-wire')
+</x-head.page-nav>
 <div class="mx-auto max-w-4xl min-h-[50%] sm:px-6 lg:px-8 py-4 flex space-x-4">
 
     <div class="overflow-hidden bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg grow">
-        @include('layouts.navigation-wire')
+
         <div class="p-3 grid grid-cols-2 items-center">
             <x-head.page-wire>{{ __('teams') }}</x-head.page-wire>
             <x-button.create wire:click="create">{{ __('Add Teams') }}</x-button.create>
         </div>
-<div>
-</div>
         <div class="p-3 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
             <div class="relative overflow-x-auto shadow-md sm:rounded">
                 <div class="flex-col space-y-4">
@@ -29,7 +31,7 @@
                                 {{ $team->id }}
                             </x-table.cell>
                             <x-table.cell>
-                                {{ $team->name }}
+                                <a href="{{ route('info.team',['id'=>$team->id,'edit'=>0]) }}" class="underline">{{ $team->name }}</a>
                             </x-table.cell>
                             <x-table.cell colspan="3" >
                                 {{ $team->info ?? '' }}
@@ -123,4 +125,5 @@
             </x-slot>
     </x-modal-wire.dialog>
 
+</div>
 </div>
