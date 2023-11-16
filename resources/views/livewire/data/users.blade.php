@@ -51,7 +51,7 @@
                                 {{ $user->surname ?? '' }}
                             </x-table.cell>
                             <x-table.cell>
-                                {{ $user->name }}
+                                <a href="{{ route('info.user',['id'=>$user->id,'edit'=>0]) }}" class="underline">{{ $user->name }}</a>
                             </x-table.cell>
                             <x-table.cell>
                                 {{ $user->patronymic ?? '' }}
@@ -138,6 +138,7 @@
                 <div class="flex-col space-y-2">
                     <x-input.label class="text-lg font-medium">Вы действительно хотите удалить запись? 
                         <div class="text-black">{{ $item['surname'] ?? '' }} {{ $item['name'] ?? '' }} {{ $item['patronymic'] ?? '' }}</div>
+                        <div class="text-red-600 shadow p-1">{{ __('Delete User Message') }}</div>
                     </x-input.label>
                     <x-button.secondary @click="show = false" wire:click="cancelDelete">Отменить</x-button.secondary>
                     <x-button.danger wire:click="destroy">{{ __('Delete')}}</x-button.danger>

@@ -6,6 +6,7 @@ use App\Models\User;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Database\Eloquent\Builder;
 
@@ -50,6 +51,8 @@ class UserData
 	public static function destroy($id)
 	{
 		$user = User::find($id);
+        
+        Storage::disk('public')->deleteDirectory('/users/'.$id);
 		$user->delete();
 	}
 

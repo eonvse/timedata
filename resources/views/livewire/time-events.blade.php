@@ -37,7 +37,7 @@
                                 {{ $timeEvent->id }}
                             </x-table.cell>
                             <x-table.cell>
-                                {{ $timeEvent->day_format }}
+                                <a href="{{ route('info.time-event',['id'=>$timeEvent->id,'edit'=>0]) }}" class="underline">{{ $timeEvent->day_format }}</a>
                             </x-table.cell>
                             <x-table.cell>
                                 {{ $timeEvent->start_format }} - {{ $timeEvent->end_format }}
