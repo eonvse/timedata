@@ -15,7 +15,7 @@ class WeekTable extends Component
 
     use WithPagination;
 
-    const NOTES_PER_PAGE = 1;
+    const NOTES_PER_PAGE = 2;
 
     public $week, $year, $startWeek, $endWeek, $events_week, $addDate;
 
@@ -25,6 +25,8 @@ class WeekTable extends Component
 
     public $showAddNote, $showDelNote, $delNote;
     public $addNote;
+
+    public $statistics;
 
 
     public function setWeekPeriod($weeknumber,$year)
@@ -54,12 +56,15 @@ class WeekTable extends Component
         $this->addNote = '';
         $this->delNote = array('id'=>null, 'note'=>null);
 
+        $this->statistics = TimeEventData::getWeekStatistics($this->week,$this->year);
+
     }
 
     private function updateData()
     {
         $this->setWeekPeriod($this->week,$this->year);
         $this->events_week = TimeEventData::events_week($this->week,$this->year);
+        $this->statistics = TimeEventData::getWeekStatistics($this->week,$this->year);
     }
 
     public function prevWeek()

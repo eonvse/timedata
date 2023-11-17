@@ -156,6 +156,17 @@ class TimeEventData
         return $events_week;
     }
 
+    public static function getWeekStatistics($week,$year)
+    {
+        $week_start = (new Carbon())->setISODate($year,$week);
+        $dateStart = $week_start->format("Y-m-d");
+        $week_start->addDays(7);
+        $dateEnd = $week_start->format("Y-m-d");
+
+        return DB::select('CALL getEventStatisticsForPeriod(?,?)',array($dateStart,$dateEnd));
+
+    }
+
     public static function indexWire($data)
     {
         $timeEvents = TimeEvent::orderBy('day','desc')->orderBy('start','asc');

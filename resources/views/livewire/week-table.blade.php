@@ -36,7 +36,31 @@
 
             <x-weektab-wire.cell class="bg-white" dateCell="weekNote">
                 <div class="grid grid-cols-2 items-top">
-                    <div><x-head.h2>Статистика</x-head.h2></div>
+                    <div>
+                        <x-head.h2>Статистика</x-head.h2>
+                        @forelse ($statistics as $stat)
+                            <div class="flex border-b hover:bg-gray-300 mr-2">
+                                <span class="grow text-gray-500">{{ __('event_sum') }}:</span> 
+                                <span class="px-3">{{ $stat->event_sum }}</span>
+                            </div>
+                            <div class="flex border-b hover:bg-gray-300 mr-2">
+                                <span class="grow text-gray-500">{{ __('teams_count') }}:</span>
+                                <span class="px-3">{{ $stat->teams_count }}</span>
+                            </div>
+                            <div class="flex border-b hover:bg-gray-300 mr-2">
+                                <span class="grow text-gray-500">{{ __('users_sum') }}:</span>
+                                <span class="px-3">{{ $stat->users_sum }}</span>
+                            </div>
+                            <div class="flex border-b hover:bg-gray-300 mr-2">
+                                <span class="grow text-gray-500">{{ __('visits_procent_missing') }}:</span> 
+                                <span class="px-3" title="Из {{ $stat->visits_plan }} запланированных посещений пропущено {{ $stat->visits_missing }}. ">
+                                    {{ round(100-($stat->visits_missing/$stat->visits_plan*100),1) }}%
+                                </span>
+                            </div>
+                        @empty
+                            <div class="text-gray-500">На неделе нет занятий</div>
+                        @endforelse
+                    </div>
                     <div>
                         <x-head.h2>{{ __('Event Notes') }}</x-head.h2>
                         @foreach($notes as $note)
