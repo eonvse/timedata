@@ -52,9 +52,21 @@
                                 <span class="px-3">{{ $stat->users_sum }}</span>
                             </div>
                             <div class="flex border-b hover:bg-gray-300 mr-2">
-                                <span class="grow text-gray-500">{{ __('visits_procent_missing') }}:</span> 
-                                <span class="px-3" title="Из {{ $stat->visits_plan }} запланированных посещений пропущено {{ $stat->visits_missing }}. ">
-                                    {{ round(100-($stat->visits_missing/$stat->visits_plan*100),1) }}%
+                                <span class="grow text-gray-500">{{ __('visits_procent_missing') }}:</span>
+                                @php
+                                    $percent = round(100-($stat->visits_missing/$stat->visits_plan*100),1);
+                                    $percent_class = 'bg-green-600 text-white';
+                                    if ($percent<80) $percent_class = 'bg-yellow-300';
+                                    if ($percent<40) $percent_class = 'bg-red-600 text-white';
+                                @endphp 
+                                <span class="px-3 underline {{ $percent_class }} cursor-pointer" 
+                                    x-data="{ tooltip: false }" 
+                                    x-on:mouseover="tooltip = true" 
+                                    x-on:mouseleave="tooltip = false">
+                                    {{ $percent }}%
+                                    <div x-cloak x-show="tooltip" class="absolute z-50 left-0 bottom-0 p-2 {{ $percent_class }} overflow-hidden shadow-xl transform transition-all sm:w-full sm:mx-auto tabular-nums">
+                                        Из {{ $stat->visits_plan }} запланированных посещений: посетили - {{ $stat->visits_plan-$stat->visits_missing }}; пропустили - {{ $stat->visits_missing }}.   
+                                    </div>
                                 </span>
                             </div>
                         @empty

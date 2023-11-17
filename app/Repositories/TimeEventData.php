@@ -160,7 +160,7 @@ class TimeEventData
     {
         $week_start = (new Carbon())->setISODate($year,$week);
         $dateStart = $week_start->format("Y-m-d");
-        $week_start->addDays(7);
+        $week_start->addDays(6);
         $dateEnd = $week_start->format("Y-m-d");
 
         return DB::select('CALL getEventStatisticsForPeriod(?,?)',array($dateStart,$dateEnd));
