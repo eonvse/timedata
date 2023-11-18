@@ -59,15 +59,12 @@
                                     if ($percent<80) $percent_class = 'bg-yellow-300';
                                     if ($percent<40) $percent_class = 'bg-red-600 text-white';
                                 @endphp 
-                                <span class="px-3 underline {{ $percent_class }} cursor-pointer" 
-                                    x-data="{ tooltip: false }" 
-                                    x-on:mouseover="tooltip = true" 
-                                    x-on:mouseleave="tooltip = false">
-                                    {{ $percent }}%
-                                    <div x-cloak x-show="tooltip" class="absolute z-50 left-0 bottom-0 p-2 {{ $percent_class }} overflow-hidden shadow-xl transform transition-all sm:w-full sm:mx-auto tabular-nums">
-                                        Из {{ $stat->visits_plan }} запланированных посещений: посетили - {{ $stat->visits_plan-$stat->visits_missing }}; пропустили - {{ $stat->visits_missing }}.   
-                                    </div>
-                                </span>
+                                <x-tooltip.absolute-bottom class="px-2 {{ $percent_class }}">
+                                    {{ $percent }}% 
+                                    <x-slot name='tooltip'>
+                                        Из {{ $stat->visits_plan }} запланированных посещений: посетили - {{ $stat->visits_plan-$stat->visits_missing }}; пропустили - {{ $stat->visits_missing }}. 
+                                    </x-slot>   
+                                </x-tooltip.absolute-bottom>
                             </div>
                         @empty
                             <div class="text-gray-500">На неделе нет занятий</div>
