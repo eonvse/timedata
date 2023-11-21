@@ -67,6 +67,7 @@ class TeamData
 	public static function destroy($id)
 	{
 		$team = Team::find($id);
+		Storage::disk('public')->deleteDirectory('/teams/'.$id);
 		$team->delete();
 	}
 
@@ -173,6 +174,11 @@ class TeamData
     public static function getTeamNoteArray($noteId)
     {
     		return Information::where('id','=',$noteId)->get(['id','note'])->first()->toArray();
+    }
+
+    public static function saveEditNote($editNote)
+    {
+    		Information::find($editNote['id'])->update(['note'=>$editNote['note']]);
     }
 
 	 /*------------------------------------

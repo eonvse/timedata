@@ -13,7 +13,25 @@
 		</div>
 	</div>
 	@foreach($notes as $note)
-		<div><x-item.team-note :item="$note" /></div>
+		<div class="flex items-center px-2 text-xs border-b">
+            <div class="flex-none tabular-nums px-1 border-r">{{ $note->created }}</div>
+            <div>
+                @if ($showEditNote==$note->id)
+                <span class="cursor-pointer text-base p-1 font-bold text-red-500" wire:click="cancelEditNote" title="Отменить">&cross;</span>
+                @else
+                <x-button.icon-edit wire:click="openEditNote({{ $note->id }})" title="Редактировать" />
+                @endif
+            </div>
+            <x-input.div-editable editable="{{ $showEditNote==$note->id ? 'true' : 'false' }}" class="grow border-r" wire:model="editNote.note">
+            {!! $note->note !!}
+            </x-input.div-editable>
+            @if ($showEditNote==$note->id)
+            <div>
+                <span class="cursor-pointer text-base p-1 font-bold text-green-500" wire:click="saveEditNote" title="Сохранить">&check;</span>
+            </div>
+            @endif
+            <x-button.icon-del wire:click="showDeleteNote({{ $note->id }})" title="Удалить"/>
+        </div>
 	@endforeach
     {{ $notes->links() }}
     <x-modal-wire.dialog wire:model.defer="showDelNote" type="warn" maxWidth="md">

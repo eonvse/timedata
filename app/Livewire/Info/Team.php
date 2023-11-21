@@ -29,8 +29,8 @@ class Team extends Component
     public $showAddEvent, $showDelEvent, $delEvent;
     public $upcomingEvents, $addEventDay, $addEventStart, $addEventEnd, $addEventTitle;
 
-    public $showAddNote, $showDelNote, $delNote;
-    public $addNote;
+    public $showAddNote, $showDelNote, $delNote, $showEditNote;
+    public $addNote, $editNote;
     
     public $showAddFile, $showDelFile, $isLocalFile;
     public $addFile, $webName, $webUrl;
@@ -63,7 +63,8 @@ class Team extends Component
 
         $this->showAddNote = $this->showDelNote = false;
         $this->addNote = '';
-        $this->delNote = array('id'=>null, 'note'=>null);
+        $this->editNote = $this->delNote = array('id'=>null, 'note'=>null);
+        $this->showEditNote = 0;
 
         $this->showAddFile = $this->showDelFile = false;
         $this->addFile = '';
@@ -274,6 +275,23 @@ class Team extends Component
         $this->showDelNote = false;
     }
 
+    public function openEditNote($idNote)
+    {
+        $this->editNote = TeamData::getTeamNoteArray($idNote);
+        $this->showEditNote = $idNote;
+    }
+
+    public function cancelEditNote()
+    {
+        $this->showEditNote = 0;
+        $this->editNote = array('id'=>null, 'note'=>null);
+    }
+
+    public function saveEditNote()
+    {
+        TeamData::saveEditNote($this->editNote);
+        $this->cancelEditNote();
+    }
 
     /*------------------------------------
     -----------FILES----------------------
