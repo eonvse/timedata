@@ -8,7 +8,10 @@
 
         <div class="p-3 grid grid-cols-2 items-center">
             <x-head.page-wire>{{ __('teams') }}</x-head.page-wire>
-            <x-button.create wire:click="create">{{ __('Add Teams') }}</x-button.create>
+            <x-button.create wire:click="create">
+                {{ __('Add Teams') }}
+                <span class="circle" wire:loading wire:target="create"></span>
+            </x-button.create>
         </div>
         <div class="p-3 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
             <div class="relative overflow-x-auto shadow-md sm:rounded">
