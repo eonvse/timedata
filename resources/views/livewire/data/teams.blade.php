@@ -10,7 +10,7 @@
             <x-head.page-wire>{{ __('teams') }}</x-head.page-wire>
             <x-button.create wire:click="create">
                 {{ __('Add Teams') }}
-                <span class="circle" wire:loading wire:target="create"></span>
+                <x-spinner wire:loading wire:target="create" />
             </x-button.create>
         </div>
         <div class="p-3 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
@@ -44,6 +44,7 @@
                                 <div class="flex items-center">
                                     <x-button.icon-edit :href="route('info.team',['id'=>$team->id])" title="Редактировать"/>
                                     <x-button.icon-del wire:click="delete({{ $team->id }})" title="Удалить"/>
+                                    <x-spinner wire:loading wire:target="delete" />
                                 </div>
                             </x-table.cell>
                         </x-table.row>
@@ -81,37 +82,7 @@
                     <x-button.create type="submit">{{ __('Add Team') }}</x-button.create>
                     <x-button.secondary @click="show = false" wire:click="cancelCreate">{{ __('Cancel') }}</x-button.secondary>
                 </form>
-            </x-slot>
-    </x-modal-wire.dialog>
-
-    <x-modal-wire.dialog wire:model.defer="showEdit" maxWidth="md">
-            <x-slot name="title"><span class="grow">{{ __('Edit Team') }}</span><x-button.icon-cancel @click="show = false" wire:click="cancelEdit" class="text-gray-700 hover:text-white" /></x-slot>
-            <x-slot name="content">
-                <form wire:submit.prevent="store" class="flex-col space-y-2">
-                    <div class="sm:grid sm:grid-cols-[100px_minmax(0,_1fr)] items-center">
-                        <x-input.label>Название</x-input.label>
-                        <x-input.text wire:model="item.name" required />
-                    </div>
-                    <div class="sm:grid sm:grid-cols-[100px_minmax(0,_1fr)] items-center">
-                        <x-input.label>Доп. информация</x-input.label>
-                        <x-input.text wire:model="item.info" />
-                    </div>
-                    <div class="sm:grid sm:grid-cols-[100px_minmax(0,_1fr)] items-center">
-                        @php 
-                            $colorBg = '';
-                            foreach ($colors as $color)
-                                if ($color['id']==$item['color_id']) $colorBg = $color['color'];
-                        @endphp
-                        <x-input.label class="flex items-center">
-                            Цвет 
-                            <div class="{{ $colorBg }} w-full m-2">&nbsp;</div>
-                        </x-input.label>
-                        <x-input.select-color :items="$colors" wire:model.live="item.color_id"/>
-                    </div>
-
-                    <x-button.create type="submit">{{ __('Save') }}</x-button.create>
-                    <x-button.secondary @click="show = false" wire:click="cancelCreate">{{ __('Cancel') }}</x-button.secondary>
-                </form>
+                <x-spinner wire:loading wire:target="store" />
             </x-slot>
     </x-modal-wire.dialog>
 
@@ -125,6 +96,7 @@
                     </x-input.label>
                     <x-button.secondary @click="show = false" wire:click="cancelDelete">Отменить</x-button.secondary>
                     <x-button.danger wire:click="destroy">{{ __('Delete')}}</x-button.danger>
+                    <x-spinner wire:loading wire:target="destroy" />
                 </div>                            
             </x-slot>
     </x-modal-wire.dialog>
