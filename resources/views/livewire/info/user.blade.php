@@ -20,7 +20,19 @@
             </div>            
             <div class="grid grid-cols-2 items-start mt-10">
                 <div class="min-h-[100px]">
+                    <div class="grid grid-cols-2 p-2">
                     <div><x-head.h2>{{ __('Teams') }}</x-head.h2></div>
+                    <div>
+                        <x-button.create class="w-full" wire:click="openAddTeams">{{ __('User add teams') }}</x-button.create>
+                        <x-modal-wire.dropdown wire:model="showAddTeams" maxWidth="sm">
+                            <form wire:submit.prevent="saveUserTeam" class="flex-col space-y-2">
+                                <div><x-input.select  class="inline-block my-2" :items="$teamsForAdd" noneTxt="Выберите группу" wire:model="addTeams" required /></div>
+                                <x-button.create class="text-sm" type="submit">{{ __('Add') }}</x-button.create>
+                                <x-button.secondary class="text-sm" wire:click="cancelAddTeams()">{{ __('Cancel') }}</x-button.secondary>
+                            </form>
+                        </x-modal-wire.dropdown>
+                    </div>
+                    </div>
                     @forelse($teams as $team)
                     <a href="{{ route('info.team',['id'=>$team->tid, 'edit'=>0])}}">
                         <div class="hover:bg-neutral-200 border-b p-1 after:content-['_↗']">

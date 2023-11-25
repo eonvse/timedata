@@ -51,6 +51,8 @@ class User extends Component
 
     public $teams, $upcomingEvents;
 
+    public $showAddTeams, $addTeams, $teamsForAdd;
+
 
     public function mount($id,$edit=true)
     {
@@ -77,6 +79,11 @@ class User extends Component
         $this->teams = UserData::getTeams($this->modelId);
         $this->upcomingEvents = UserData::getUpcomingEvents($this->modelId,self::UPCOMING_COUNT);
 
+        $this->showAddTeams = false;
+        $this->addTeams = null;
+        $this->teamsForAdd = UserData::getTeamsForAdd($this->modelId);
+
+
     }
 
     /*------------------------------------
@@ -95,7 +102,8 @@ class User extends Component
 
         $this->teams = UserData::getTeams($this->modelId);
         $this->upcomingEvents = UserData::getUpcomingEvents($this->modelId,self::UPCOMING_COUNT);
-    }
+        $this->teamsForAdd = UserData::getTeamsForAdd($this->modelId);
+   }
 
     public function showEditMode()
     {
@@ -256,6 +264,31 @@ class User extends Component
 
         $this->delNote = array('id'=>null, 'note'=>null);
         $this->showDelNote = false;
+    }
+
+    /*------------------------------------
+    -----------TEAMS-----------------------
+    ---------------------------------------*/
+    public function openAddTeams()
+    {
+        $this->showAddTeams = true;
+        $this->cancelEdit();
+        $this->cancelAddFile();
+        $this->cancelAddNote();
+        //$this->cancelAddEvent();
+    }
+
+    public function cancelAddTeams()
+    {
+        $this->showAddTeams = false;
+        $this->addTeams = null;
+    }
+
+    public function saveUserTeam()
+    {
+        if (!empty($this->addTeams)) UserData::addUserInTeams($this->modelId,$this->addTeams);
+        $this->updateData();
+        $this->cancelAddTeams();
     }
 
 

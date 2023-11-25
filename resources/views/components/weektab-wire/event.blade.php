@@ -11,7 +11,7 @@
     <span class="ml-2 overflow-hidden">"{{ $time_event->title }}"</span>
 
     <div x-cloak x-show="tooltip" class="absolute z-50 right-0 top-0 bottom-0 p-1 {{ $time_event->color }} text-black overflow-hidden shadow-xl transform transition-all sm:w-1/2 sm:mx-auto tabular-nums">
-        <div class="text-lg bg-white p-2"><span class="font-bold">{{ $time_event->name }}:</span> {{ $time_event->title }}</div>
+        <div class="bg-white p-2"><span class="font-bold">{{ $time_event->name }}:</span> {{ $time_event->title }}</div>
         <div class="grid grid-cols-2 space-x-2 p-3">
             <div class="whitespace-pre-line">Всего участников: {{ $time_event->all_u }}
                 Было: {{ $time_event->b_u }}

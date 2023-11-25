@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use App\Models\TeamUser;
+use App\Models\Team;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -111,6 +113,19 @@ class UserData
             ->select('tid', 'tname', 'tinfo','color')
             ->orderBy('tname')
             ->get()->toArray();
+    }
+
+    public static function getTeamsForAdd($userId)
+    {
+        $teamsUser = TeamUser::where('user_id',$userId)->get('team_id')->toArray();
+
+        return Team::whereNotIn('id',$teamsUser)->orderBy('name')->get(['id','name'])->toArray();
+
+    }
+
+    public static function addUserInTeams($userId,$addTeams)
+    {
+        TeamUser::create(['user_id'=>$userId,'team_id'=>$addTeams]);
     }
 
     /*------------------------------------------------------
