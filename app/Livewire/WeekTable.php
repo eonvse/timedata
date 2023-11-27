@@ -28,6 +28,8 @@ class WeekTable extends Component
 
     public $statistics;
 
+    public $filter;
+
 
     public function setWeekPeriod($weeknumber,$year)
     {
@@ -58,6 +60,7 @@ class WeekTable extends Component
 
         $this->statistics = TimeEventData::getWeekStatistics($this->week,$this->year);
 
+        $this->filter = array('team'=>0);
     }
 
     private function updateData()

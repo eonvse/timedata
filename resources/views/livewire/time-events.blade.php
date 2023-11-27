@@ -12,8 +12,12 @@
                     </x-head.page-wire>
                     <div class="px-2 py-1">Фильтр</div>
                 </div>
-            <div class="items-left">select-Группа select-Дата</div>
+            <div class="items-left mr-10">
+                <x-input.select-filter :items="$teams" allTxt="По всем группам" wire:model.live="filter.team" />
+                <x-spinner wire:loading wire:target="filter.team" />
+            </div>
             <x-button.create wire:click="create">{{ __('Add Time Events') }}</x-button.create>
+            <x-spinner wire:loading wire:target="create" />
         </div>
         <div class="p-3 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
             <div class="relative overflow-x-auto shadow-md sm:rounded">
@@ -53,6 +57,7 @@
                                 <div class="flex items-center">
                                     <x-button.icon-edit :href="route('info.time-event',['id'=>$timeEvent->id])" title="Редактировать"/>
                                     <x-button.icon-del wire:click="showDeleteEvent({{ $timeEvent->id }})" title="Удалить"/>
+                                    <x-spinner wire:loading wire:target="showDeleteEvent" />    
                                 </div>
                             </x-table.cell>
                         </x-table.row>
@@ -97,6 +102,8 @@
                     <x-button.create type="submit">{{ __('Add Time Event') }}</x-button.create>
                     <x-button.secondary @click="show = false" wire:click="cancelCreate">{{ __('Cancel') }}</x-button.secondary>
                 </form>
+                <x-spinner wire:loading wire:target="store" />
+
             </x-slot>
     </x-modal-wire.dialog>
 
@@ -114,9 +121,10 @@
                 </x-input.label>
                 <x-button.secondary @click="show = false" wire:click="cancelDelEvent">{{ __('Cancel') }}</x-button.secondary>
                 <x-button.danger wire:click="destroy({{ $delEvent['id'] }})">{{ __('Delete')}}</x-button.danger>
-            </div>                            
+            </div> 
+            <x-spinner wire:loading wire:target="destroy" />
+                           
         </x-slot>
     </x-modal-wire.dialog>
-
 </div>
 </div>

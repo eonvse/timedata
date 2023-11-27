@@ -169,7 +169,12 @@ class TimeEventData
 
     public static function indexWire($data)
     {
-        $timeEvents = TimeEvent::orderBy('day','desc')->orderBy('start','asc');
+        if (!empty($data['sortField'])) $timeEvents=TimeEvent::orderBy($data['sortField'],$data['sortDirection']);
+        else $timeEvents = TimeEvent::orderBy('day','desc');
+
+        if (!empty($data['filter']['team'])) $timeEvents = $timeEvents->where('team_id','=',$data['filter']['team']);
+
+        $timeEvents = $timeEvents->orderBy('start','asc');
         
         return $timeEvents;
     }
