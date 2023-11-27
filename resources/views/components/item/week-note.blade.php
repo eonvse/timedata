@@ -5,6 +5,7 @@
 		<div class="grow">{!! nl2br(e($item->note)) !!}</div>
 		<div class="p-1 flex items-center">
     	    <x-button.icon-del wire:click="showDeleteNote({{ $item->id }})" title="Удалить"/>
+    	    <x-spinner wire:loading wire:target="showDeleteNote" />
 		</div>
 	</div>
 </div>

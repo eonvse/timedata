@@ -110,6 +110,7 @@
                     <x-button.create type="submit">{{ __('Add Time Event') }}</x-button.create>
                     <x-button.secondary @click="show = false" wire:click="cancelCreate">{{ __('Cancel') }}</x-button.secondary>
                 </form>
+                <x-spinner wire:loading wire:target="store" />
             </x-slot>
     </x-modal-wire.dialog>
 
@@ -121,6 +122,7 @@
                     <x-button.create class="text-sm" type="submit">{{ __('Add') }}</x-button.create>
                     <x-button.secondary class="text-sm" wire:click="cancelAddNote()">{{ __('Cancel') }}</x-button.secondary>
                 </form>
+                <x-spinner wire:loading wire:target="saveNote" />
             </x-slot>
     </x-modal-wire.dialog>
 
@@ -133,6 +135,7 @@
                 </x-input.label>
                 <x-button.secondary @click="show = false" wire:click="cancelDelNote">Отменить</x-button.secondary>
                 <x-button.danger wire:click="deleteNote({{ $delNote['id'] }})">{{ __('Delete')}}</x-button.danger>
+                <x-spinner wire:loading wire:target="deleteNote" />
             </div>                            
         </x-slot>
     </x-modal-wire.dialog>

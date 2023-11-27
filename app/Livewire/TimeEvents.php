@@ -29,6 +29,8 @@ class TimeEvents extends Component
 
     public $showDelEvent, $delEvent;
 
+    public $filter;
+
     #[Locked] 
     public $idItem;
 
@@ -65,6 +67,8 @@ class TimeEvents extends Component
 
         $this->showDelEvent = false;
         $this->delEvent = array('id'=>null, 'day'=>null, 'start' =>null, 'end'=>null);
+
+        $this->filter = array('team'=>0);
     }
 
     //------------------------------------------------    
@@ -189,7 +193,8 @@ class TimeEvents extends Component
         $data = array(
             'sortField'=> $this->sortField,
             'sortDirection'=> $this->sortDirection,
-            'search'=> $this->search
+            'search'=> $this->search,
+            'filter'=> $this->filter
         );
 
         $timeEvents = TimeEventData::indexWire($data);
