@@ -21,6 +21,6 @@
 	npm run build
 ```
 ```cmd
-mysqldump -uroot -p timedata files information notifications teams team_users time_events users visits > timedata.sql  --skip-comments
+mysqldump -uroot -p timedata files information notifications teams team_users time_events users visits > timedata.sql  --skip-comments --skip-triggers --no-create-info --replace
 ```
 
