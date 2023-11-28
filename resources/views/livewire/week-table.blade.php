@@ -7,10 +7,16 @@
 
 <div class="text-gray-700 w-screen h-screen p-2">
 <x-weektab-wire :week="$week" :year="$year" :start="$startWeek->format('d.m')" :end="$endWeek->format('d.m')">
-        <x-slot name='buttons'>
+        <x-slot:buttons>
             <x-weektab-wire.switch-week />
         </x-slot>
-        <x-slot name="navigation">
+
+        <x-slot:filter>
+            <x-input.select-filter :items="$teams" allTxt="По всем группам" wire:model.live="filter.team" />
+            <x-spinner wire:loading wire:target="filter.team" />
+        </x-slot:filter>
+
+        <x-slot:navigation>
             @include('layouts.navigation-wire')
         </x-slot>
         <x-weektab-wire.grid>

@@ -18,10 +18,13 @@ class MonthTable extends Component
 
     public $newStart, $newEnd, $newTeam, $newTitle;
 
+    public $filter;
+
     public function mount()
     {
         $this->month = date('n');
         $this->year = date('Y');
+        $this->filter = array('team'=>0);
         $this->events_month = TimeEventData::events_month($this->month,$this->year);
 
         $this->newStart = $this->newEnd = $this->newTitle = '';
@@ -33,7 +36,7 @@ class MonthTable extends Component
 
     private function updateData()
     {
-        $this->events_month = TimeEventData::events_month($this->month,$this->year);
+        $this->events_month = TimeEventData::events_month($this->month,$this->year,$this->filter['team']);
     }
 
     public function prevMonth()
@@ -130,6 +133,8 @@ class MonthTable extends Component
                 $this->newEnd = $dateEnd->format('H:i');
             }
         }
+        if ($property === 'filter.team') $this->updateData();
+
 
     }
 

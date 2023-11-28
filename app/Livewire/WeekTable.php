@@ -44,9 +44,10 @@ class WeekTable extends Component
     {
         $this->week = date('W');
         $this->year = date('Y');
+        $this->filter = array('team'=>0);
 
         $this->setWeekPeriod($this->week,$this->year);
-        $this->events_week = TimeEventData::events_week($this->week,$this->year);
+        $this->events_week = TimeEventData::events_week($this->week,$this->year,$this->filter['team']);
 
         $this->newStart = $this->newEnd = $this->newTitle = '';
         $this->newTeam = 0;
@@ -60,13 +61,12 @@ class WeekTable extends Component
 
         $this->statistics = TimeEventData::getWeekStatistics($this->week,$this->year);
 
-        $this->filter = array('team'=>0);
     }
 
     private function updateData()
     {
         $this->setWeekPeriod($this->week,$this->year);
-        $this->events_week = TimeEventData::events_week($this->week,$this->year);
+        $this->events_week = TimeEventData::events_week($this->week,$this->year,$this->filter['team']);
         $this->statistics = TimeEventData::getWeekStatistics($this->week,$this->year);
     }
 
@@ -172,6 +172,7 @@ class WeekTable extends Component
                 $this->newEnd = $dateEnd->format('H:i');
             }
         }
+        if ($property === 'filter.team') $this->updateData();
     }
 
     /*------------------------------------

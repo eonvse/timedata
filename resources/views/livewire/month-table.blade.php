@@ -9,10 +9,16 @@
 
 <div class="text-gray-700">
     <x-monthtab-wire :month="$monthTxt" :year="$year" >
-        <x-slot name='buttons'>
+        <x-slot:buttons>
             <x-monthtab-wire.switch-month />
         </x-slot>
-        <x-slot name="navigation">
+
+        <x-slot:filter>
+            <x-input.select-filter :items="$teams" allTxt="По всем группам" wire:model.live="filter.team" />
+            <x-spinner wire:loading wire:target="filter.team" />
+        </x-slot:filter>
+
+        <x-slot:navigation>
             @include('layouts.navigation-wire')
         </x-slot>
 
@@ -55,6 +61,7 @@
     <x-modal-wire.dialog wire:model.defer="showCreate" maxWidth="md">
             <x-slot name="title"><span class="grow">{{ __('Add Time Events') }}</span><x-button.icon-cancel @click="show = false" wire:click="cancelCreate" class="text-gray-700 hover:text-white" /></x-slot>
             <x-slot name="content">
+                <x-spinner wire:loading wire:target="store" />
                 <form wire:submit.prevent="store" class="flex-col space-y-2">
                     <div class="sm:grid sm:grid-cols-[100px_minmax(0,_1fr)] items-center">
                         <x-input.label>Дата</x-input.label>

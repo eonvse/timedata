@@ -28,17 +28,22 @@ class TimeEventData
         return TimeEvent::find($id);
     }
 
-    public static function events_month($month,$year) {
-        function getEventsMonthDay($day)
+    public static function events_month($month,$year,$team=0) {
+        function getEventsMonthDay($day,$team)
         {
-            
-            return $events = DB::table('time_events')
+            $events = DB::table('time_events')
             ->leftJoin('teams', 'time_events.team_id', '=', 'teams.id')
             ->leftJoin('colors', 'colors.id', '=', 'teams.color_id')
-            ->whereDate('day','=',$day)
-            ->select('time_events.id','time_events.title','time_events.day','time_events.start','time_events.end', 'teams.name', 'colors.color')
+            ->whereDate('day','=',$day);
+
+            if (!empty($team)) $events = $events->where('teams.id','=',$team);
+
+            $events = $events->select('time_events.id','time_events.title','time_events.day','time_events.start','time_events.end', 'teams.name', 'colors.color')
             ->orderBy('start')
             ->get()->toArray();
+
+
+            return $events;
 
         }
 
@@ -67,7 +72,7 @@ class TimeEventData
         for ($i = 1; $i <= $countDay; $i++) {
             $date = $firstDay->format('d.m.Y');
 
-            $timeEvents = getEventsMonthDay($firstDay->format('Y-m-d'));
+            $timeEvents = getEventsMonthDay($firstDay->format('Y-m-d'),$team);
 
             $events_month[$i] = ['date'=>$date, 'events'=>$timeEvents];
             $firstDay->addDay();
@@ -75,7 +80,7 @@ class TimeEventData
         if ($firstDay<$lastDay) {
             for ($i=1; $i <=7 ; $i++) { 
                 $date = $firstDay->format('d.m.Y');
-                $timeEvents = getEventsMonthDay($firstDay->format('Y-m-d'));
+                $timeEvents = getEventsMonthDay($firstDay->format('Y-m-d'),$team);
                 $events_month[$i+35] = ['date'=>$date, 'events'=>$timeEvents];
                 $firstDay->addDay();
             }
@@ -126,15 +131,19 @@ class TimeEventData
         return $mini_month;
     }
 
-    public static function events_week($week, $year) {
-        function getWeekEventsDay($day)
+    public static function events_week($week, $year, $team=0) {
+        function getWeekEventsDay($day, $team=0)
         {
+            $events = DB::table('EventInfoWeek')
+            ->whereDate('day','=',$day);
             
-            return $events = DB::table('EventInfoWeek')
-            ->whereDate('day','=',$day)
-            ->select('id', 'title', 'day', 'start', 'end', 'name', 'all_u', 'b_u', 'n_u', 'last_note', 'color','notes','files')
+            if (!empty($team)) $events = $events->where('tid','=',$team);
+            
+            $events = $events->select('id', 'title', 'day', 'start', 'end', 'name', 'all_u', 'b_u', 'n_u', 'last_note', 'color','notes','files')
             ->orderBy('start')
             ->get()->toArray();
+
+            return $events;
 
         }        
 
@@ -148,7 +157,7 @@ class TimeEventData
 
         for ($i = 1; $i <= 7; $i++) {
             $date = $start->format('d.m.Y');
-            $timeEvents = getWeekEventsDay($start->format('Y-m-d'));
+            $timeEvents = getWeekEventsDay($start->format('Y-m-d'),$team);
             $events_week[$i] = ['date'=>$date, 'events'=>$timeEvents];
             $start->addDay();
         }
