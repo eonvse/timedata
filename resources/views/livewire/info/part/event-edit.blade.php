@@ -1,5 +1,15 @@
 <div>
-    <div class="p-3 grid grid-cols-4 gap-2 items-center bg-neutral-600 text-white">
+    <div class="p-3 grid grid-cols-4 gap-2 items-center bg-neutral-600 text-white relative">
+        <div class="absolute top-0 right-0">
+            <x-tooltip.top>
+                <x-button.icon-month href="{{ route('month-table') }}" />
+                <x-slot:tooltip>Месяц</x-slot>
+            </x-tooltip.top>
+            <x-tooltip.bottom>
+                <x-button.icon-week href="{{ route('week-table') }}" />
+                <x-slot:tooltip>Неделя</x-slot>
+            </x-tooltip.bottom>
+        </div>
         <div class="text-gray-300 text-sm col-span-3">{{ __('Event Title') }}</div>
         <div class="text-center text-gray-300 text-sm row-span-2">...</div>
         <div class="text-gray-300 text-sm text-center">{{ __('Event Day') }}</div>
