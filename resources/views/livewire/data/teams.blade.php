@@ -7,7 +7,7 @@
     <div class="overflow-hidden bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg grow">
 
         <div class="p-3 grid grid-cols-2 items-center">
-            <x-head.page-wire>{{ __('teams') }}</x-head.page-wire>
+            <x-head.h1>{{ __('teams') }}</x-head.h1>
             <x-button.create wire:click="create">
                 {{ __('Add Teams') }}
                 <x-spinner wire:loading wire:target="create" />

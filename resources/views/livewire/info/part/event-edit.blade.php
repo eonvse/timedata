@@ -25,7 +25,7 @@
             <x-input.text type="time" class="text-black" wire:model.blur="modelStart" required /> 
             <x-input.text type="time" class="text-black" wire:model.blur="modelEnd" required /> 
         @else
-            <div class="text-black text-lg text-indigo-900 bg-white p-1 font-bold col-span-3">{{ $modelTitle }}</div>
+            <div class="text-black text-lg text-indigo-900 dark:text-indigo-200 bg-white dark:bg-gray-800 p-1 font-bold col-span-3">{{ $modelTitle }}</div>
             <div class="flex justify-center items-center row-span-2">
                 <x-button.icon-edit wire:click="showEditMode" title="Редактировать событие" />
                 <x-button.icon-del wire:click="showDeleteEvent({{ $model->id }})" title="Удалить событие" />

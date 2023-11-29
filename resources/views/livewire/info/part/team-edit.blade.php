@@ -1,19 +1,19 @@
         <div class="{{ $model->color->color }} w-full h-5"></div>
-        <div class="p-3 grid grid-cols-7 gap-2 items-center bg-neutral-200">
+        <div class="p-3 grid grid-cols-7 gap-2 items-center bg-neutral-200 dark:bg-neutral-700">
             <div>
                 <a href="{{ url()->previous() }}" class="text-xs text-gray-500">Назад</a>
             </div>
-            <div class="text-gray-500 text-sm col-span-2 px-2">{{ __('Team Name') }}</div>
-            <div class="text-gray-500 text-sm col-span-2">{{ __('Team Info') }}</div>
-            <div class="text-gray-500 text-sm">
+            <div class="text-gray-500 dark:text-gray-300 text-sm col-span-2 px-2">{{ __('Team Name') }}</div>
+            <div class="text-gray-500 dark:text-gray-300 text-sm col-span-2">{{ __('Team Info') }}</div>
+            <div class="text-gray-500 dark:text-gray-300 text-sm">
                 {{ __('Team Color') }}
                 <span class="{{ $model->color->color }} border border-indigo-800">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
             </div>
-            <div class="text-center text-gray-500 text-sm">...</div>
+            <div class="text-center text-gray-500 dark:text-gray-300 text-sm">...</div>
             <div >
-                <x-head.page-wire>
+                <x-head.h1>
                     {{ __('Team') }}
-                </x-head.page-wire>
+                </x-head.h1>
             </div>
             @if ($showEdit)
 
@@ -26,17 +26,17 @@
                 </div>
             @else
             <div class="relative col-span-2 {{ $model->color->color }} px-2">
-                <x-head.page-wire>
+                <h1 class="text-2xl font-bold">
                 {{ $modelName }}
-                </x-head.page-wire>
+                </h1>
             </div>        
-            <div class="relative col-span-2 text-lg text-indigo-900 font-bold">
+            <div class="relative col-span-2 text-lg text-indigo-900 dark:text-indigo-200 font-bold">
                 {{ $modelInfo }}
             </div>        
-            <div class="relative text-lg text-indigo-900 font-bold">
+            <div class="relative text-lg text-indigo-900 dark:text-indigo-200 font-bold">
                 {{ $model->color->color }}
             </div>
-            <div class="flex justify-center items-center text-indigo-900 font-bold">
+            <div class="flex justify-center items-center text-indigo-900 dark:text-indigo-200 font-bold">
                 <x-button.icon-edit wire:click="showEditMode" title="Редактировать" />
             </div>
             @endif

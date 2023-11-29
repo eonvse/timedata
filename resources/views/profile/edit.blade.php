@@ -1,7 +1,7 @@
 <x-app-layout>
-    <x-head.page-wire class="mx-auto text-center bg-white p-3">
+    <x-head.h1 class="mx-auto text-center bg-white p-3">
         {{ __('Profile') }}
-    </x-head.page-wire>
+    </x-head.h1>
     <div class="py-3">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 

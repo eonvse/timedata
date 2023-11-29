@@ -7,9 +7,9 @@
     <div class="overflow-hidden bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg grow">
         <div class="p-3 grid grid-cols-3 items-center">
                 <div class="flex">
-                    <x-head.page-wire class="grow">
+                    <x-head.h1 class="grow">
                         {{ __('time-events') }}
-                    </x-head.page-wire>
+                    </x-head.h1>
                     <div class="px-2 py-1">Фильтр</div>
                 </div>
             <div class="items-left mr-10">

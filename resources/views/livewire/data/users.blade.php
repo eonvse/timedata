@@ -6,7 +6,7 @@
 
     <div class="overflow-hidden bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg grow">
         <div class="p-3 grid grid-cols-2 items-center">
-            <x-head.page-wire>{{ __('users') }}</x-head.page-wire>
+            <x-head.h1>{{ __('users') }}</x-head.h1>
             <x-button.create calss="w-full" wire:click="create">{{ __('Add Users') }}</x-button.create>
         </div>
 

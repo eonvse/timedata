@@ -9,9 +9,9 @@
             <div class="text-center text-gray-500 text-sm">...</div>
             
             <div >
-                <x-head.page-wire>
+                <x-head.h1>
                     {{ __('User') }}
-                </x-head.page-wire>
+                </x-head.h1>
             </div>
             
             @if ($showEdit)
