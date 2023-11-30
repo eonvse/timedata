@@ -136,7 +136,7 @@ class TimeEvent extends Component
     public function destroy($eventId)
     {
         TimeEventData::deleteTeamEvent($eventId);
-        $this->redirect('/timedata/public/teams/'.$this->modelTeamId.'/0');
+        to_route('info.team',['id'=>$this->modelTeamId,'edit'=>0]);
 
     }
 
