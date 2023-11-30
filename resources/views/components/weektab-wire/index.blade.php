@@ -9,11 +9,11 @@
     <div class="flex flex-grow w-full h-full overflow-auto"> 
             
             <div class="flex flex-col flex-grow">
-                <div class="flex space-x-2 items-center">
+                <div class="flex space-x-2 items-center dark:text-gray-300">
                     @isset($buttons)
                        {{$buttons}}
                     @endisset
-                    <h2 class="flex-none col-span-4 ml-2 text-xl font-bold leading-none tabular-nums">
+                    <h2 class="flex-none col-span-4 ml-2 text-xl font-bold leading-none tabular-nums dark:text-gray-300">
                         {{ __('Week') }} {{ $week }}. {{ $start }} - {{ $end }} {{ $year }}
                     </h2>
                     @isset($filter)

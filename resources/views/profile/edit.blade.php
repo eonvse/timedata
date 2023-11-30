@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-head.h1 class="mx-auto text-center bg-white p-3">
+    <x-head.h1 class="mx-auto text-center bg-white dark:bg-black p-3">
         {{ __('Profile') }}
     </x-head.h1>
     <div class="py-3">

@@ -10,7 +10,7 @@
                     <x-head.h1 class="grow">
                         {{ __('time-events') }}
                     </x-head.h1>
-                    <div class="px-2 py-1">Фильтр</div>
+                    <div class="px-2 py-1 dark:text-gray-300">Фильтр</div>
                 </div>
             <div class="items-left mr-10">
                 <x-input.select-filter :items="$teams" allTxt="По всем группам" wire:model.live="filter.team" />
