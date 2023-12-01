@@ -1,4 +1,6 @@
 <div>
+	<x-spinner wire:loading wire:target="addUserTeam" />
+	<x-spinner wire:loading wire:target="saveUserTeam" />
 	<div class="sm:grid sm:grid-cols-2 items-center mb-2">
 		<div><x-head.h2>Участники</x-head.h2></div>
 		<div>
