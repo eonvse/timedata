@@ -11,7 +11,7 @@
                 <div class="min-h-[100px] shadow-md p-2">
                     @include('livewire.info.part.team-users')    
                 </div>
-                <div class="min-h-[100px] p-2 pl-5">
+                <div class="min-h-[100px] p-2 sm:pl-5">
                     @include('livewire.info.part.team-upcoming-events')    
                 </div>
             </div>            
@@ -19,7 +19,7 @@
                 <div class="min-h-[100px]">
                     @include('livewire.info.part.team-notes')    
                 </div>
-                <div class="min-h-[100px] pl-5">
+                <div class="min-h-[100px] sm:pl-5">
                     @include('livewire.info.part.team-files')    
                 </div>
             </div>            

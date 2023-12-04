@@ -2,6 +2,9 @@
 	<div class="sm:grid sm:grid-cols-2 items-center mb-2">
 		<div><x-head.h2>{{ __('Team Notes') }}</x-head.h2></div>
 		<div>
+            <x-spinner wire:loading wire:target="addTeamNote" />
+            <x-spinner wire:loading wire:target="saveTeamNote" />
+            <x-spinner wire:loading wire:target="cancelAddNote" />
 			<x-button.create class="w-full" wire:click="addTeamNote()">{{ __('Add Team Note') }}</x-button.create>
             <x-modal-wire.dropdown wire:model="showAddNote" maxWidth="sm">
             	<form wire:submit.prevent="saveTeamNote" class="flex-col space-y-2">
@@ -13,25 +16,7 @@
 		</div>
 	</div>
 	@foreach($notes as $note)
-		<div class="flex items-center px-2 text-xs border-b">
-            <div class="flex-none tabular-nums px-1 border-r">{{ $note->created }}</div>
-            <div>
-                @if ($showEditNote==$note->id)
-                <span class="cursor-pointer text-base p-1 font-bold text-red-500" wire:click="cancelEditNote" title="Отменить">&cross;</span>
-                @else
-                <x-button.icon-edit wire:click="openEditNote({{ $note->id }})" title="Редактировать" />
-                @endif
-            </div>
-            <x-input.div-editable editable="{{ $showEditNote==$note->id ? 'true' : 'false' }}" class="grow border-r" wire:model="editNote.note">
-            {!! $note->note !!}
-            </x-input.div-editable>
-            @if ($showEditNote==$note->id)
-            <div>
-                <span class="cursor-pointer text-base p-1 font-bold text-green-500" wire:click="saveEditNote" title="Сохранить">&check;</span>
-            </div>
-            @endif
-            <x-button.icon-del wire:click="showDeleteNote({{ $note->id }})" title="Удалить"/>
-        </div>
+        <div><x-item.team-note :item="$note" /></div>
 	@endforeach
     {{ $notes->links() }}
     <x-modal-wire.dialog wire:model.defer="showDelNote" type="warn" maxWidth="md">
@@ -39,10 +24,12 @@
         <x-slot name="content">
             <div class="flex-col space-y-2">
                 <x-input.label class="text-lg font-medium">Вы действительно хотите удалить запись? 
-                    <div class="text-black">{{ $delNote['note'] }}</div>
+                    <div class="text-black dark:text-gray-200">{!! nl2br(e($delNote['note'])) !!}</div>
                 </x-input.label>
                 <x-button.secondary @click="show = false" wire:click="cancelDelNote">Отменить</x-button.secondary>
                 <x-button.danger wire:click="deleteTeamNote({{ $delNote['id'] }})">{{ __('Delete')}}</x-button.danger>
+                <x-spinner wire:loading wire:target="deleteTeamNote" />
+                <x-spinner wire:loading wire:target="cancelDelNote" />
             </div>                            
         </x-slot>
     </x-modal-wire.dialog>

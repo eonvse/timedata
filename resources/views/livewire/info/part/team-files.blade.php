@@ -1,7 +1,10 @@
 <div>
-	<div class="grid grid-cols-2 items-center mb-2">
+	<div class="sm:grid sm:grid-cols-2 items-center mb-2">
 		<div><x-head.h2>{{ __('Team Files') }}</x-head.h2></div>
 		<div>
+            <x-spinner wire:loading wire:target="addTeamFile" />
+            <x-spinner wire:loading wire:target="saveTeamFile" />
+            <x-spinner wire:loading wire:target="cancelAddFile" />
 			<x-button.create class="w-full" wire:click="addTeamFile">{{ __('Add Team File') }}</x-button.create>
             <x-modal-wire.dropdown wire:model="showAddFile" maxWidth="sm">
             	<form wire:submit="saveTeamFile" class="flex-col space-y-2">
@@ -34,10 +37,12 @@
         <x-slot name="content">
             <div class="flex-col space-y-2">
                 <x-input.label class="text-lg font-medium">Вы действительно хотите удалить файл? 
-                    <div class="text-black">{{ $delFile['name'] }}</div>
+                    <div class="text-black dark:text-gray-200">{{ $delFile['name'] }}</div>
                 </x-input.label>
                 <x-button.secondary @click="show = false" wire:click="cancelDelFile">Отменить</x-button.secondary>
                 <x-button.danger wire:click="deleteTeamFile({{ $delFile['id'] }})">{{ __('Delete')}}</x-button.danger>
+                <x-spinner wire:loading wire:target="deleteTeamFile" />
+                <x-spinner wire:loading wire:target="cancelDelFile" />
             </div>                            
         </x-slot>
     </x-modal-wire.dialog>
