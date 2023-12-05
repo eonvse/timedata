@@ -2,6 +2,9 @@
 	<div class="grid grid-cols-2 items-center mb-2">
 		<div><x-head.h2>{{ __('Notes') }}</x-head.h2></div>
 		<div>
+            <x-spinner wire:loading wire:target="addUserNote" />
+            <x-spinner wire:loading wire:target="saveUserNote" />
+            <x-spinner wire:loading wire:target="cancelAddNote" />
 			<x-button.create class="w-full" wire:click="addUserNote()">{{ __('Add Note') }}</x-button.create>
             <x-modal-wire.dropdown wire:model="showAddNote" maxWidth="sm">
             	<form wire:submit.prevent="saveUserNote" class="flex-col space-y-2">
@@ -19,6 +22,8 @@
     <x-modal-wire.dialog wire:model.defer="showDelNote" type="warn" maxWidth="md">
         <x-slot name="title"><span class="grow">{{ __('Delete Note') }}</span><x-button.icon-cancel @click="show = false" wire:click="cancelDelNote" class="text-gray-700 hover:text-white dark:hover:text-white" /></x-slot>
         <x-slot name="content">
+            <x-spinner wire:loading wire:target="deleteUserNote" />
+            <x-spinner wire:loading wire:target="cancelDelNote" />
             <div class="flex-col space-y-2">
                 <x-input.label class="text-lg font-medium">Вы действительно хотите удалить запись? 
                     <div class="text-black">{{ $delNote['note'] }}</div>
