@@ -16,6 +16,7 @@
         <div class="p-3 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
             <div class="relative overflow-x-auto shadow-md sm:rounded">
                 <div class="flex-col space-y-4">
+                <x-spinner wire:loading wire:target="sortBy" />    
                  <x-table>
                     <x-slot name="header">
                         <x-table.head>id</x-table.head>
@@ -39,7 +40,7 @@
                             <x-table.cell colspan="3" >
                                 {{ $team->info ?? '' }}
                             </x-table.cell>
-                            <x-table.cell class="{{ $team->color->color ?? '' }}"></x-table.cell>
+                            <x-table.cell class="{{ $team->color->color ?? '' }} dark:{{ $team->color->dark ?? '' }}"></x-table.cell>
                             <x-table.cell>
                                 <div class="flex items-center">
                                     <x-button.icon-edit :href="route('info.team',['id'=>$team->id])" title="Редактировать"/>
@@ -71,7 +72,7 @@
                         @php 
                             $colorBg = '';
                             foreach ($colors as $color)
-                                if ($color['id']==$newColor) $colorBg = $color['color'];
+                                if ($color['id']==$newColor) $colorBg = $color['color'].' dark:'.$color['dark'];
                         @endphp
                         <x-input.label class="flex items-center">
                             Цвет 
@@ -91,8 +92,8 @@
             <x-slot name="content">
                 <div class="flex-col space-y-2">
                     <x-input.label class="text-lg font-medium">Вы действительно хотите удалить запись? 
-                        <div class="text-black">{{ $item['name'] ?? '' }} {{ $item['info'] ?? '' }}</div>
-                        <div class="text-red-600 shadow p-1">{{ __('Delete Team Message') }}</div>
+                        <div class="text-black dark:text-white">{{ $item['name'] ?? '' }} {{ $item['info'] ?? '' }}</div>
+                        <div class="text-red-600 dark:text-red-200 shadow p-1">{{ __('Delete Team Message') }}</div>
                     </x-input.label>
                     <x-button.secondary @click="show = false" wire:click="cancelDelete">Отменить</x-button.secondary>
                     <x-button.danger wire:click="destroy">{{ __('Delete')}}</x-button.danger>

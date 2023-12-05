@@ -6,7 +6,7 @@
 
     <div class="overflow-hidden bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg grow">
         @include('livewire.info.part.user-edit')
-        <div class="p-3 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700" wire:click="cancelEdit()">
+        <div class="p-3 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
             <div class="grid grid-cols-3 items-start shadow-md">
                 <div class="min-h-[100px] p-2">
                     @include('livewire.info.part.user-files')    
@@ -14,7 +14,7 @@
                 <div class="min-h-[100px] p-2 pl-5">
                     @include('livewire.info.part.user-notes') 
                 </div>
-                <div class="min-h-[100px] p-2 pl-5">
+                <div class="min-h-[100px] p-2 pl-5 dark:text-gray-400">
                     Фин. учет  
                 </div>
             </div>            
@@ -35,13 +35,13 @@
                     </div>
                     @forelse($teams as $team)
                     <a href="{{ route('info.team',['id'=>$team->tid, 'edit'=>0])}}">
-                        <div class="hover:bg-neutral-200 border-b p-1 after:content-['_↗']">
+                        <div class="hover:bg-neutral-200 border-b p-1  dark:hover:bg-gray-600">
                             <span class="{{ $team->color ?? '' }} p-1">{{ $team->tname }}</span>
-                            <span class="text-sm text-gray-500 italic">{{ $team->tinfo }}</span>
+                            <span class="text-sm text-gray-500 dark:text-gray-400 italic after:content-['_↗']">{{ $team->tinfo }}</span>
                         </div>
                     </a>
                     @empty
-                        Никуда не записан
+                        <div class="dark:text-gray-400">Никуда не записан</div>
                     @endforelse
 
                 </div>
@@ -56,13 +56,10 @@
                         </div>
                     </a>
                     @empty
-                        Нет предстоящих занятий
+                        <div class="dark:text-gray-400">Нет предстоящих занятий</div>
                     @endforelse
                 </div>
             </div>            
-            <div class="relative overflow-x-auto shadow-md sm:rounded text-right">
-                ????
-            </div>
         </div>
     </div>
 

@@ -6,7 +6,7 @@
 
     <div class="overflow-hidden bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg grow">
         @include('livewire.info.part.team-edit')
-        <div class="p-3 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700" wire:click="cancelEdit()">
+        <div class="p-3 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
             <div class="sm:grid sm:grid-cols-2 items-start">
                 <div class="min-h-[100px] shadow-md p-2">
                     @include('livewire.info.part.team-users')    
