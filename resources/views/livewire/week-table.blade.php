@@ -24,7 +24,7 @@
             @php
                 $bgCell='bg-white';
                 $events_day = $events_week[$order[$i]];
-                if ($events_day['date']==date('d.m.Y')) { $bgCell='bg-amber-200'; }
+                if ($events_day['date']==date('d.m.Y')) { $bgCell='bg-amber-200 dark:bg-yellow-800'; }
             @endphp
             <x-weektab-wire.cell class="{{ $bgCell }}" :dateCell="$events_day['date']" >
                 {{ $weekDays[date('N',strtotime($events_day['date']))] }} 
