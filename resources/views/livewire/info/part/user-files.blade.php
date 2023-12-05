@@ -2,6 +2,9 @@
 	<div class="grid grid-cols-2 items-center mb-2">
 		<div><x-head.h2>{{ __('User Files') }}</x-head.h2></div>
 		<div>
+            <x-spinner wire:loading wire:target="addUserFile" />
+            <x-spinner wire:loading wire:target="saveUserFile" />
+            <x-spinner wire:loading wire:target="cancelAddFile" />
 			<x-button.create class="w-full" wire:click="addUserFile">{{ __('Add User File') }}</x-button.create>
             <x-modal-wire.dropdown wire:model="showAddFile" maxWidth="sm">
             	<form wire:submit="saveUserFile" class="flex-col space-y-2">
@@ -35,6 +38,8 @@
     <x-modal-wire.dialog wire:model.defer="showDelFile" type="warn" maxWidth="md">
         <x-slot name="title"><span class="grow">{{ __('Delete File') }}</span><x-button.icon-cancel @click="show = false" wire:click="cancelDelFile" class="text-gray-700 hover:text-white dark:hover:text-white" /></x-slot>
         <x-slot name="content">
+            <x-spinner wire:loading wire:target="deleteUserFile" />
+            <x-spinner wire:loading wire:target="cancelDelFile" />
             <div class="flex-col space-y-2">
                 <x-input.label class="text-lg font-medium">Вы действительно хотите удалить файл? 
                     <div class="text-black">{{ $delFileUser['name'] }}</div>

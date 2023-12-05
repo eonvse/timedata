@@ -110,7 +110,7 @@ class UserData
             return $teams = DB::table('UserTeams')
             ->where('id','=',$userId)
             ->whereNotNull('tid')
-            ->select('tid', 'tname', 'tinfo','color')
+            ->select('tid', 'tname', 'tinfo','color','dark')
             ->orderBy('tname')
             ->get()->toArray();
     }

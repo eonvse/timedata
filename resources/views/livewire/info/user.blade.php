@@ -23,6 +23,8 @@
                     <div class="grid grid-cols-2 p-2">
                     <div><x-head.h2>{{ __('Teams') }}</x-head.h2></div>
                     <div>
+                        <x-spinner wire:loading wire:target="openAddTeams" />
+                        <x-spinner wire:loading wire:target="cancelAddTeams" />
                         <x-button.create class="w-full" wire:click="openAddTeams">{{ __('User add teams') }}</x-button.create>
                         <x-modal-wire.dropdown wire:model="showAddTeams" maxWidth="sm">
                             <form wire:submit.prevent="saveUserTeam" class="flex-col space-y-2">
@@ -35,9 +37,9 @@
                     </div>
                     @forelse($teams as $team)
                     <a href="{{ route('info.team',['id'=>$team->tid, 'edit'=>0])}}">
-                        <div class="hover:bg-neutral-200 border-b p-1  dark:hover:bg-gray-600">
-                            <span class="{{ $team->color ?? '' }} p-1">{{ $team->tname }}</span>
-                            <span class="text-sm text-gray-500 dark:text-gray-400 italic after:content-['_↗']">{{ $team->tinfo }}</span>
+                        <div class="hover:bg-neutral-200 border-b p-1  dark:hover:bg-gray-600 text-gray-500 dark:text-gray-400 after:content-['_↗']">
+                            <span class="{{ $team->color ?? '' }} dark:{{ $team->dark ?? '' }} p-1 text-black">{{ $team->tname }}</span>
+                            <span class="text-sm italic ">{{ $team->tinfo }}</span>
                         </div>
                     </a>
                     @empty
