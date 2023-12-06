@@ -1,7 +1,7 @@
 @props(['time_event'])
 
 <a  href="{{ route('info.time-event',['id'=>$time_event->id, 'edit'=>0])}}" 
-    class="border-b text-indigo-900  items-center h-5 px-1 text-sm hover:bg-gray-500 hover:text-white {{ $time_event->color }} overflow-hidden"
+    class="border-b dark:border-gray-500 text-indigo-900 items-center h-5 px-1 text-sm hover:bg-gray-500 dark:hover:bg-gray-300 hover:text-white dark:hover:text-black {{ $time_event->color }} dark:{{ $time_event->dark }} overflow-hidden"
     x-data="{ tooltip: false }" 
     x-on:mouseover="tooltip = true" 
     x-on:mouseleave="tooltip = false"
@@ -10,8 +10,8 @@
     <span class="ml-2 font-medium overflow-hidden">{{ $time_event->name }}.</span>
     <span class="ml-2 overflow-hidden">"{{ $time_event->title }}"</span>
 
-    <div x-cloak x-show="tooltip" class="absolute z-50 right-0 top-0 bottom-0 p-1 {{ $time_event->color }} text-black overflow-hidden shadow-xl transform transition-all sm:w-1/2 sm:mx-auto tabular-nums">
-        <div class="bg-white p-2"><span class="font-bold">{{ $time_event->name }}:</span> {{ $time_event->title }}</div>
+    <div x-cloak x-show="tooltip" class="absolute z-50 right-0 top-0 bottom-0 p-1 {{ $time_event->color }} dark:{{ $time_event->dark }} text-black overflow-hidden shadow-xl transform transition-all sm:w-1/2 sm:mx-auto tabular-nums">
+        <div class="bg-white dark:bg-gray-800 dark:text-gray-200 p-2"><span class="font-bold">{{ $time_event->name }}:</span> {{ $time_event->title }}</div>
         <div class="grid grid-cols-2 space-x-2 p-3">
             <div class="whitespace-pre-line">Всего участников: {{ $time_event->all_u }}
                 Было: {{ $time_event->b_u }}

@@ -53,7 +53,7 @@
                     <a href="{{ route('info.time-event',['id'=>$item->id, 'edit'=>0])}}">
                         <div class="hover:bg-neutral-200 text-xs border-b p-1 after:content-['_↗'] dark:text-gray-300 dark:hover:bg-neutral-700">
                             <span class="tabular-nums">{{ $item->day }} {{ $item->start }}-{{ $item->end }} </span>
-                            <span class="{{ $item->color }} dark:{{ $item->dark }} p-1">{{ $item->tname }}</span>
+                            <span class="{{ $item->color }} dark:{{ $item->dark }} dark:text-black p-1">{{ $item->tname }}</span>
                             {{ $item->title ?? '' }} 
                         </div>
                     </a>

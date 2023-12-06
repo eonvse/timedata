@@ -62,7 +62,7 @@
                                 @php
                                     $percent = round(100-($stat->visits_missing/$stat->visits_plan*100),1);
                                     $percent_class = 'bg-green-600 text-white';
-                                    if ($percent<80) $percent_class = 'bg-yellow-300';
+                                    if ($percent<80) $percent_class = 'bg-yellow-300 dark:bg-yellow-700';
                                     if ($percent<40) $percent_class = 'bg-red-600 text-white';
                                 @endphp 
                                 <x-tooltip.absolute-bottom class="px-2 {{ $percent_class }}">

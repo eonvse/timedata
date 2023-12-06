@@ -139,7 +139,7 @@ class TimeEventData
             
             if (!empty($team)) $events = $events->where('tid','=',$team);
             
-            $events = $events->select('id', 'title', 'day', 'start', 'end', 'name', 'all_u', 'b_u', 'n_u', 'last_note', 'color','notes','files')
+            $events = $events->select('id', 'title', 'day', 'start', 'end', 'name', 'all_u', 'b_u', 'n_u', 'last_note', 'color','dark','notes','files')
             ->orderBy('start')
             ->get()->toArray();
 
