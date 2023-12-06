@@ -45,19 +45,19 @@
                     <div>
                         <x-head.h2>Статистика</x-head.h2>
                         @forelse ($statistics as $stat)
-                            <div class="flex border-b hover:bg-gray-300 mr-2">
+                            <div class="flex border-b dark:border-gray-600 hover:bg-gray-300 dark:hover:bg-gray-700 mr-2">
                                 <span class="grow text-gray-500">{{ __('event_sum') }}:</span> 
                                 <span class="px-3">{{ $stat->event_sum }}</span>
                             </div>
-                            <div class="flex border-b hover:bg-gray-300 mr-2">
+                            <div class="flex border-b dark:border-gray-600 hover:bg-gray-300 dark:hover:bg-gray-700 mr-2">
                                 <span class="grow text-gray-500">{{ __('teams_count') }}:</span>
                                 <span class="px-3">{{ $stat->teams_count }}</span>
                             </div>
-                            <div class="flex border-b hover:bg-gray-300 mr-2">
+                            <div class="flex border-b dark:border-gray-600 hover:bg-gray-300 dark:hover:bg-gray-700 mr-2">
                                 <span class="grow text-gray-500">{{ __('users_sum') }}:</span>
                                 <span class="px-3">{{ $stat->users_sum }}</span>
                             </div>
-                            <div class="flex border-b hover:bg-gray-300 mr-2">
+                            <div class="flex border-b dark:border-gray-600 hover:bg-gray-300 dark:hover:bg-gray-700 mr-2">
                                 <span class="grow text-gray-500">{{ __('visits_procent_missing') }}:</span>
                                 @php
                                     $percent = round(100-($stat->visits_missing/$stat->visits_plan*100),1);
