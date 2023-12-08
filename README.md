@@ -5,7 +5,7 @@
    	mysql> set global log_bin_trust_function_creators=1;
    	mysql> show variables like '%log_bin_trust_function_creators%';
 ```   	
-***Create .env + database***
+### Create .env + database***
 ```cmd
 	composer install
 	npm install
@@ -20,10 +20,15 @@
 	npm run dev
 	npm run build
 ```
+#### Под вопросом
+
 ```cmd
 mysqldump -uroot -p timedata files information notifications teams team_users time_events users visits > timedata.sql  --skip-comments --skip-triggers --no-create-info --replace
 ```
-### Авторские права:
+> [!IMPORTANT]
+> Не загружается information.
+
+#### Авторские права:
 * SVG иконки
 	* [Tailwind Toolbox](https://tailwindtoolbox.com/icons)
 	* [SVG Repo - Search, explore, edit and share open-licensed SVG vectors](https://www.svgrepo.com/)
