@@ -5,7 +5,7 @@
    	mysql> set global log_bin_trust_function_creators=1;
    	mysql> show variables like '%log_bin_trust_function_creators%';
 ```   	
-### Create .env + database***
+### Create .env + database
 ```cmd
 	composer install
 	npm install
