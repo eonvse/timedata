@@ -35,7 +35,7 @@
                         <x-table.head >...</x-table.head>
 
                     </x-slot>
-                    @foreach($timeEvents as $timeEvent)
+                    @forelse($timeEvents as $timeEvent)
                         <x-table.row wire:loading.class.delay="bg-red-500" wire:key="{{ $timeEvent->id }}">
                             <x-table.cell>
                                 {{ $timeEvent->id }}
@@ -47,7 +47,7 @@
                                 {{ $timeEvent->start_format }} - {{ $timeEvent->end_format }}
                             </x-table.cell>
                             <x-table.cell>
-                                <span class="{{ $timeEvent->team->color->color }}">&nbsp;&nbsp;</span>
+                                <span class="{{ $timeEvent->team->color->color }} dark:{{ $timeEvent->team->color->dark }}">&nbsp;&nbsp;</span>
                                 {{ $timeEvent->team->name }}
                             </x-table.cell>
                             <x-table.cell>
@@ -61,7 +61,13 @@
                                 </div>
                             </x-table.cell>
                         </x-table.row>
-                    @endforeach
+                    @empty
+                        <x-table.row>
+                            <x-table.cell colspan=6 class="text-center">
+                            Найдено записей: {{ $timeEvents->count() }}
+                            </x-table.cell>
+                        </x-table.row>
+                    @endforelse
                 </x-table>
                 <div>
                 @if (empty($search))
@@ -103,6 +109,7 @@
                     <x-button.secondary @click="show = false" wire:click="cancelCreate">{{ __('Cancel') }}</x-button.secondary>
                 </form>
                 <x-spinner wire:loading wire:target="store" />
+                <x-spinner wire:loading wire:target="cancelCreate" />
 
             </x-slot>
     </x-modal-wire.dialog>
@@ -112,17 +119,18 @@
         <x-slot name="content">
             <div class="flex-col space-y-2">
                 <x-input.label class="text-lg font-medium">Вы действительно хотите удалить запись? 
-                    <div class="text-black">
+                    <div class="text-black dark:text-gray-200">
                         {{ date('d.m.Y',strtotime($delEvent['day'])) }}
                         {{ date('H:i',strtotime($delEvent['start'])) }}-{{ date('H:i',strtotime($delEvent['end'])) }}
                         {{ $delEvent['title'] ?? '' }}
                     </div>
-                    <div class="text-red-600 shadow p-1">{{ __('Delete Event Message') }}</div>
+                    <div class="text-red-600 dark:text-red-200 shadow p-1">{{ __('Delete Event Message') }}</div>
                 </x-input.label>
                 <x-button.secondary @click="show = false" wire:click="cancelDelEvent">{{ __('Cancel') }}</x-button.secondary>
                 <x-button.danger wire:click="destroy({{ $delEvent['id'] }})">{{ __('Delete')}}</x-button.danger>
             </div> 
             <x-spinner wire:loading wire:target="destroy" />
+            <x-spinner wire:loading wire:target="cancelDelEvent" />
                            
         </x-slot>
     </x-modal-wire.dialog>

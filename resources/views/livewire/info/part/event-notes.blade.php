@@ -1,4 +1,9 @@
 <div>
+    <x-spinner wire:loading wire:target="addEventNote" />
+    <x-spinner wire:loading wire:target="saveEventNote" />
+    <x-spinner wire:loading wire:target="cancelAddNote" />
+    <x-spinner wire:loading wire:target="deleteEventNote" />
+    <x-spinner wire:loading wire:target="cancelDelNote" />
 	<div class="grid grid-cols-2 items-center mb-2">
 		<div><x-head.h2>{{ __('Event Notes') }}</x-head.h2></div>
 		<div>
@@ -21,7 +26,7 @@
         <x-slot name="content">
             <div class="flex-col space-y-2">
                 <x-input.label class="text-lg font-medium">Вы действительно хотите удалить запись? 
-                    <div class="text-black">{{ $delNote['note'] }}</div>
+                    <div class="text-black dark:text-gray-200">{{ $delNote['note'] }}</div>
                 </x-input.label>
                 <x-button.secondary @click="show = false" wire:click="cancelDelNote">Отменить</x-button.secondary>
                 <x-button.danger wire:click="deleteEventNote({{ $delNote['id'] }})">{{ __('Delete')}}</x-button.danger>

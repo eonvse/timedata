@@ -1,4 +1,8 @@
 <div>
+    <x-spinner wire:loading wire:target="save" />
+    <x-spinner wire:loading wire:target="cancelEdit" />
+    <x-spinner wire:loading wire:target="showEditMode" />
+    <x-spinner wire:loading wire:target="showDeleteEvent" />
     <div class="p-3 grid grid-cols-4 gap-2 items-center bg-neutral-600 text-white relative">
         <div class="absolute top-0 right-0">
             <x-tooltip.top>
@@ -41,14 +45,16 @@
             <span class="grow">{{ __('Delete Event') }}</span><x-button.icon-cancel @click="show = false" wire:click="cancelDelEvent" class="text-gray-700 hover:text-white dark:hover:text-white" />
         </x-slot>
         <x-slot name="content">
+            <x-spinner wire:loading wire:target="destroy" />
+            <x-spinner wire:loading wire:target="cancelDelEvent" />
             <div class="flex-col space-y-2">
                 <x-input.label class="text-lg font-medium">Вы действительно хотите удалить запись? 
-                    <div class="text-black">
+                    <div class="text-black dark:text-white">
                         {{ date('d.m.Y',strtotime($delEvent['day'])) }}
                         {{ date('H:i',strtotime($delEvent['start'])) }}-{{ date('H:i',strtotime($delEvent['end'])) }}
                         {{ $delEvent['title'] ?? '' }}
                     </div>
-                    <div class="text-red-600 shadow p-1">{{ __('Delete Event Message') }}</div>
+                    <div class="text-red-600 dark:text-red-200 shadow p-1">{{ __('Delete Event Message') }}</div>
                 </x-input.label>
                 <x-button.secondary @click="show = false" wire:click="cancelDelEvent">{{ __('Cancel') }}</x-button.secondary>
                 <x-button.danger wire:click="destroy({{ $delEvent['id'] }})">{{ __('Delete')}}</x-button.danger>

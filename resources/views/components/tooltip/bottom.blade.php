@@ -4,7 +4,7 @@
     x-on:mouseleave="tooltip = false">
     {{ $slot }}
     @isset($tooltip)
-    <div x-cloak x-show="tooltip" class="px-2 border fixed translate-x-1/3 bg-yellow-100 text-black p-1 overflow-hidden transform transition-all rounded my-1 dark:bg-gray-500" }}
+    <div x-cloak x-show="tooltip" class="px-2 border fixed translate-x-1/3 bg-yellow-100 text-black p-1 overflow-hidden transform transition-all rounded my-1 dark:bg-yellow-700 dark:border-gray-500 dark:text-gray-300" }}
                     x-trap.inert.noscroll="tooltip"
                     x-transition:enter="ease-out duration-300"
                     x-transition:enter-start="opacity-0 sm:scale-95"

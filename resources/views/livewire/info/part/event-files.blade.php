@@ -1,4 +1,9 @@
 <div>
+    <x-spinner wire:loading wire:target="addEventFile" />
+    <x-spinner wire:loading wire:target="saveEventFile" />
+    <x-spinner wire:loading wire:target="cancelAddFile" />
+    <x-spinner wire:loading wire:target="deleteEventFile" />
+    <x-spinner wire:loading wire:target="cancelDelFile" />
 	<div class="grid grid-cols-2 items-center mb-2">
 		<div><x-head.h2>{{ __('Event Files') }}</x-head.h2></div>
 		<div>
@@ -34,7 +39,7 @@
         <x-slot name="content">
             <div class="flex-col space-y-2">
                 <x-input.label class="text-lg font-medium">Вы действительно хотите удалить файл? 
-                    <div class="text-black">{{ $delFileEvent['name'] }}</div>
+                    <div class="text-black dark:text-gray-200">{{ $delFileEvent['name'] }}</div>
                 </x-input.label>
                 <x-button.secondary @click="show = false" wire:click="cancelDelFile">Отменить</x-button.secondary>
                 <x-button.danger wire:click="deleteEventFile({{ $delFileEvent['id'] }})">{{ __('Delete')}}</x-button.danger>
