@@ -50,7 +50,7 @@ class WeekTable extends Component
         $this->events_week = TimeEventData::events_week($this->week,$this->year,$this->filter['team']);
 
         $this->newStart = $this->newEnd = $this->newTitle = '';
-        $this->newTeam = 0;
+        $this->newTeam = $this->filter['team'];
 
         $this->addDate = null;
         $this->showCreate = false;
@@ -172,7 +172,11 @@ class WeekTable extends Component
                 $this->newEnd = $dateEnd->format('H:i');
             }
         }
-        if ($property === 'filter.team') $this->updateData();
+        if ($property === 'filter.team') {
+            
+            $this->newTeam = $this->filter['team'];
+            $this->updateData();
+        }
     }
 
     /*------------------------------------
