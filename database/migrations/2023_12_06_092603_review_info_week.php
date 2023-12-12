@@ -32,7 +32,7 @@ return new class extends Migration
     {
         return <<<SQL
             CREATE VIEW EventInfoWeek AS
-                SELECT te.id, te.title, te.day, te.start, te.end, t.name, COALESCE(tu.all_user, 0) as all_u, COALESCE(visit.b_user,0) as b_u, (COALESCE(tu.all_user, 0)-COALESCE(visit.b_user,0)) as n_u, notes.last_note, cl.color, cl.dark, COALESCE(inf.count_note,0) as notes, COALESCE(fl.count_file,0) as files 
+                SELECT te.id, te.title, te.day, te.start, te.end,t.id as tid, t.name, COALESCE(tu.all_user, 0) as all_u, COALESCE(visit.b_user,0) as b_u, (COALESCE(tu.all_user, 0)-COALESCE(visit.b_user,0)) as n_u, notes.last_note, cl.color, cl.dark, COALESCE(inf.count_note,0) as notes, COALESCE(fl.count_file,0) as files 
                     from time_events as te
                     left join teams as t on te.team_id = t.id
                     left join (
