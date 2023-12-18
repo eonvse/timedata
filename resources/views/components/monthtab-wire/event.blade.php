@@ -1,6 +1,6 @@
 @props(['id','name','start','end'=>'','title'=>'Без темы', 'color'=>''])
 <a  href="{{ route('info.time-event',['id'=>$id, 'edit'=>0])}}" 
-    class="border-b text-indigo-900 flex flex-row items-center h-5 px-1 text-xs hover:bg-gray-500 hover:text-white {{ $color }}" 
+    class="border-b dark:border-gray-500 text-indigo-900 flex flex-row items-center h-5 px-1 text-xs hover:bg-gray-500 hover:text-white {{ $color }} dark:hover:bg-gray-300 dark:hover:text-black" 
     x-data="{ tooltip: false }" 
     x-on:mouseover="tooltip = true" 
     x-on:mouseleave="tooltip = false"

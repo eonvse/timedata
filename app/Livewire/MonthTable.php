@@ -28,7 +28,7 @@ class MonthTable extends Component
         $this->events_month = TimeEventData::events_month($this->month,$this->year);
 
         $this->newStart = $this->newEnd = $this->newTitle = '';
-        $this->newTeam = 0;
+        $this->newTeam = $this->filter['team'];
 
         $this->addDate = null;
         $this->showCreate = false;
@@ -133,7 +133,10 @@ class MonthTable extends Component
                 $this->newEnd = $dateEnd->format('H:i');
             }
         }
-        if ($property === 'filter.team') $this->updateData();
+        if ($property === 'filter.team') {
+            $this->newTeam = $this->filter['team'];
+            $this->updateData();
+        }
 
 
     }

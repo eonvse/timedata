@@ -31,9 +31,9 @@
                 $monthTxt = '';
                 if ($loop->iteration == 1 && $mDay != $month ) { $monthTxt = $months[$mDay]; }
                 if ($Day == 1 ) { $monthTxt = $months[$mDay]; }
-                if ($mDay!=$month) { $bgCell = 'bg-neutral-200'; }
-                elseif ($events_day['date']==date('d.m.Y')) { $bgCell='bg-amber-200'; }
-                else { $bgCell='bg-white'; }
+                if ($mDay!=$month) { $bgCell = 'bg-neutral-200 dark:bg-neutral-600'; }
+                elseif ($events_day['date']==date('d.m.Y')) { $bgCell='bg-amber-200 dark:bg-yellow-800'; }
+                else { $bgCell='bg-white dark:bg-gray-700'; }
             @endphp
             
             <x-monthtab-wire.cell class="{{ $bgCell }}" :dateCell="$events_day['date']">
@@ -46,7 +46,7 @@
                                     :start="date('H:i',strtotime($event->start))"
                                     :end="date('H:i',strtotime($event->end))"
                                     :title="$event->title"
-                                    :color="$event->color"
+                                    color="{{ $event->color }} dark:{{ $event->dark }}"
                                      />
                     @endforeach
                 </x-slot>
