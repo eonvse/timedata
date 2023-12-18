@@ -56,7 +56,6 @@ class TimeEvents extends Component
         $this->showCreate = $this->showEdit = $this->showDelete = false;
         
         $this->newDay = $this->newStart = $this->newEnd = $this->newTitle = '';
-        $this->newTeam = 0;
         
         $this->item = array('day'=>'','start'=>'','end'=>'','team_id'=>'', 'user_id'=>'');
         $this->idItem = '';
@@ -69,6 +68,8 @@ class TimeEvents extends Component
         $this->delEvent = array('id'=>null, 'day'=>null, 'start' =>null, 'end'=>null);
 
         $this->filter = array('team'=>0);
+        $this->newTeam = $this->filter['team'];
+
     }
 
     //------------------------------------------------    
@@ -227,6 +228,10 @@ class TimeEvents extends Component
                 $this->newEnd = $dateEnd->format('H:i');
             }
         }
+        if ($property === 'filter.team') {
+            $this->newTeam = $this->filter['team'];
+        }
+
     }
 
 
