@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
-        x-data="{ darkMode: false }" 
+        x-data="{ darkMode: JSON.parse(localStorage.getItem('darkMode')) }" 
         x-bind:class="{'dark' : darkMode === true}"  
         x-init="
 if (!('darkMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -23,6 +23,16 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <script type="text/javascript">
+            // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+            darkMode = JSON.parse(localStorage.getItem('darkMode'));
+            if (darkMode || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            };
+
+        </script>
 
     </head>
     <body class="font-sans antialiased">
