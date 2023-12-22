@@ -24,7 +24,6 @@
                 <div class="flex-col space-y-4">
                  <x-table>
                     <x-slot name="header">
-                        <x-table.head>id</x-table.head>
                         <x-table.head scope="col" 
                                         sortable 
                                         wire:click="sortBy('day')" 
@@ -37,9 +36,6 @@
                     </x-slot>
                     @forelse($timeEvents as $timeEvent)
                         <x-table.row wire:loading.class.delay="bg-red-500" wire:key="{{ $timeEvent->id }}">
-                            <x-table.cell>
-                                {{ $timeEvent->id }}
-                            </x-table.cell>
                             <x-table.cell>
                                 <a href="{{ route('info.time-event',['id'=>$timeEvent->id,'edit'=>0]) }}" class="underline">{{ $timeEvent->day_format }}</a>
                             </x-table.cell>
