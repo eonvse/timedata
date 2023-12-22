@@ -43,6 +43,7 @@ class ProfileController extends Controller
         $upd->surname = $request->surname ?? null;
         $upd->patronymic = $request->patronymic ?? null;
         $upd->birthday = $request->birthday ?? null;
+        $upd->name = $request->name;
 
         $upd->save();
 

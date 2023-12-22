@@ -17,7 +17,13 @@
             <x-text-input id="surname" name="surname" type="text" class="mt-1 block w-full" :value="old('surname', $user->surname)" autofocus autocomplete="surname" />
             <x-input-error class="mt-2" :messages="$errors->get('surname')" />
         </div>
-
+        
+        <div>
+            <x-input-label for="name" :value="__('Name')" />
+            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
+            <x-input-error class="mt-2" :messages="$errors->get('name')" />
+        </div>
+        
         <div>
             <x-input-label for="patronymic" :value="__('Patronymic')" />
             <x-text-input id="patronymic" name="patronymic" type="text" class="mt-1 block w-full" :value="old('patronymic', $user->patronymic)" autofocus autocomplete="patronymic" />
