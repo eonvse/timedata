@@ -27,6 +27,7 @@ mysqldump -uroot -p timedata files information notifications teams team_users ti
 ```
 > [!IMPORTANT]
 > Не загружается information.
+> users не желательно тягать через общедоступный репозитарий
 
 #### Авторские права:
 * SVG иконки
