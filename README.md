@@ -20,7 +20,8 @@
 	npm run dev
 	npm run build
 ```
-#### Под вопросом
+## Синхронизация БД
+### Под вопросом
 
 ```cmd
 mysqldump -uroot -p timedata files information notifications teams team_users time_events users visits > timedata.sql  --skip-comments --skip-triggers --no-create-info --replace
@@ -31,7 +32,7 @@ mysqldump -uroot -p timedata files information notifications teams team_users ti
 > [!IMPORTANT]
 > users не желательно тягать через общедоступный репозитарий
 
-#### Авторские права:
+## Авторские права:
 * SVG иконки
 	* [Tailwind Toolbox](https://tailwindtoolbox.com/icons)
 	* [SVG Repo - Search, explore, edit and share open-licensed SVG vectors](https://www.svgrepo.com/)
