@@ -299,6 +299,6 @@ class User extends Component
     public function render()
     {
         $notes = UserData::getNotes(self::MODEL_TYPE, $this->modelId);
-        return view('livewire.info.user',['notes'=>$notes->simplePaginate(self::NOTES_PER_PAGE)]);
+        return view('livewire.info.user',['notes'=>$notes->simplePaginate(self::NOTES_PER_PAGE),'active'=>'data.users']);
     }
 }

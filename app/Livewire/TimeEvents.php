@@ -202,7 +202,7 @@ class TimeEvents extends Component
 
         $timeEvents = $timeEvents->paginate($this->per_page);
 
-        return view('livewire.time-events',['timeEvents'=>$timeEvents,'teams'=>TimeEventData::getTeamList()]);
+        return view('livewire.time-events',['timeEvents'=>$timeEvents,'teams'=>TimeEventData::getTeamList(),'active'=>'time-events']);
     }
 
     public function updated($property)

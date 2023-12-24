@@ -13,20 +13,20 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-4 sm:flex items-center">
-                    <x-nav-link-wire :href="route('month-table')" :active="request()->routeIs('month-table')">
+                    <x-nav-link-wire :href="route('month-table')" :active="isset($active)&&$active=='month-table'">
                         {{ __('month-table') }}
                     </x-nav-link-wire>
-                    <x-nav-link-wire :href="route('week-table')" :active="request()->routeIs('week-table')">
+                    <x-nav-link-wire :href="route('week-table')" :active="isset($active)&&$active=='week-table'">
                         {{ __('week-table') }}
                     </x-nav-link-wire>
-                    <x-nav-link-wire :href="route('data.teams')" :active="request()->routeIs('data.teams')">
+                    <x-nav-link-wire :href="route('data.teams')" :active="isset($active)&&$active=='data.teams'">
                         {{ __('teams') }}
                     </x-nav-link-wire>
-                    <x-nav-link-wire :href="route('data.users')" :active="request()->routeIs('data.users')">
+                    <x-nav-link-wire :href="route('data.users')" :active="isset($active)&&$active=='data.users'">
                         {{ __('users') }}
                     </x-nav-link-wire>
 
-                    <x-nav-link-wire :href="route('time-events')" :active="request()->routeIs('time-events')">
+                    <x-nav-link-wire :href="route('time-events')" :active="isset($active)&&$active=='time-events'">
                         {{ __('time-events') }}
                     </x-nav-link-wire>
                 </div>

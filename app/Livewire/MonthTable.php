@@ -143,6 +143,6 @@ class MonthTable extends Component
 
     public function render()
     {
-        return view('livewire.month-table',['teams'=>TimeEventData::getTeamList()]/*,['debug'=>var_export($this->events_month)]*/);
+        return view('livewire.month-table',['teams'=>TimeEventData::getTeamList(),'active'=>'month-table']/*,['debug'=>var_export($this->events_month)]*/);
     }
 }

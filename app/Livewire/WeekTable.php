@@ -240,6 +240,6 @@ class WeekTable extends Component
     public function render()
     {
         $notes = TimeEventData::getWeekNotes($this->year, $this->week);
-        return view('livewire.week-table',['teams'=>TimeEventData::getTeamList(),'notes'=>$notes->simplePaginate(self::NOTES_PER_PAGE)]);
+        return view('livewire.week-table',['teams'=>TimeEventData::getTeamList(),'notes'=>$notes->simplePaginate(self::NOTES_PER_PAGE),'active'=>'week-table']);
     }
 }

@@ -299,6 +299,6 @@ class TimeEvent extends Component
     public function render()
     {
         $notes = TimeEventData::getNotes(self::MODEL_TYPE, $this->modelId);
-        return view('livewire.info.time-event',['notes'=>$notes->simplePaginate(self::NOTES_PER_PAGE)]);
+        return view('livewire.info.time-event',['notes'=>$notes->simplePaginate(self::NOTES_PER_PAGE),'active'=>'time-events']);
     }
 }

@@ -177,7 +177,7 @@ class Teams extends Component
 
         $colors = TeamData::getColorList();
 
-        return view('livewire.data.teams',['teams'=>$teams,'colors'=>$colors->toArray()]);
+        return view('livewire.data.teams',['teams'=>$teams,'colors'=>$colors->toArray(),'active'=>'data.teams']);
     }
 
 }

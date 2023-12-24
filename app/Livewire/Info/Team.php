@@ -374,7 +374,7 @@ class Team extends Component
     public function render()
     {
         $notes = TeamData::getNotes(self::MODEL_TYPE, $this->modelId);
-        return view('livewire.info.team',['notes'=>$notes->simplePaginate(self::NOTES_PER_PAGE)]);
+        return view('livewire.info.team',['notes'=>$notes->simplePaginate(self::NOTES_PER_PAGE),'active'=>'data.teams']);
     }
 
 

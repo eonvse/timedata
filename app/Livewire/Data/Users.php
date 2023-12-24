@@ -209,6 +209,6 @@ class Users extends Component
 
         $users = $users->paginate($this->per_page);
 
-        return view('livewire.data.users',['users'=>$users]);
+        return view('livewire.data.users',['users'=>$users,'active'=>'data.users']);
     }
 }
