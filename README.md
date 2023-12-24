@@ -25,9 +25,10 @@
 ```cmd
 mysqldump -uroot -p timedata files information notifications teams team_users time_events users visits > timedata.sql  --skip-comments --skip-triggers --no-create-info --replace
 ```
-> [!Внимание]
+> [!IMPORTANT]
 > Не загружается information.
-> [!Внимание]
+
+> [!IMPORTANT]
 > users не желательно тягать через общедоступный репозитарий
 
 #### Авторские права:
